@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-05T23:39:20.4841418Z",
+    "generatedUtc": "2026-08-05T23:39:22.2004264Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -14,7 +14,7 @@
         "colorSpace": "Linear"
     },
     "editor": {
-        "isPlaying": true,
+        "isPlaying": false,
         "isPaused": false,
         "isCompiling": false,
         "isUpdating": false,
@@ -2028,14 +2028,14 @@
             "tag": "MainCamera",
             "layer": 0,
             "localPosition": {
-                "x": 0.009334573522210122,
-                "y": 1.4809964895248414,
-                "z": 0.0024778766091912987
+                "x": 0.0,
+                "y": 1.375,
+                "z": 0.0
             },
             "localEulerAngles": {
-                "x": 10.530879974365235,
-                "y": 1.9628167152404786,
-                "z": 359.910400390625
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
             },
             "localScale": {
                 "x": 1.0,
@@ -2058,9 +2058,9 @@
             "tag": "Untagged",
             "layer": 0,
             "localPosition": {
-                "x": -1.0791869481385774e-10,
-                "y": 1.4649999141693116,
-                "z": 1.2231721711886134e-12
+                "x": 0.0,
+                "y": 1.375,
+                "z": 0.0
             },
             "localEulerAngles": {
                 "x": 0.0,
@@ -2116,13 +2116,13 @@
             "tag": "Player",
             "layer": 8,
             "localPosition": {
-                "x": -1.0791869481385774e-10,
-                "y": 0.08999985456466675,
-                "z": 1.2231721711886134e-12
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
             },
             "localEulerAngles": {
                 "x": 0.0,
-                "y": 2.500002384185791,
+                "y": 0.0,
                 "z": 0.0
             },
             "localScale": {
@@ -2153,7 +2153,7 @@
                 "z": 0.0
             },
             "localEulerAngles": {
-                "x": 9.600003242492676,
+                "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
             },

@@ -647,3 +647,15 @@ Loaded scene 'Temp/__Backupscenes/0.backup'
 	Integration of assets:  0.002 ms
 	Thread Wait Time:       0.007 ms
 	Total Operation Time:   216.468 ms
+Unloading 20 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            2.579 ms
+	Integration:            143.735 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.009 ms
+	Total Operation Time:   146.326 ms
+Unloading 123 unused Assets / (19.2 MB). Loaded Objects now: 7741.
+Memory consumption went from 184.0 MB to 164.8 MB.
+Total: 8.031200 ms (FindLiveObjects: 0.330000 ms CreateObjectMapping: 0.174900 ms MarkObjects: 5.697500 ms  DeleteObjects: 1.827700 ms)
+
+[Licensing::Client] Successfully resolved entitlements
