@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "1.0",
+  "requestId": "create-empty-planet-root",
+  "description": "Create an empty VoxelPlanet root object without requiring a planet script yet.",
+  "saveSceneAfter": true,
+  "commands": [
+    {
+      "type": "create_game_object",
+      "name": "VoxelPlanet",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "rotationEuler": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 1, "y": 1, "z": 1 },
+      "active": true,
+      "components": []
+    }
+  ]
+}

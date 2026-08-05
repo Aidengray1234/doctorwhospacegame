@@ -1,0 +1,8 @@
+{
+  "name": "Unity GPT Bridge Starter",
+  "version": "0.1.1",
+  "targetUnity": "2021.3 LTS or newer",
+  "transport": "GitHub branches through local Git CLI",
+  "workBranch": "unity-gpt-work",
+  "statusBranch": "unity-gpt-status"
+}

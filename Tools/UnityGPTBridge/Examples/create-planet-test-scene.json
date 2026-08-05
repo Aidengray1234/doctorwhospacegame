@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1.0",
+  "requestId": "create-planet-test-scene",
+  "description": "Create a clean test scene for procedural planet development.",
+  "saveSceneAfter": false,
+  "commands": [
+    {
+      "type": "create_scene",
+      "scenePath": "Assets/Scenes/PlanetTest.unity"
+    },
+    {
+      "type": "create_game_object",
+      "name": "VoxelPlanet",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "rotationEuler": { "x": 0, "y": 0, "z": 0 },
+      "scale": { "x": 1, "y": 1, "z": 1 },
+      "active": true,
+      "components": []
+    },
+    {
+      "type": "save_active_scene"
+    }
+  ]
+}

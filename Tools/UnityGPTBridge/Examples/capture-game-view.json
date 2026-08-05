@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0",
+  "requestId": "capture-game-view",
+  "description": "Request a Game View screenshot. Start Play Mode first for the most reliable result.",
+  "saveSceneAfter": false,
+  "commands": [
+    { "type": "capture_game_view", "name": "game-view-latest.png" }
+  ]
+}
