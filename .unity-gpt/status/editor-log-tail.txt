@@ -453,3 +453,197 @@ Created GICache directory at <USER_HOME>/AppData/LocalLow/Unity/Caches/GiCache. 
 gi::BakeBackendSwitch: switching bake backend from 3 to 1.
 [00:00:04] Builtin Sky manager started.
 [00:00:04] Finished 1 Bake Ambient Probe job (0.01s execute, 0.00s integrate, 0.05s wallclock)
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated access token: "1mhdPOs9"... (expires: 2027-08-05 23:21:00 GMT)
+[collab-accelerator] discovery started due to a new cloud project binding
+UPID Received 'e0f4d215-6c5b-4502-9ddf-ca13119a3900'.
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated access token: "1mhdPOs9"... (expires: 2027-08-05 23:21:01 GMT)
+UPID Received 'e0f4d215-6c5b-4502-9ddf-ca13119a3900'.
+[MCP Unity] WebSocket server stopped
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:StopServer (System.Nullable`1<uint16>,string) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:209)
+McpUnity.Unity.McpUnityEditorWindow:DrawServerTab () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityEditorWindow.cs:177)
+McpUnity.Unity.McpUnityEditorWindow:OnGUI () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityEditorWindow.cs:54)
+UnityEditor.HostView:InvokeOnGUI (UnityEngine.Rect)
+UnityEditor.DockArea:DrawView (UnityEngine.Rect)
+UnityEditor.DockArea:OldOnGUI ()
+UnityEngine.UIElements.IMGUIContainer:DoOnGUI (UnityEngine.Event,UnityEngine.Matrix4x4,UnityEngine.Rect,bool,UnityEngine.Rect,System.Action,bool)
+UnityEngine.UIElements.IMGUIContainer:HandleIMGUIEvent (UnityEngine.Event,UnityEngine.Matrix4x4,UnityEngine.Rect,System.Action,bool)
+UnityEngine.UIElements.IMGUIContainer:HandleIMGUIEvent (UnityEngine.Event,System.Action,bool)
+UnityEngine.UIElements.IMGUIContainer:HandleIMGUIEvent (UnityEngine.Event,bool)
+UnityEngine.UIElements.IMGUIContainer:SendEventToIMGUIRaw (UnityEngine.UIElements.EventBase,bool,bool)
+UnityEngine.UIElements.IMGUIContainer:SendEventToIMGUI (UnityEngine.UIElements.EventBase,bool,bool)
+UnityEngine.UIElements.IMGUIContainer:HandleEvent (UnityEngine.UIElements.EventBase)
+UnityEngine.UIElements.CallbackEventHandler:HandleEventAtTargetPhase (UnityEngine.UIElements.EventBase)
+UnityEngine.UIElements.MouseCaptureDispatchingStrategy:DispatchEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ApplyDispatchingStrategies (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel,bool)
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ProcessEventQueue ()
+UnityEngine.UIElements.EventDispatcher:OpenGate ()
+UnityEngine.UIElements.EventDispatcherGate:Dispose ()
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:Dispatch (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel,UnityEngine.UIElements.DispatchMode)
+UnityEngine.UIElements.BaseVisualElementPanel:SendEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.DispatchMode)
+UnityEngine.UIElements.UIElementsUtility:DoDispatch (UnityEngine.UIElements.BaseVisualElementPanel)
+UnityEngine.UIElements.UIElementsUtility:UnityEngine.UIElements.IUIElementsUtility.ProcessEvent (int,intptr,bool&)
+UnityEngine.UIElements.UIEventRegistration:ProcessEvent (int,intptr)
+UnityEngine.UIElements.UIEventRegistration/<>c:<.cctor>b__1_2 (int,intptr)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 209)
+
+[MCP Unity] WebSocket server stopped and resources cleaned up.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:StopServer (System.Nullable`1<uint16>,string) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:219)
+McpUnity.Unity.McpUnityEditorWindow:DrawServerTab () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityEditorWindow.cs:177)
+McpUnity.Unity.McpUnityEditorWindow:OnGUI () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityEditorWindow.cs:54)
+UnityEditor.HostView:InvokeOnGUI (UnityEngine.Rect)
+UnityEditor.DockArea:DrawView (UnityEngine.Rect)
+UnityEditor.DockArea:OldOnGUI ()
+UnityEngine.UIElements.IMGUIContainer:DoOnGUI (UnityEngine.Event,UnityEngine.Matrix4x4,UnityEngine.Rect,bool,UnityEngine.Rect,System.Action,bool)
+UnityEngine.UIElements.IMGUIContainer:HandleIMGUIEvent (UnityEngine.Event,UnityEngine.Matrix4x4,UnityEngine.Rect,System.Action,bool)
+UnityEngine.UIElements.IMGUIContainer:HandleIMGUIEvent (UnityEngine.Event,System.Action,bool)
+UnityEngine.UIElements.IMGUIContainer:HandleIMGUIEvent (UnityEngine.Event,bool)
+UnityEngine.UIElements.IMGUIContainer:SendEventToIMGUIRaw (UnityEngine.UIElements.EventBase,bool,bool)
+UnityEngine.UIElements.IMGUIContainer:SendEventToIMGUI (UnityEngine.UIElements.EventBase,bool,bool)
+UnityEngine.UIElements.IMGUIContainer:HandleEvent (UnityEngine.UIElements.EventBase)
+UnityEngine.UIElements.CallbackEventHandler:HandleEventAtTargetPhase (UnityEngine.UIElements.EventBase)
+UnityEngine.UIElements.MouseCaptureDispatchingStrategy:DispatchEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ApplyDispatchingStrategies (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel,bool)
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ProcessEventQueue ()
+UnityEngine.UIElements.EventDispatcher:OpenGate ()
+UnityEngine.UIElements.EventDispatcherGate:Dispose ()
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:Dispatch (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel,UnityEngine.UIElements.DispatchMode)
+UnityEngine.UIElements.BaseVisualElementPanel:SendEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.DispatchMode)
+UnityEngine.UIElements.UIElementsUtility:DoDispatch (UnityEngine.UIElements.BaseVisualElementPanel)
+UnityEngine.UIElements.UIElementsUtility:UnityEngine.UIElements.IUIElementsUtility.ProcessEvent (int,intptr,bool&)
+UnityEngine.UIElements.UIEventRegistration:ProcessEvent (int,intptr)
+UnityEngine.UIElements.UIEventRegistration/<>c:<.cctor>b__1_2 (int,intptr)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 219)
+
+<RI> Initialized touch support.
+Registering precompiled user dll's ...
+Registered in 0.005112 seconds.
+Asset Pipeline Refresh: Total: 0.037 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.004 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+TrimDiskCacheJob: Current cache size 27mb
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated access token: "kOavx55h"... (expires: 2027-08-05 23:33:34 GMT)
+[Licensing::Client] Successfully resolved entitlements
+UPID Received 'e0f4d215-6c5b-4502-9ddf-ca13119a3900'.
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Reloading assemblies for play mode.
+Registering precompiled user dll's ...
+Registered in 0.005868 seconds.
+Reloading assemblies after forced synchronous recompile.
+[Licensing::Client] Successfully resolved entitlements
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 4.18 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+[Licensing::Client] Successfully resolved entitlement details
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-doctorwhospacegame
+Mono: successfully reloaded assembly
+[MCP Unity] WebSocket server started successfully on localhost:8090.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:StartServer () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:175)
+McpUnity.Unity.McpUnityServer:.ctor () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:130)
+McpUnity.Unity.McpUnityServer:get_Instance () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:79)
+McpUnity.Unity.McpUnityServer:AfterReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:61)
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 175)
+
+- Completed reload, in  1.910 seconds
+Domain Reload Profiling:
+	ReloadAssembly (1910ms)
+		BeginReloadAssembly (385ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (17ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (288ms)
+		EndReloadAssembly (1465ms)
+			LoadAssemblies (74ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (190ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (38ms)
+			SetupLoadedEditorAssemblies (801ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (4ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (4ms)
+				BeforeProcessingInitializeOnLoad (65ms)
+				ProcessInitializeOnLoadAttributes (674ms)
+				ProcessInitializeOnLoadMethodAttributes (49ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (239ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.005034 seconds.
+Asset Pipeline Refresh: Total: 2.064 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=105 ms
+		Asset DB Callback time: managed=24 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=1931 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=6493, non-scripts=1717
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeBeforeRefreshCallbacks: 0.679ms
+	ApplyChangesToAssetFolders: 0.049ms
+	Scan: 0.000ms
+	OnSourceAssetsModified: 0.000ms
+	InitializeImportedAssetsSnapshot: 12.957ms
+	GetAllGuidsForCategorization: 0.579ms
+	CategorizeAssets: 65.637ms
+	ImportOutOfDateAssets: 1937.887ms (1934.891ms without children)
+		CompileScripts: 0.980ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.989ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.666ms
+		OnDemandSchedulerStart: 0.361ms
+	ReloadSourceAssets: 1.831ms
+	UnloadImportedAssets: 1.174ms
+	PostProcessAllAssets: 24.749ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.192ms
+	UnloadStreamsBegin: 0.043ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 1.321ms
+	GetLoadedSourceAssetsSnapshot: 1.703ms
+	PersistCurrentRevisions: 0.255ms
+	UnloadStreamsEnd: 0.041ms
+	GenerateScriptTypeHashes: 1.387ms
+	Untracked: 39.206ms
+[Licensing::Client] Successfully resolved entitlements
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            3.641 ms
+	Integration:            212.818 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.007 ms
+	Total Operation Time:   216.468 ms

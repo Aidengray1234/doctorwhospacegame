@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-05T23:21:00.2421356Z",
+    "generatedUtc": "2026-08-05T23:39:20.4841418Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -14,7 +14,7 @@
         "colorSpace": "Linear"
     },
     "editor": {
-        "isPlaying": false,
+        "isPlaying": true,
         "isPaused": false,
         "isCompiling": false,
         "isUpdating": false,
@@ -2028,14 +2028,14 @@
             "tag": "MainCamera",
             "layer": 0,
             "localPosition": {
-                "x": 0.0,
-                "y": 1.375,
-                "z": 0.0
+                "x": 0.009334573522210122,
+                "y": 1.4809964895248414,
+                "z": 0.0024778766091912987
             },
             "localEulerAngles": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "x": 10.530879974365235,
+                "y": 1.9628167152404786,
+                "z": 359.910400390625
             },
             "localScale": {
                 "x": 1.0,
@@ -2058,9 +2058,9 @@
             "tag": "Untagged",
             "layer": 0,
             "localPosition": {
-                "x": 0.0,
-                "y": 1.375,
-                "z": 0.0
+                "x": -1.0791869481385774e-10,
+                "y": 1.4649999141693116,
+                "z": 1.2231721711886134e-12
             },
             "localEulerAngles": {
                 "x": 0.0,
@@ -2116,13 +2116,13 @@
             "tag": "Player",
             "layer": 8,
             "localPosition": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "x": -1.0791869481385774e-10,
+                "y": 0.08999985456466675,
+                "z": 1.2231721711886134e-12
             },
             "localEulerAngles": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": 2.500002384185791,
                 "z": 0.0
             },
             "localScale": {
@@ -2153,7 +2153,7 @@
                 "z": 0.0
             },
             "localEulerAngles": {
-                "x": 0.0,
+                "x": 9.600003242492676,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -2555,19 +2555,10 @@
             ]
         }
     ],
-    "selection": [
-        {
-            "name": "Readme",
-            "hierarchyPath": "",
-            "assetPath": "Assets/Readme.asset",
-            "type": "Readme",
-            "instanceId": 29094,
-            "components": []
-        }
-    ],
+    "selection": [],
     "recentLogs": [
         {
-            "timestampUtc": "2026-08-05T23:20:53.5043018Z",
+            "timestampUtc": "2026-08-05T23:39:18.9358959Z",
             "type": "Log",
             "message": "[MCP Unity] WebSocket server started successfully on localhost:8090.",
             "stackTrace": "UnityEngine.Debug:Log (object)\nMcpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)\nMcpUnity.Unity.McpUnityServer:StartServer () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:175)\nMcpUnity.Unity.McpUnityServer:.ctor () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:130)\nMcpUnity.Unity.McpUnityServer:get_Instance () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:79)\nMcpUnity.Unity.McpUnityServer:AfterReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:61)\n"
