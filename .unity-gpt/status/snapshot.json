@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-05T22:52:16.0626487Z",
+    "generatedUtc": "2026-08-05T23:21:00.2421356Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -2557,17 +2557,17 @@
     ],
     "selection": [
         {
-            "name": "MCP Unity Server",
+            "name": "Readme",
             "hierarchyPath": "",
-            "assetPath": "",
-            "type": "UnityEditor.PackageManager.UI.Internal.PackageSelectionObject",
-            "instanceId": -14448,
+            "assetPath": "Assets/Readme.asset",
+            "type": "Readme",
+            "instanceId": 29094,
             "components": []
         }
     ],
     "recentLogs": [
         {
-            "timestampUtc": "2026-08-05T22:51:51.9283859Z",
+            "timestampUtc": "2026-08-05T23:20:53.5043018Z",
             "type": "Log",
             "message": "[MCP Unity] WebSocket server started successfully on localhost:8090.",
             "stackTrace": "UnityEngine.Debug:Log (object)\nMcpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)\nMcpUnity.Unity.McpUnityServer:StartServer () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:175)\nMcpUnity.Unity.McpUnityServer:.ctor () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:130)\nMcpUnity.Unity.McpUnityServer:get_Instance () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:79)\nMcpUnity.Unity.McpUnityServer:AfterReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:61)\n"
@@ -2575,5 +2575,5 @@
     ],
     "editorLogTailFile": ".unity-gpt/status/editor-log-tail.txt",
     "packageManifestFile": ".unity-gpt/status/packages-manifest.json",
-    "notes": "Manual export"
+    "notes": "Automatic state change"
 }
