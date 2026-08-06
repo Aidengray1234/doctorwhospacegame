@@ -29,11 +29,27 @@ MonoBehaviour:
   meshUploadsPerFrame: 2
   mainThreadCallbacksPerFrame: 8
   nearTerrainMaxAltitude: 112
-  maximumLoadedSections: 192
-  tangentialBlockFill: 0.995
+  maximumLoadedSections: 64
+  tangentPatchRadius: 24
+  tangentPatchBlocksBelow: 24
+  tangentPatchBlocksAbove: 28
+  tangentPatchTileSize: 8
+  tangentPatchRecenterDistance: 8
+  tangentPatchTilesPerFrame: 1
+  tangentPatchMaxAltitude: 92
+  tangentialBlockFill: 1
   radialBlockHalfSize: 0.5
-  farFaceResolution: 32
-  farSurfaceInset: 0.38
+  middleFaceResolution: 44
+  farFaceResolution: 28
+  middleInnerRadiusBlocks: 18
+  middleOuterRadiusBlocks: 150
+  farHoleRadiusBlocks: 124
+  middleSurfaceInset: 1.25
+  farSurfaceInset: 3.25
+  farLocalHideRadius: 88
+  farLocalFadeWidth: 20
+  farFullVisibilityAltitude: 176
+  farFallbackInset: 5.25
   walkSpeed: 5.5
   sprintSpeed: 9
   flightSpeed: 11

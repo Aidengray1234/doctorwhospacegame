@@ -1,3 +1,4 @@
+using DoctorWho.VoxelUniverse.Voxels;
 using UnityEngine;
 
 namespace DoctorWho.VoxelUniverse.Core
@@ -16,7 +17,7 @@ namespace DoctorWho.VoxelUniverse.Core
         public int generatorVersion = 2;
         public int saveVersion = 1;
 
-        [Header("Streaming")]
+        [Header("Legacy Section Streaming")]
         [Range(1, 5)] public int nearSectionRadius = 2;
         [Range(1, 3)] public int verticalSectionRadius = 1;
         [Range(0, 4)] public int predictiveSectionLead = 2;
@@ -27,13 +28,33 @@ namespace DoctorWho.VoxelUniverse.Core
         [Min(24f)] public float nearTerrainMaxAltitude = 112f;
         [Range(64, 512)] public int maximumLoadedSections = 192;
 
-        [Header("Block Geometry")]
+        [Header("No-Warp Tangent Cubes")]
+        [Range(12, 48)] public int tangentPatchRadius = 24;
+        [Range(8, 40)] public int tangentPatchBlocksBelow = 24;
+        [Range(8, 48)] public int tangentPatchBlocksAbove = 28;
+        [Range(4, 16)] public int tangentPatchTileSize = 8;
+        [Range(3f, 20f)] public float tangentPatchRecenterDistance = 8f;
+        [Range(1, 8)] public int tangentPatchTilesPerFrame = 1;
+        [Range(24f, 160f)] public float tangentPatchMaxAltitude = 92f;
+
+        [Header("Block Geometry Compatibility")]
         [Range(0.90f, 1.04f)] public float tangentialBlockFill = 0.995f;
         [Range(0.48f, 0.54f)] public float radialBlockHalfSize = 0.5f;
 
-        [Header("Far Planet")]
-        [Range(12, 64)] public int farFaceResolution = 32;
-        [Range(0.05f, 1.5f)] public float farSurfaceInset = 0.38f;
+        [Header("Infinite Planet LOD")]
+        [Range(16, 64)] public int middleFaceResolution = 44;
+        [Range(10, 40)] public int farFaceResolution = 24;
+        [Range(10f, 60f)] public float middleInnerRadiusBlocks = 18f;
+        [Range(64f, 260f)] public float middleOuterRadiusBlocks = 150f;
+        [Range(48f, 220f)] public float farHoleRadiusBlocks = 124f;
+        [Range(0.5f, 6f)] public float middleSurfaceInset = 1.25f;
+        [Range(1f, 10f)] public float farSurfaceInset = 3.25f;
+
+        [Header("Previous Far-LOD Compatibility")]
+        [Min(16f)] public float farLocalHideRadius = 88f;
+        [Min(1f)] public float farLocalFadeWidth = 20f;
+        [Min(24f)] public float farFullVisibilityAltitude = 176f;
+        [Min(1f)] public float farFallbackInset = 5f;
 
         [Header("Player")]
         [Min(0.1f)] public float walkSpeed = 5.5f;
@@ -54,24 +75,38 @@ namespace DoctorWho.VoxelUniverse.Core
         [Range(0.1f, 8f)] public float detailHeight = 2.5f;
         [Range(0.1f, 8f)] public float caveThreshold = 1.7f;
 
-        public void ApplyRecommendedVisualRepairDefaults()
+        public void ApplyNoWarpInfiniteRenderingDefaults()
         {
             groundRadius = Mathf.Max(groundRadius, 256f);
             int recommendedResolution = Mathf.CeilToInt((groundRadius * 2f) / 16f) * 16;
             faceCellResolution = Mathf.Max(faceCellResolution, recommendedResolution);
-            nearSectionRadius = 2;
-            verticalSectionRadius = 1;
-            predictiveSectionLead = Mathf.Clamp(predictiveSectionLead, 1, 2);
-            unloadDelaySeconds = Mathf.Max(unloadDelaySeconds, 12f);
-            maximumLoadedSections = Mathf.Clamp(maximumLoadedSections, 128, 224);
-            nearTerrainMaxAltitude = Mathf.Max(nearTerrainMaxAltitude, 112f);
-            farFaceResolution = Mathf.Clamp(farFaceResolution, 24, 40);
-            generatorVersion = Mathf.Max(generatorVersion, 2);
-            minimumRadialBlock = Mathf.Min(minimumRadialBlock, -64);
-            maximumRadialBlock = Mathf.Max(maximumRadialBlock, 64);
-            continentHeight = Mathf.Max(continentHeight, 13f);
-            mountainHeight = Mathf.Max(mountainHeight, 20f);
+            tangentPatchRadius = 24;
+            tangentPatchBlocksBelow = Mathf.Max(tangentPatchBlocksBelow, 24);
+            tangentPatchBlocksAbove = Mathf.Max(tangentPatchBlocksAbove, 28);
+            tangentPatchTileSize = 8;
+            tangentPatchRecenterDistance = Mathf.Clamp(tangentPatchRecenterDistance, 6f, 10f);
+            tangentPatchTilesPerFrame = 1;
+            tangentPatchMaxAltitude = Mathf.Max(tangentPatchMaxAltitude, 92f);
+            middleFaceResolution = Mathf.Clamp(middleFaceResolution, 40, 48);
+            farFaceResolution = Mathf.Clamp(farFaceResolution, 20, 28);
+            middleInnerRadiusBlocks = Mathf.Min(middleInnerRadiusBlocks, tangentPatchRadius - 6f);
+            middleOuterRadiusBlocks = Mathf.Max(middleOuterRadiusBlocks, 140f);
+            farHoleRadiusBlocks = Mathf.Clamp(farHoleRadiusBlocks, 100f, middleOuterRadiusBlocks - 12f);
+            middleSurfaceInset = Mathf.Max(middleSurfaceInset, 1.25f);
+            farSurfaceInset = Mathf.Max(farSurfaceInset, 3.25f);
+            farLocalHideRadius = Mathf.Max(farLocalHideRadius,
+                (tangentPatchRadius + 12f));
+            farLocalFadeWidth = Mathf.Max(farLocalFadeWidth, 18f);
+            farFullVisibilityAltitude = Mathf.Max(farFullVisibilityAltitude,
+                tangentPatchMaxAltitude + 56f);
+            farFallbackInset = Mathf.Max(farFallbackInset, farSurfaceInset + 2f);
+            maximumLoadedSections = 64;
             ClampValues();
+        }
+
+        public void ApplyRecommendedVisualRepairDefaults()
+        {
+            ApplyNoWarpInfiniteRenderingDefaults();
         }
 
         public void ClampValues()
@@ -83,9 +118,27 @@ namespace DoctorWho.VoxelUniverse.Core
             workerCount = Mathf.Max(1, workerCount);
             meshUploadsPerFrame = Mathf.Max(1, meshUploadsPerFrame);
             mainThreadCallbacksPerFrame = Mathf.Max(1, mainThreadCallbacksPerFrame);
-            maximumLoadedSections = Mathf.Max(64, maximumLoadedSections);
+            maximumLoadedSections = Mathf.Max(32, maximumLoadedSections);
             nearTerrainMaxAltitude = Mathf.Max(24f, nearTerrainMaxAltitude);
-            farFaceResolution = Mathf.Clamp(farFaceResolution, 12, 64);
+            tangentPatchRadius = Mathf.Clamp(tangentPatchRadius, 12, 48);
+            tangentPatchBlocksBelow = Mathf.Clamp(tangentPatchBlocksBelow, 8, 40);
+            tangentPatchBlocksAbove = Mathf.Clamp(tangentPatchBlocksAbove, 8, 48);
+            tangentPatchTileSize = Mathf.Clamp(tangentPatchTileSize, 4, 16);
+            tangentPatchRecenterDistance = Mathf.Clamp(tangentPatchRecenterDistance, 3f, 20f);
+            tangentPatchTilesPerFrame = Mathf.Clamp(tangentPatchTilesPerFrame, 1, 8);
+            tangentPatchMaxAltitude = Mathf.Max(24f, tangentPatchMaxAltitude);
+            middleFaceResolution = Mathf.Clamp(middleFaceResolution, 16, 64);
+            farFaceResolution = Mathf.Clamp(farFaceResolution, 10, 40);
+            middleInnerRadiusBlocks = Mathf.Clamp(middleInnerRadiusBlocks, 10f, 60f);
+            middleOuterRadiusBlocks = Mathf.Max(middleInnerRadiusBlocks + 24f, middleOuterRadiusBlocks);
+            farHoleRadiusBlocks = Mathf.Clamp(farHoleRadiusBlocks,
+                middleInnerRadiusBlocks + 12f, middleOuterRadiusBlocks - 4f);
+            middleSurfaceInset = Mathf.Clamp(middleSurfaceInset, 0.5f, 6f);
+            farSurfaceInset = Mathf.Clamp(farSurfaceInset, 1f, 10f);
+            farLocalHideRadius = Mathf.Max(16f, farLocalHideRadius);
+            farLocalFadeWidth = Mathf.Max(1f, farLocalFadeWidth);
+            farFullVisibilityAltitude = Mathf.Max(24f, farFullVisibilityAltitude);
+            farFallbackInset = Mathf.Max(1f, farFallbackInset);
         }
 
         private void OnValidate()

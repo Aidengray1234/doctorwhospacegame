@@ -14,6 +14,7 @@ namespace DoctorWho.VoxelUniverse.Player
         [SerializeField] private VoxelInventory inventory;
         [SerializeField] private Transform cameraPivot;
         [SerializeField] private Camera playerCamera;
+        [SerializeField] private TangentVoxelClipmap tangentPatch;
 
         private Vector3 velocity;
         private float pitch;
@@ -24,8 +25,16 @@ namespace DoctorWho.VoxelUniverse.Player
 
         public bool Flying { get { return flying; } }
         public Camera PlayerCamera { get { return playerCamera; } }
-        public float CapsuleRadius { get { return world != null && world.Settings != null ? world.Settings.capsuleRadius : 0.38f; } }
-        public float CapsuleHeight { get { return world != null && world.Settings != null ? world.Settings.capsuleHeight : 1.8f; } }
+        public float CapsuleRadius
+        {
+            get { return world != null && world.Settings != null
+                ? world.Settings.capsuleRadius : 0.38f; }
+        }
+        public float CapsuleHeight
+        {
+            get { return world != null && world.Settings != null
+                ? world.Settings.capsuleHeight : 1.8f; }
+        }
 
         public void Configure(VoxelUniverseWorld voxelWorld, VoxelCollisionWorld logicalCollision,
             VoxelInventory playerInventory, Transform pivot, Camera camera)
@@ -35,6 +44,17 @@ namespace DoctorWho.VoxelUniverse.Player
             inventory = playerInventory;
             cameraPivot = pivot;
             playerCamera = camera;
+            FindPatch();
+        }
+
+        private void Awake()
+        {
+            FindPatch();
+        }
+
+        private void FindPatch()
+        {
+            if (tangentPatch == null) tangentPatch = FindObjectOfType<TangentVoxelClipmap>();
         }
 
         private void Start()
@@ -47,6 +67,7 @@ namespace DoctorWho.VoxelUniverse.Player
         private void Update()
         {
             if (world == null || world.Settings == null || collisionWorld == null) return;
+            FindPatch();
             HandleCursor();
             HandleLook();
             HandleFlightToggle();
@@ -55,7 +76,7 @@ namespace DoctorWho.VoxelUniverse.Player
             if (radialUp.sqrMagnitude < 0.5f) radialUp = Vector3.up;
             float altitude = world.GetAltitude(transform.position);
 
-            if (!flying && altitude > world.Settings.nearTerrainMaxAltitude)
+            if (!flying && altitude > world.Settings.tangentPatchMaxAltitude)
             {
                 Respawn();
                 return;
@@ -63,9 +84,16 @@ namespace DoctorWho.VoxelUniverse.Player
 
             if (!flying)
             {
-                VoxelAddress support = world.FindSurfaceAddress(radialUp);
-                world.PrioritizeAddress(support);
-                waitingForSupport = !world.IsSectionReady(support.SectionKey);
+                if (tangentPatch != null)
+                {
+                    waitingForSupport = !tangentPatch.Ready;
+                }
+                else
+                {
+                    VoxelAddress support = world.FindSurfaceAddress(radialUp);
+                    world.PrioritizeAddress(support);
+                    waitingForSupport = !world.IsSectionReady(support.SectionKey);
+                }
                 if (waitingForSupport)
                 {
                     velocity = Vector3.zero;
@@ -120,7 +148,8 @@ namespace DoctorWho.VoxelUniverse.Player
             if (VoxelInput.FlightTogglePressed) requested = true;
             if (!requested) return;
 
-            if (flying && world.GetAltitude(transform.position) > world.Settings.nearTerrainMaxAltitude)
+            if (flying && world.GetAltitude(transform.position)
+                > world.Settings.tangentPatchMaxAltitude)
             {
                 Respawn();
                 return;
@@ -131,13 +160,16 @@ namespace DoctorWho.VoxelUniverse.Player
 
         private void MovePlayer(Vector3 radialUp)
         {
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, radialUp) * transform.rotation;
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, radialUp)
+                                        * transform.rotation;
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
                 1f - Mathf.Exp(-14f * Time.deltaTime));
 
             Vector2 move = VoxelInput.Move;
-            Vector3 cameraForward = playerCamera != null ? playerCamera.transform.forward : transform.forward;
-            Vector3 cameraRight = playerCamera != null ? playerCamera.transform.right : transform.right;
+            Vector3 cameraForward = playerCamera != null
+                ? playerCamera.transform.forward : transform.forward;
+            Vector3 cameraRight = playerCamera != null
+                ? playerCamera.transform.right : transform.right;
             Vector3 forward = Vector3.ProjectOnPlane(cameraForward, radialUp).normalized;
             Vector3 right = Vector3.ProjectOnPlane(cameraRight, radialUp).normalized;
             Vector3 wish = Vector3.ClampMagnitude(forward * move.y + right * move.x, 1f);
@@ -148,11 +180,11 @@ namespace DoctorWho.VoxelUniverse.Player
                 float verticalFlight = 0f;
                 if (VoxelInput.JumpHeld) verticalFlight += 1f;
                 if (VoxelInput.DescendHeld) verticalFlight -= 1f;
-                float speed = sprint ? world.Settings.flightSprintSpeed : world.Settings.flightSpeed;
+                float speed = sprint ? world.Settings.flightSprintSpeed
+                    : world.Settings.flightSpeed;
                 Vector3 requested = wish + radialUp * verticalFlight;
                 velocity = requested.sqrMagnitude > 0.0001f
-                    ? requested.normalized * speed
-                    : Vector3.zero;
+                    ? requested.normalized * speed : Vector3.zero;
                 transform.position += velocity * Time.deltaTime;
                 grounded = false;
                 return;
@@ -174,7 +206,8 @@ namespace DoctorWho.VoxelUniverse.Player
             bool resolvedGrounded;
             transform.position = collisionWorld.ResolveMotion(transform.position,
                 velocity * Time.deltaTime, world.Settings.capsuleRadius,
-                world.Settings.capsuleHeight, world.Settings.stepHeight, out resolvedGrounded);
+                world.Settings.capsuleHeight, world.Settings.stepHeight,
+                out resolvedGrounded);
             grounded = resolvedGrounded;
             if (grounded && verticalSpeed < 0f)
                 velocity = Vector3.ProjectOnPlane(velocity, radialUp);
@@ -190,22 +223,23 @@ namespace DoctorWho.VoxelUniverse.Player
         {
             if (world == null || world.Settings == null) return;
             VoxelAddress surface = world.FindSurfaceAddress(Vector3.up);
-            world.PrioritizeAddress(surface);
-            Vector3 center = world.GetBlockCenter(surface);
+            Vector3 center = world.Center + Vector3.up
+                * (world.Settings.groundRadius + surface.radial + 1f);
             Vector3 up = (center - world.Center).normalized;
             transform.position = center + up * (world.Settings.capsuleHeight + 1.2f);
             transform.rotation = Quaternion.FromToRotation(Vector3.up, up);
             velocity = Vector3.zero;
             flying = false;
             waitingForSupport = true;
+            if (tangentPatch != null) tangentPatch.NotifyLogicalEdit();
         }
 
         private void OnGUI()
         {
             if (!waitingForSupport) return;
-            float width = Mathf.Min(420f, Screen.width - 24f);
+            float width = Mathf.Min(460f, Screen.width - 24f);
             Rect rect = new Rect((Screen.width - width) * 0.5f, 36f, width, 42f);
-            GUI.Box(rect, "Loading logical terrain beneath the player — movement paused");
+            GUI.Box(rect, "Building no-warp cube terrain beneath the player — movement paused");
         }
     }
 }
