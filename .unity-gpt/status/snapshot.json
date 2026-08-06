@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-06T00:39:52.9051148Z",
+    "generatedUtc": "2026-08-06T00:40:03.8340085Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -16,10 +16,10 @@
     "editor": {
         "isPlaying": false,
         "isPaused": false,
-        "isCompiling": true,
+        "isCompiling": false,
         "isUpdating": false,
         "hasUnsavedScenes": false,
-        "compileStartedUtc": "2026-08-06T00:39:52.1438521Z",
+        "compileStartedUtc": "",
         "compileFinishedUtc": "",
         "compileErrorCount": 0,
         "compileWarningCount": 0,
@@ -2555,21 +2555,10 @@
             ]
         }
     ],
-    "selection": [
-        {
-            "name": "Environment",
-            "hierarchyPath": "Environment",
-            "assetPath": "",
-            "type": "UnityEngine.GameObject",
-            "instanceId": -1374,
-            "components": [
-                "UnityEngine.Transform"
-            ]
-        }
-    ],
+    "selection": [],
     "recentLogs": [
         {
-            "timestampUtc": "2026-08-05T23:39:18.9358959Z",
+            "timestampUtc": "2026-08-06T00:39:59.3415828Z",
             "type": "Log",
             "message": "[MCP Unity] WebSocket server started successfully on localhost:8090.",
             "stackTrace": "UnityEngine.Debug:Log (object)\nMcpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)\nMcpUnity.Unity.McpUnityServer:StartServer () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:175)\nMcpUnity.Unity.McpUnityServer:.ctor () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:130)\nMcpUnity.Unity.McpUnityServer:get_Instance () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:79)\nMcpUnity.Unity.McpUnityServer:AfterReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:61)\n"

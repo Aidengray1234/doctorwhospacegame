@@ -721,3 +721,147 @@ Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inp
 *** Tundra requires additional run (0.06 seconds), 0 items updated, 0 evaluated
 Starting: C:\Program Files\Unity\Hub\Editor\2021.3.38f1\Editor\Data\Tools\netcorerun\netcorerun.exe "C:\Program Files\Unity\Hub\Editor\2021.3.38f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library/Bee/buildprogram0.traceevents"
 WorkingDir: <PROJECT_ROOT>
+ExitCode: 0 Duration: 0s806ms
+Starting: C:\Program Files\Unity\Hub\Editor\2021.3.38f1\Editor\Data\bee_backend.exe --profile="Library/Bee/backend_profiler1.traceevents" --stdin-canary --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library/Bee/1900b0aE.dag.json" ScriptAssemblies
+WorkingDir: <PROJECT_ROOT>
+ExitCode: 0 Duration: 2s688ms
+Finished compiling graph: 598 nodes, 7015 flattened edges (7015 ToBuild, 0 ToUse), maximum node priority 374
+[301/597    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.rsp
+[589/597    1s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+[590/597    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+- Starting ILPostProcessorRunner
+
+- Starting ILPostProcessor 'zzzUnity.Burst.CodeGen.BurstILPostProcessor' on Assembly-CSharp.dll
+
+- Finished ILPostProcessor 'zzzUnity.Burst.CodeGen.BurstILPostProcessor' on Assembly-CSharp.dll in 0.084984 seconds
+
+- Finished ILPostProcessorRunner in 0.119099 seconds
+[591/597    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[592/597    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[593/597    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+[594/597    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+- Starting ILPostProcessorRunner
+
+- Starting ILPostProcessor 'zzzUnity.Burst.CodeGen.BurstILPostProcessor' on Assembly-CSharp-Editor.dll
+
+- Finished ILPostProcessor 'zzzUnity.Burst.CodeGen.BurstILPostProcessor' on Assembly-CSharp-Editor.dll in 0.078419 seconds
+
+- Finished ILPostProcessorRunner in 0.109753 seconds
+[595/597    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[596/597    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (2.42 seconds), 9 items updated, 597 evaluated
+Reloading assemblies after finishing script compilation.
+Registering precompiled user dll's ...
+Registered in 0.005306 seconds.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+[MCP Unity] WebSocket server stopped
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:StopServer (System.Nullable`1<uint16>,string) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:209)
+McpUnity.Unity.McpUnityServer:OnBeforeAssemblyReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:488)
+UnityEditor.AssemblyReloadEvents:OnBeforeAssemblyReload ()
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 209)
+
+[MCP Unity] WebSocket server stopped and resources cleaned up.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:StopServer (System.Nullable`1<uint16>,string) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:219)
+McpUnity.Unity.McpUnityServer:OnBeforeAssemblyReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:488)
+UnityEditor.AssemblyReloadEvents:OnBeforeAssemblyReload ()
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 219)
+
+Symbol file LoadedFromMemory is not a mono symbol file
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.60 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-doctorwhospacegame
+[Licensing::Client] Successfully resolved entitlement details
+Mono: successfully reloaded assembly
+[MCP Unity] WebSocket server started successfully on localhost:8090.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:StartServer () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:175)
+McpUnity.Unity.McpUnityServer:.ctor () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:130)
+McpUnity.Unity.McpUnityServer:get_Instance () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:79)
+McpUnity.Unity.McpUnityServer:AfterReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:61)
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 175)
+
+- Completed reload, in  2.672 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2672ms)
+		BeginReloadAssembly (597ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (55ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (325ms)
+		EndReloadAssembly (1986ms)
+			LoadAssemblies (192ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (230ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (46ms)
+			SetupLoadedEditorAssemblies (1035ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (5ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (238ms)
+				ProcessInitializeOnLoadAttributes (728ms)
+				ProcessInitializeOnLoadMethodAttributes (58ms)
+				AfterProcessingInitializeOnLoad (6ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (287ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.005914 seconds.
+Asset Pipeline Refresh: Total: 2.823 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=113 ms
+		Asset DB Callback time: managed=26 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=2682 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=6495, non-scripts=1717
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeBeforeRefreshCallbacks: 0.665ms
+	ApplyChangesToAssetFolders: 0.046ms
+	Scan: 0.000ms
+	OnSourceAssetsModified: 0.000ms
+	InitializeImportedAssetsSnapshot: 10.610ms
+	GetAllGuidsForCategorization: 0.399ms
+	CategorizeAssets: 74.919ms
+	ImportOutOfDateAssets: 2690.015ms (2686.883ms without children)
+		CompileScripts: 1.089ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.089ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.653ms
+		OnDemandSchedulerStart: 0.301ms
+	ReloadSourceAssets: 1.690ms
+	UnloadImportedAssets: 1.934ms
+	PostProcessAllAssets: 26.148ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.221ms
+	UnloadStreamsBegin: 1.003ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 1.421ms
+	GetLoadedSourceAssetsSnapshot: 1.279ms
+	PersistCurrentRevisions: 0.258ms
+	UnloadStreamsEnd: 0.044ms
+	GenerateScriptTypeHashes: 1.492ms
+	Untracked: 38.807ms
+Asset Pipeline Refresh: Total: 0.004 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
