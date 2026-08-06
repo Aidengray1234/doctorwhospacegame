@@ -1,0 +1,8 @@
+﻿{
+    "schemaVersion":  "1.0",
+    "projectRoot":  "C:\\Users\\aiden\\doctorwhospacegame",
+    "dropboxProjectRoot":  "C:\\Users\\aiden\\Dropbox\\UnityGPT\\doctorwhospacegame",
+    "worktreeRoot":  "C:\\Users\\aiden\\AppData\\Local\\UnityGPTBridge\\doctorwhospacegame-worktree",
+    "pollSeconds":  5,
+    "allowUnityYaml":  false
+}

@@ -1,0 +1,14 @@
+{
+  "name": "DoctorWho.Planets.Editor",
+  "rootNamespace": "DoctorWho.Planets.Editor",
+  "references": ["DoctorWho.Planets.Runtime"],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

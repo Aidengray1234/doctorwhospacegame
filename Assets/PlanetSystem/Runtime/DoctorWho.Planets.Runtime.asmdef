@@ -1,0 +1,14 @@
+{
+  "name": "DoctorWho.Planets.Runtime",
+  "rootNamespace": "DoctorWho.Planets",
+  "references": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
