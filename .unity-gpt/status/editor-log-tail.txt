@@ -2140,3 +2140,17 @@ the GUIStateObj is deleted, but is accessed
 the GUIStateObj is deleted, but is accessed
 the GUIStateObj is deleted, but is accessed
 the GUIStateObj is deleted, but is accessed
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+[Licensing::Client] Successfully resolved entitlements
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            1.206 ms
+	Integration:            160.617 ms
+	Integration of assets:  0.023 ms
+	Thread Wait Time:       0.010 ms
+	Total Operation Time:   161.857 ms
+Unloading 286 unused Assets / (48.8 KB). Loaded Objects now: 7104.
+Memory consumption went from 167.9 MB to 167.8 MB.
+Total: 7.200800 ms (FindLiveObjects: 0.324300 ms CreateObjectMapping: 0.189500 ms MarkObjects: 6.349100 ms  DeleteObjects: 0.337200 ms)
+
+[Licensing::Client] Successfully resolved entitlements
