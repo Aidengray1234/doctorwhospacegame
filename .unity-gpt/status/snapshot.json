@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-06T00:50:43.3621305Z",
+    "generatedUtc": "2026-08-06T00:51:04.4784665Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -2555,16 +2555,7 @@
             ]
         }
     ],
-    "selection": [
-        {
-            "name": "PlanetSystem",
-            "hierarchyPath": "",
-            "assetPath": "Assets/PlanetSystem",
-            "type": "UnityEditor.DefaultAsset",
-            "instanceId": 29602,
-            "components": []
-        }
-    ],
+    "selection": [],
     "recentLogs": [
         {
             "timestampUtc": "2026-08-06T00:46:00.8704263Z",

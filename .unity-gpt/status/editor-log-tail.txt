@@ -1156,3 +1156,10 @@ Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForce
 Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
 Starting new worker id: 0 with log in <PROJECT_ROOT>/Logs/AssetImportWorker0.log
 Starting new worker id: 1 with log in <PROJECT_ROOT>/Logs/AssetImportWorker1.log
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Worker ready: AssetImportWorker1 1
+Worker ready: AssetImportWorker0 0
+[Worker1] Number of updated assets reloaded before import = 0
+[Worker1] Start importing Assets/PlanetSystem using Guid(678357465489679459374c5f29685990) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker1]  -> (artifact id: '0cb88cddbc5ea88339bd8151746bb120') in 0.017563 seconds 
+Asset Pipeline Refresh: Total: 0.002 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
