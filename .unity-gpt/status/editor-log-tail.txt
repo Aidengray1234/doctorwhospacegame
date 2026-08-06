@@ -865,3 +865,68 @@ Asset Pipeline Refresh: Total: 2.823 seconds - Initiated by StopAssetImportingV2
 	GenerateScriptTypeHashes: 1.492ms
 	Untracked: 38.807ms
 Asset Pipeline Refresh: Total: 0.004 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Registering precompiled user dll's ...
+Registered in 0.005822 seconds.
+Start importing Assets/PlanetSystem/Editor using Guid(2ce7634d224c23f469fcfd5064594289) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '313c37152c9e599ee68e34f8f825a458') in 0.013212 seconds 
+Start importing Assets/PlanetSystem/Runtime using Guid(9eac0b539df249940acec42e96c53bea) Importer(-1,00000000000000000000000000000000)  -> (artifact id: 'd6ce399a1a25823891ce485fba597b20') in 0.006972 seconds 
+Start importing Assets/PlanetSystem/Editor/DoctorWho.Planets.Editor.asmdef using Guid(07f15f0881cb0c64ca5d4aac02f8a35f) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '8bac6a5a85571b4606946266665d9aeb') in 0.015756 seconds 
+Start importing Assets/PlanetSystem/Runtime/DoctorWho.Planets.Runtime.asmdef using Guid(fcabb6a2bd72e824f8aff123ecdf4448) Importer(-1,00000000000000000000000000000000)  -> (artifact id: 'ae83e10b356897d77b626c7cb8ac673c') in 0.012737 seconds 
+Start importing Assets/PlanetSystem/Runtime/PlanetGenerationSettings.cs using Guid(f0b85ecfab020144899a7d1e74cabab8) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '81f284c46dbe31c60ebb087807a101e4') in 0.013521 seconds 
+Start importing Assets/PlanetSystem/Runtime/PlanetStreamingController.cs using Guid(c7f8b9d081219f042a94286539bc62c8) Importer(-1,00000000000000000000000000000000)  -> (artifact id: 'd6d7e2819b7543f702c64c1ece09c483') in 0.012915 seconds 
+Start importing Assets/PlanetSystem/Runtime/PlanetRuntimeRoot.cs using Guid(3bbd816a22a677142b7f1186f4b0d45e) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '6e8c1ed72000a6c458a71e84b96bdbf4') in 0.012803 seconds 
+Start importing Assets/PlanetSystem/Editor/PlanetDevelopmentBootstrap.cs using Guid(2c9fe3a98a2f2b64e8c5c71e427c48dc) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '2febf0d858cf65680e587361cec0c9c8') in 0.013088 seconds 
+Start importing Assets/PlanetSystem/Runtime/VoxelChunkCoord.cs using Guid(9c2c5a609aa97984da9347e7ac4b34c7) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '7f0e70d5cb36704e360f4520025c669a') in 0.012086 seconds 
+Start importing Assets/PlanetSystem/Runtime/BiomeDefinition.cs using Guid(3e35f0427f9475a408db8e47ff5062f5) Importer(-1,00000000000000000000000000000000)  -> (artifact id: 'f4f523215d35539ce1a4f377b631a9fd') in 0.012739 seconds 
+[ScriptCompilation] Requested script compilation because: Assembly Definition File(s) changed
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+AssetDatabase: script compilation time: 0.128461s
+[Licensing::Client] Successfully resolved entitlements
+Refreshing native plugins compatible for Editor in 0.66 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh: Total: 0.482 seconds - Initiated by RefreshV2(ForceUpdate)
+	Summary:
+		Imports: total=10 (actual=10, local cache=0, cache server=0)
+		Asset DB Process Time: managed=1 ms, native=223 ms
+		Asset DB Callback time: managed=120 ms, native=7 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=129 ms, other=0 ms
+		Project Asset Count: scripts=6505, non-scripts=1717
+		Asset File Changes: new=10, changed=10, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeBeforeRefreshCallbacks: 0.001ms
+	ApplyChangesToAssetFolders: 0.045ms
+	Scan: 15.085ms
+	OnSourceAssetsModified: 0.573ms
+	InitializeImportedAssetsSnapshot: 16.608ms
+	GetAllGuidsForCategorization: 0.194ms
+	CategorizeAssets: 6.236ms
+	ImportOutOfDateAssets: 290.402ms (2.207ms without children)
+		ImportManagerImport: 158.335ms (15.260ms without children)
+			ImportInProcess: 143.010ms
+			UpdateCategorizedAssets: 0.065ms
+		CompileScripts: 128.511ms
+		ReloadImportedAssets: 0.006ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.665ms
+		InitializingProgressBar: 0.004ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.361ms
+		OnDemandSchedulerStart: 0.312ms
+	ReloadSourceAssets: 0.578ms
+	UnloadImportedAssets: 0.654ms
+	PostProcessAllAssets: 122.212ms
+	Hotreload: 5.479ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.220ms
+	UnloadStreamsBegin: 0.049ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 1.335ms
+	GetLoadedSourceAssetsIDs: 1.109ms
+	GetLoadedSourceAssetsSnapshot: 0.625ms
+	PersistCurrentRevisions: 0.330ms
+	UnloadStreamsEnd: 0.043ms
+	Untracked: 142.679ms
+Starting: C:\Program Files\Unity\Hub\Editor\2021.3.38f1\Editor\Data\bee_backend.exe --profile="Library/Bee/backend_profiler0.traceevents" --stdin-canary --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure ScriptAssemblies
+WorkingDir: <PROJECT_ROOT>
+ExitCode: 4 Duration: 0s195ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+*** Tundra requires additional run (0.02 seconds), 0 items updated, 0 evaluated
+Starting: C:\Program Files\Unity\Hub\Editor\2021.3.38f1\Editor\Data\Tools\netcorerun\netcorerun.exe "C:\Program Files\Unity\Hub\Editor\2021.3.38f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library/Bee/buildprogram0.traceevents"
+WorkingDir: <PROJECT_ROOT>

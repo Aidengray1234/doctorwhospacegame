@@ -1,8 +1,8 @@
 {
     "schemaVersion": "1.0",
-    "startedUtc": "",
+    "startedUtc": "2026-08-06T00:45:55.3780888Z",
     "finishedUtc": "",
-    "compiling": false,
+    "compiling": true,
     "errorCount": 0,
     "warningCount": 0,
     "messages": []

@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-06T00:40:03.8340085Z",
+    "generatedUtc": "2026-08-06T00:45:56.1305061Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -16,15 +16,15 @@
     "editor": {
         "isPlaying": false,
         "isPaused": false,
-        "isCompiling": false,
+        "isCompiling": true,
         "isUpdating": false,
         "hasUnsavedScenes": false,
-        "compileStartedUtc": "",
+        "compileStartedUtc": "2026-08-06T00:45:55.3780888Z",
         "compileFinishedUtc": "",
         "compileErrorCount": 0,
         "compileWarningCount": 0,
-        "lastApplyUtc": "2026-08-06T00:39:41.1065921Z",
-        "lastAppliedRemoteCommit": "2584ad35bc4807172f92b92b9eaefdcb3e8b0951"
+        "lastApplyUtc": "2026-08-06T00:45:52.0265169Z",
+        "lastAppliedRemoteCommit": "7fa9b0ec8f5bd617eb947bf8e05dd3f3570032be"
     },
     "scene": {
         "name": "Playground",
