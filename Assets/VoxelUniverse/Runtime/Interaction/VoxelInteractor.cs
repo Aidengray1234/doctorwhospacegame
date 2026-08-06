@@ -1,4 +1,5 @@
 using DoctorWho.VoxelUniverse.Core;
+using DoctorWho.VoxelUniverse.Input;
 using DoctorWho.VoxelUniverse.Inventory;
 using DoctorWho.VoxelUniverse.Player;
 using DoctorWho.VoxelUniverse.Rendering;
@@ -53,8 +54,8 @@ namespace DoctorWho.VoxelUniverse.Interaction
             if (!hit) return;
             UpdateOutline(currentHit.address);
 
-            if (Input.GetMouseButtonDown(0)) Mine();
-            if (Input.GetMouseButtonDown(1)) Place();
+            if (VoxelInput.PrimaryPressed) Mine();
+            if (VoxelInput.SecondaryPressed) Place();
         }
 
         private void Mine()

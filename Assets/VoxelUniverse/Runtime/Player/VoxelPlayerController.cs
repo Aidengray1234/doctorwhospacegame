@@ -1,4 +1,5 @@
 using DoctorWho.VoxelUniverse.Collision;
+using DoctorWho.VoxelUniverse.Input;
 using DoctorWho.VoxelUniverse.Inventory;
 using DoctorWho.VoxelUniverse.Rendering;
 using DoctorWho.VoxelUniverse.Voxels;
@@ -66,34 +67,37 @@ namespace DoctorWho.VoxelUniverse.Player
             MovePlayer();
 
             float safeInnerRadius = world.Settings.groundRadius + world.Settings.minimumRadialBlock + 3f;
-            if ((transform.position - world.Center).magnitude < safeInnerRadius || Input.GetKeyDown(KeyCode.R))
+            if ((transform.position - world.Center).magnitude < safeInnerRadius || VoxelInput.RespawnPressed)
                 Respawn();
         }
 
         private void HandleCursor()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                bool locked = Cursor.lockState == CursorLockMode.Locked;
-                Cursor.lockState = locked ? CursorLockMode.None : CursorLockMode.Locked;
-                Cursor.visible = locked;
-            }
+            if (!VoxelInput.EscapePressed) return;
+
+            bool locked = Cursor.lockState == CursorLockMode.Locked;
+            Cursor.lockState = locked ? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.visible = locked;
         }
 
         private void HandleLook()
         {
             if (Cursor.lockState != CursorLockMode.Locked || (inventory != null && inventory.InventoryOpen)) return;
+
             float sensitivity = world.Settings.mouseSensitivity;
-            float mouseX = Input.GetAxisRaw("Mouse X") * sensitivity * 10f;
-            float mouseY = Input.GetAxisRaw("Mouse Y") * sensitivity * 10f;
-            transform.Rotate(0f, mouseX, 0f, Space.Self);
-            pitch = Mathf.Clamp(pitch - mouseY, -88f, 88f);
-            if (cameraPivot != null) cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+            Vector2 look = VoxelInput.LookDelta;
+            float lookX = look.x * sensitivity;
+            float lookY = look.y * sensitivity;
+
+            transform.Rotate(0f, lookX, 0f, Space.Self);
+            pitch = Mathf.Clamp(pitch - lookY, -88f, 88f);
+            if (cameraPivot != null)
+                cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
         }
 
         private void HandleFlightToggle()
         {
-            bool jumpDown = Input.GetKeyDown(KeyCode.Space);
+            bool jumpDown = VoxelInput.JumpPressed;
             if (jumpDown)
             {
                 if (Time.unscaledTime - lastJumpPressTime <= 0.32f)
@@ -107,7 +111,8 @@ namespace DoctorWho.VoxelUniverse.Player
                     lastJumpPressTime = Time.unscaledTime;
                 }
             }
-            if (Input.GetKeyDown(KeyCode.F))
+
+            if (VoxelInput.FlightTogglePressed)
             {
                 flying = !flying;
                 velocity = Vector3.zero;
@@ -118,24 +123,30 @@ namespace DoctorWho.VoxelUniverse.Player
         {
             Vector3 radialUp = (transform.position - world.Center).normalized;
             Quaternion targetRotation = Quaternion.FromToRotation(transform.up, radialUp) * transform.rotation;
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 1f - Mathf.Exp(-14f * Time.deltaTime));
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                1f - Mathf.Exp(-14f * Time.deltaTime));
 
-            float horizontal = Input.GetAxisRaw("Horizontal");
-            float vertical = Input.GetAxisRaw("Vertical");
+            Vector2 move = VoxelInput.Move;
             Vector3 cameraForward = playerCamera != null ? playerCamera.transform.forward : transform.forward;
             Vector3 cameraRight = playerCamera != null ? playerCamera.transform.right : transform.right;
             Vector3 forward = Vector3.ProjectOnPlane(cameraForward, radialUp).normalized;
             Vector3 right = Vector3.ProjectOnPlane(cameraRight, radialUp).normalized;
-            Vector3 wish = Vector3.ClampMagnitude(forward * vertical + right * horizontal, 1f);
-            bool sprint = Input.GetKey(KeyCode.LeftShift);
+            Vector3 wish = Vector3.ClampMagnitude(forward * move.y + right * move.x, 1f);
+            bool sprint = VoxelInput.SprintHeld;
 
             if (flying)
             {
                 float verticalFlight = 0f;
-                if (Input.GetKey(KeyCode.Space)) verticalFlight += 1f;
-                if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.C)) verticalFlight -= 1f;
+                if (VoxelInput.JumpHeld) verticalFlight += 1f;
+                if (VoxelInput.DescendHeld) verticalFlight -= 1f;
+
                 float speed = sprint ? world.Settings.flightSprintSpeed : world.Settings.flightSpeed;
-                velocity = (wish + radialUp * verticalFlight).normalized * speed;
+                Vector3 requestedDirection = wish + radialUp * verticalFlight;
+                velocity = requestedDirection.sqrMagnitude > 0.0001f
+                    ? requestedDirection.normalized * speed
+                    : Vector3.zero;
                 transform.position += velocity * Time.deltaTime;
                 grounded = false;
                 return;
@@ -147,7 +158,7 @@ namespace DoctorWho.VoxelUniverse.Player
             horizontalVelocity = Vector3.MoveTowards(horizontalVelocity, desired, 30f * Time.deltaTime);
             float verticalSpeed = Vector3.Dot(velocity, radialUp);
 
-            if (grounded && Input.GetKeyDown(KeyCode.Space))
+            if (grounded && VoxelInput.JumpPressed)
             {
                 verticalSpeed = world.Settings.jumpSpeed;
                 grounded = false;
@@ -184,6 +195,7 @@ namespace DoctorWho.VoxelUniverse.Player
         public void Respawn()
         {
             if (world == null || world.Settings == null) return;
+
             VoxelAddress surface = world.FindSurfaceAddress(Vector3.up);
             world.PrioritizeAddress(surface);
             Vector3 center = world.GetBlockCenter(surface);

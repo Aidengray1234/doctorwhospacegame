@@ -1,7 +1,9 @@
 {
   "name": "DoctorWho.VoxelUniverse.Runtime",
   "rootNamespace": "DoctorWho.VoxelUniverse",
-  "references": [],
+  "references": [
+    "Unity.InputSystem"
+  ],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

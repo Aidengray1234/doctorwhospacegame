@@ -1,4 +1,5 @@
 using System;
+using DoctorWho.VoxelUniverse.Input;
 using DoctorWho.VoxelUniverse.Saves;
 using DoctorWho.VoxelUniverse.Voxels;
 using UnityEngine;
@@ -92,7 +93,6 @@ namespace DoctorWho.VoxelUniverse.Inventory
             return true;
         }
 
-
         private void Start()
         {
             if (saveSystem == null) saveSystem = FindObjectOfType<VoxelSaveSystem>();
@@ -102,14 +102,17 @@ namespace DoctorWho.VoxelUniverse.Inventory
 
         private void Update()
         {
-            float wheel = Input.mouseScrollDelta.y;
-            if (wheel > 0.01f) Select((selectedSlot + 8) % 9);
-            if (wheel < -0.01f) Select((selectedSlot + 1) % 9);
+            if (VoxelInput.PreviousHotbarPressed) Select((selectedSlot + 8) % 9);
+            if (VoxelInput.NextHotbarPressed) Select((selectedSlot + 1) % 9);
+
             for (int i = 0; i < 9; i++)
             {
-                if (Input.GetKeyDown((KeyCode)((int)KeyCode.Alpha1 + i))) Select(i);
+                if (VoxelInput.HotbarSlotPressed(i))
+                    Select(i);
             }
-            if (Input.GetKeyDown(KeyCode.E)) inventoryOpen = !inventoryOpen;
+
+            if (VoxelInput.InventoryPressed)
+                inventoryOpen = !inventoryOpen;
         }
 
         private void Select(int index)

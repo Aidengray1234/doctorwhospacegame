@@ -1,3 +1,4 @@
+using DoctorWho.VoxelUniverse.Input;
 using DoctorWho.VoxelUniverse.Saves;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ namespace DoctorWho.VoxelUniverse.Rendering
         {
             float milliseconds = Time.unscaledDeltaTime * 1000f;
             if (milliseconds > worstFrameMilliseconds) worstFrameMilliseconds = milliseconds;
-            if (Input.GetKeyDown(KeyCode.F3)) visible = !visible;
+            if (VoxelInput.DiagnosticsPressed) visible = !visible;
         }
 
         private void OnGUI()
