@@ -659,3 +659,58 @@ Memory consumption went from 184.0 MB to 164.8 MB.
 Total: 8.031200 ms (FindLiveObjects: 0.330000 ms CreateObjectMapping: 0.174900 ms MarkObjects: 5.697500 ms  DeleteObjects: 1.827700 ms)
 
 [Licensing::Client] Successfully resolved entitlements
+Asset Pipeline Refresh: Total: 0.007 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.004 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.002 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.002 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Registering precompiled user dll's ...
+Registered in 0.036129 seconds.
+Start importing Assets/PlanetSystem using Guid(678357465489679459374c5f29685990) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '50428cc58f0e8e4fa89b85dcc004d73b') in 0.021569 seconds 
+Start importing Assets/PlanetSystem/DropboxBridgeTest.cs using Guid(5d32d32ae89f97643b3f72c65b58b5f5) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '91b8eba58a62199bce297c828e27c378') in 0.016753 seconds 
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+AssetDatabase: script compilation time: 0.045932s
+[Licensing::Client] Successfully resolved entitlements
+Refreshing native plugins compatible for Editor in 0.58 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh: Total: 0.372 seconds - Initiated by RefreshV2(ForceUpdate)
+	Summary:
+		Imports: total=2 (actual=2, local cache=0, cache server=0)
+		Asset DB Process Time: managed=3 ms, native=153 ms
+		Asset DB Callback time: managed=148 ms, native=19 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=46 ms, other=0 ms
+		Project Asset Count: scripts=6495, non-scripts=1717
+		Asset File Changes: new=2, changed=2, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeBeforeRefreshCallbacks: 0.000ms
+	ApplyChangesToAssetFolders: 0.046ms
+	Scan: 4.824ms
+	OnSourceAssetsModified: 1.115ms
+	InitializeImportedAssetsSnapshot: 20.195ms
+	GetAllGuidsForCategorization: 0.271ms
+	CategorizeAssets: 6.626ms
+	ImportOutOfDateAssets: 110.991ms (2.299ms without children)
+		ImportManagerImport: 61.382ms (17.550ms without children)
+			ImportInProcess: 43.802ms
+			UpdateCategorizedAssets: 0.029ms
+		CompileScripts: 45.990ms
+		ReloadImportedAssets: 0.002ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.667ms
+		InitializingProgressBar: 0.004ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.341ms
+		OnDemandSchedulerStart: 0.308ms
+	ReloadSourceAssets: 0.566ms
+	UnloadImportedAssets: 0.612ms
+	PostProcessAllAssets: 161.795ms
+	Hotreload: 4.999ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.199ms
+	UnloadStreamsBegin: 0.048ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 1.329ms
+	GetLoadedSourceAssetsIDs: 1.075ms
+	GetLoadedSourceAssetsSnapshot: 0.595ms
+	PersistCurrentRevisions: 0.297ms
+	UnloadStreamsEnd: 0.044ms
+	Untracked: 218.127ms

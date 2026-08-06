@@ -2,7 +2,7 @@
     "schemaVersion": "1.0",
     "startedUtc": "",
     "finishedUtc": "",
-    "compiling": false,
+    "compiling": true,
     "errorCount": 0,
     "warningCount": 0,
     "messages": []

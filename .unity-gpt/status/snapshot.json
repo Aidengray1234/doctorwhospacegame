@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-05T23:39:22.2004264Z",
+    "generatedUtc": "2026-08-06T00:39:41.5576280Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -16,15 +16,15 @@
     "editor": {
         "isPlaying": false,
         "isPaused": false,
-        "isCompiling": false,
+        "isCompiling": true,
         "isUpdating": false,
         "hasUnsavedScenes": false,
         "compileStartedUtc": "",
         "compileFinishedUtc": "",
         "compileErrorCount": 0,
         "compileWarningCount": 0,
-        "lastApplyUtc": "",
-        "lastAppliedRemoteCommit": ""
+        "lastApplyUtc": "2026-08-06T00:39:41.1065921Z",
+        "lastAppliedRemoteCommit": "2584ad35bc4807172f92b92b9eaefdcb3e8b0951"
     },
     "scene": {
         "name": "Playground",
@@ -2566,5 +2566,5 @@
     ],
     "editorLogTailFile": ".unity-gpt/status/editor-log-tail.txt",
     "packageManifestFile": ".unity-gpt/status/packages-manifest.json",
-    "notes": "Automatic state change"
+    "notes": "GPT work branch applied"
 }
