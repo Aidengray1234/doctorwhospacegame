@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-06T00:51:12.1565689Z",
+    "generatedUtc": "2026-08-06T00:52:02.5602536Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -187,16 +187,16 @@
     ],
     "recentLogs": [
         {
-            "timestampUtc": "2026-08-06T00:46:00.8704263Z",
+            "timestampUtc": "2026-08-06T00:51:59.4846443Z",
             "type": "Log",
             "message": "[MCP Unity] WebSocket server started successfully on localhost:8090.",
             "stackTrace": "UnityEngine.Debug:Log (object)\nMcpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)\nMcpUnity.Unity.McpUnityServer:StartServer () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:175)\nMcpUnity.Unity.McpUnityServer:.ctor () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:130)\nMcpUnity.Unity.McpUnityServer:get_Instance () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:79)\nMcpUnity.Unity.McpUnityServer:AfterReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:61)\n"
         },
         {
-            "timestampUtc": "2026-08-06T00:46:01.4136606Z",
+            "timestampUtc": "2026-08-06T00:51:59.7182785Z",
             "type": "Log",
-            "message": "[Planet Foundation] Runtime architecture and PlanetDevelopment scene are ready. Playground was not modified.",
-            "stackTrace": "UnityEngine.Debug:Log (object)\nDoctorWho.Planets.Editor.PlanetDevelopmentBootstrap:CreateFoundationIfMissing () (at Assets/PlanetSystem/Editor/PlanetDevelopmentBootstrap.cs:79)\nUnityEditor.EditorApplication:Internal_CallDelayFunctions ()\n"
+            "message": "[Unity GPT Dropbox Bridge] Test script compiled successfully.",
+            "stackTrace": "UnityEngine.Debug:Log (object)\nDoctorWhoSpaceGame.Planets.DropboxBridgeTest:ConfirmCompilation () (at Assets/PlanetSystem/DropboxBridgeTest.cs:10)\n"
         }
     ],
     "editorLogTailFile": ".unity-gpt/status/editor-log-tail.txt",

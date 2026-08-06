@@ -1184,3 +1184,233 @@ Memory consumption went from 180.0 MB to 175.8 MB.
 Total: 7.782400 ms (FindLiveObjects: 0.651200 ms CreateObjectMapping: 0.195200 ms MarkObjects: 6.116000 ms  DeleteObjects: 0.818800 ms)
 
 [00:00:00] Finished 2 Bake Ambient Probe jobs (0.00s execute, 0.00s integrate, 0.20s wallclock)
+Starting cubemap convolution for '' (size 128)
+...took 0.067 seconds
+Asset Pipeline Refresh: Total: 0.005 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+[MCP Unity] Closed 0 client connection(s) with code 4001: Unity entering Play mode
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:CloseAllClients (uint16,string) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:246)
+McpUnity.Unity.McpUnityServer:StopServer (System.Nullable`1<uint16>,string) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:204)
+McpUnity.Unity.McpUnityServer:OnPlayModeStateChanged (UnityEditor.PlayModeStateChange) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:522)
+UnityEditor.EditorApplication:Internal_PlayModeStateChanged (UnityEditor.PlayModeStateChange)
+UnityEditor.EditorApplication:EnterPlaymode ()
+UnityEditor.Toolbars.PlayModeButtons:OnPlayButtonValueChanged (UnityEngine.UIElements.ChangeEvent`1<bool>)
+UnityEngine.UIElements.EventCallbackFunctor`1<UnityEngine.UIElements.ChangeEvent`1<bool>>:Invoke (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.PropagationPhase)
+UnityEngine.UIElements.EventCallbackRegistry:InvokeCallbacks (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.PropagationPhase)
+UnityEngine.UIElements.CallbackEventHandler:HandleEvent (UnityEngine.UIElements.EventBase)
+UnityEngine.UIElements.EventDispatchUtilities:PropagateEvent (UnityEngine.UIElements.EventBase)
+UnityEngine.UIElements.DefaultDispatchingStrategy:DispatchEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ApplyDispatchingStrategies (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel,bool)
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ProcessEventQueue ()
+UnityEngine.UIElements.EventDispatcher:OpenGate ()
+UnityEngine.UIElements.EventDispatcherGate:Dispose ()
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ProcessEventQueue ()
+UnityEngine.UIElements.EventDispatcher:OpenGate ()
+UnityEngine.UIElements.EventDispatcherGate:Dispose ()
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:Dispatch (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel,UnityEngine.UIElements.DispatchMode)
+UnityEngine.UIElements.BaseVisualElementPanel:SendEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.DispatchMode)
+UnityEngine.UIElements.UIElementsUtility:DoDispatch (UnityEngine.UIElements.BaseVisualElementPanel)
+UnityEngine.UIElements.UIElementsUtility:UnityEngine.UIElements.IUIElementsUtility.ProcessEvent (int,intptr,bool&)
+UnityEngine.UIElements.UIEventRegistration:ProcessEvent (int,intptr)
+UnityEngine.UIElements.UIEventRegistration/<>c:<.cctor>b__1_2 (int,intptr)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 246)
+
+[MCP Unity] WebSocket server stopped
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:StopServer (System.Nullable`1<uint16>,string) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:209)
+McpUnity.Unity.McpUnityServer:OnPlayModeStateChanged (UnityEditor.PlayModeStateChange) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:522)
+UnityEditor.EditorApplication:Internal_PlayModeStateChanged (UnityEditor.PlayModeStateChange)
+UnityEditor.EditorApplication:EnterPlaymode ()
+UnityEditor.Toolbars.PlayModeButtons:OnPlayButtonValueChanged (UnityEngine.UIElements.ChangeEvent`1<bool>)
+UnityEngine.UIElements.EventCallbackFunctor`1<UnityEngine.UIElements.ChangeEvent`1<bool>>:Invoke (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.PropagationPhase)
+UnityEngine.UIElements.EventCallbackRegistry:InvokeCallbacks (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.PropagationPhase)
+UnityEngine.UIElements.CallbackEventHandler:HandleEvent (UnityEngine.UIElements.EventBase)
+UnityEngine.UIElements.EventDispatchUtilities:PropagateEvent (UnityEngine.UIElements.EventBase)
+UnityEngine.UIElements.DefaultDispatchingStrategy:DispatchEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ApplyDispatchingStrategies (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel,bool)
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ProcessEventQueue ()
+UnityEngine.UIElements.EventDispatcher:OpenGate ()
+UnityEngine.UIElements.EventDispatcherGate:Dispose ()
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ProcessEventQueue ()
+UnityEngine.UIElements.EventDispatcher:OpenGate ()
+UnityEngine.UIElements.EventDispatcherGate:Dispose ()
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:Dispatch (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel,UnityEngine.UIElements.DispatchMode)
+UnityEngine.UIElements.BaseVisualElementPanel:SendEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.DispatchMode)
+UnityEngine.UIElements.UIElementsUtility:DoDispatch (UnityEngine.UIElements.BaseVisualElementPanel)
+UnityEngine.UIElements.UIElementsUtility:UnityEngine.UIElements.IUIElementsUtility.ProcessEvent (int,intptr,bool&)
+UnityEngine.UIElements.UIEventRegistration:ProcessEvent (int,intptr)
+UnityEngine.UIElements.UIEventRegistration/<>c:<.cctor>b__1_2 (int,intptr)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 209)
+
+[MCP Unity] WebSocket server stopped and resources cleaned up.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:StopServer (System.Nullable`1<uint16>,string) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:219)
+McpUnity.Unity.McpUnityServer:OnPlayModeStateChanged (UnityEditor.PlayModeStateChange) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:522)
+UnityEditor.EditorApplication:Internal_PlayModeStateChanged (UnityEditor.PlayModeStateChange)
+UnityEditor.EditorApplication:EnterPlaymode ()
+UnityEditor.Toolbars.PlayModeButtons:OnPlayButtonValueChanged (UnityEngine.UIElements.ChangeEvent`1<bool>)
+UnityEngine.UIElements.EventCallbackFunctor`1<UnityEngine.UIElements.ChangeEvent`1<bool>>:Invoke (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.PropagationPhase)
+UnityEngine.UIElements.EventCallbackRegistry:InvokeCallbacks (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.PropagationPhase)
+UnityEngine.UIElements.CallbackEventHandler:HandleEvent (UnityEngine.UIElements.EventBase)
+UnityEngine.UIElements.EventDispatchUtilities:PropagateEvent (UnityEngine.UIElements.EventBase)
+UnityEngine.UIElements.DefaultDispatchingStrategy:DispatchEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ApplyDispatchingStrategies (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel,bool)
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ProcessEventQueue ()
+UnityEngine.UIElements.EventDispatcher:OpenGate ()
+UnityEngine.UIElements.EventDispatcherGate:Dispose ()
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:ProcessEventQueue ()
+UnityEngine.UIElements.EventDispatcher:OpenGate ()
+UnityEngine.UIElements.EventDispatcherGate:Dispose ()
+UnityEngine.UIElements.EventDispatcher:ProcessEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel)
+UnityEngine.UIElements.EventDispatcher:Dispatch (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.IPanel,UnityEngine.UIElements.DispatchMode)
+UnityEngine.UIElements.BaseVisualElementPanel:SendEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.DispatchMode)
+UnityEngine.UIElements.UIElementsUtility:DoDispatch (UnityEngine.UIElements.BaseVisualElementPanel)
+UnityEngine.UIElements.UIElementsUtility:UnityEngine.UIElements.IUIElementsUtility.ProcessEvent (int,intptr,bool&)
+UnityEngine.UIElements.UIEventRegistration:ProcessEvent (int,intptr)
+UnityEngine.UIElements.UIEventRegistration/<>c:<.cctor>b__1_2 (int,intptr)
+UnityEngine.GUIUtility:ProcessEvent (int,intptr,bool&)
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 219)
+
+Reloading assemblies for play mode.
+Registering precompiled user dll's ...
+Registered in 0.005311 seconds.
+Reloading assemblies after forced synchronous recompile.
+[Licensing::Client] Successfully resolved entitlements
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 3.92 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+[Licensing::Client] Successfully resolved entitlement details
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-doctorwhospacegame
+Mono: successfully reloaded assembly
+[MCP Unity] WebSocket server started successfully on localhost:8090.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:StartServer () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:175)
+McpUnity.Unity.McpUnityServer:.ctor () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:130)
+McpUnity.Unity.McpUnityServer:get_Instance () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:79)
+McpUnity.Unity.McpUnityServer:AfterReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:61)
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 175)
+
+- Completed reload, in  1.996 seconds
+Domain Reload Profiling:
+	ReloadAssembly (1997ms)
+		BeginReloadAssembly (412ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (30ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (284ms)
+		EndReloadAssembly (1520ms)
+			LoadAssemblies (76ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (210ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (40ms)
+			SetupLoadedEditorAssemblies (826ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (4ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (4ms)
+				BeforeProcessingInitializeOnLoad (66ms)
+				ProcessInitializeOnLoadAttributes (697ms)
+				ProcessInitializeOnLoadMethodAttributes (50ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (245ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.005541 seconds.
+Asset Pipeline Refresh: Total: 2.161 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=109 ms
+		Asset DB Callback time: managed=32 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=2017 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=6507, non-scripts=1719
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeBeforeRefreshCallbacks: 0.654ms
+	ApplyChangesToAssetFolders: 0.045ms
+	Scan: 0.000ms
+	OnSourceAssetsModified: 0.000ms
+	InitializeImportedAssetsSnapshot: 13.264ms
+	GetAllGuidsForCategorization: 0.601ms
+	CategorizeAssets: 67.790ms
+	ImportOutOfDateAssets: 2024.574ms (2021.450ms without children)
+		CompileScripts: 1.049ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.082ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.602ms
+		OnDemandSchedulerStart: 0.390ms
+	ReloadSourceAssets: 1.513ms
+	UnloadImportedAssets: 1.359ms
+	PostProcessAllAssets: 32.102ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.215ms
+	UnloadStreamsBegin: 0.047ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 1.821ms
+	GetLoadedSourceAssetsSnapshot: 1.681ms
+	PersistCurrentRevisions: 0.282ms
+	UnloadStreamsEnd: 0.060ms
+	GenerateScriptTypeHashes: 1.543ms
+	Untracked: 47.527ms
+[Unity GPT Dropbox Bridge] Test script compiled successfully.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+DoctorWhoSpaceGame.Planets.DropboxBridgeTest:ConfirmCompilation () (at Assets/PlanetSystem/DropboxBridgeTest.cs:10)
+
+(Filename: Assets/PlanetSystem/DropboxBridgeTest.cs Line: 10)
+
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            0.511 ms
+	Integration:            182.186 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.060 ms
+	Total Operation Time:   182.758 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            0.474 ms
+	Integration:            145.607 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.012 ms
+	Total Operation Time:   146.093 ms
+Unloading 45 unused Assets / (165.8 KB). Loaded Objects now: 7024.
+Memory consumption went from 166.0 MB to 165.8 MB.
+Total: 5.105400 ms (FindLiveObjects: 0.310200 ms CreateObjectMapping: 0.162000 ms MarkObjects: 4.551100 ms  DeleteObjects: 0.081300 ms)
+
+[Licensing::Client] Successfully resolved entitlements
