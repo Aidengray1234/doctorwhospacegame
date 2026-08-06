@@ -1,0 +1,14 @@
+{
+  "name": "DoctorWho.BlockPlanets.Runtime",
+  "rootNamespace": "DoctorWho.BlockPlanets",
+  "references": ["Unity.InputSystem"],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

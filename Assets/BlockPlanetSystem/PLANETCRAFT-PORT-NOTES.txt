@@ -1,0 +1,10 @@
+This integration uses the user-supplied Planetcraft archive as its reference base.
+
+Directly reused/adapted concepts and assets:
+- Planetcraft six-grid cube-to-sphere terrain layout
+- Planetcraft example-mod 16x16 block textures, packed into PlanetcraftBlockAtlas.png
+- Planetcraft block ID palette and per-face texture rules
+- Planetcraft ModifyTerrain raycast interaction behavior
+- Planetcraft Standard Assets movement values, ported from removed UnityScript to Unity 2021-compatible C# radial movement
+
+The uploaded archive did not contain an inventory implementation. This port adds a new hotbar and E-key inventory so the requested workflow is usable.

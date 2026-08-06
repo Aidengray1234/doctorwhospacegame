@@ -1,0 +1,14 @@
+{
+  "name": "DoctorWho.BlockPlanets.Editor",
+  "rootNamespace": "DoctorWho.BlockPlanets.Editor",
+  "references": ["DoctorWho.BlockPlanets.Runtime"],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

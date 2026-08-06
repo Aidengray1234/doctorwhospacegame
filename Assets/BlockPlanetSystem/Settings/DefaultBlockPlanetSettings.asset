@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f703552828984b458a11d8b8dff0e05, type: 3}
+  m_Name: DefaultBlockPlanetSettings
+  m_EditorClassIdentifier: 
+  radius: 128
+  faceResolution: 256
+  chunkSize: 16
+  minimumRadialBlock: -48
+  maximumRadialBlock: 64
+  seaLevel: 2
+  horizontalChunkRadius: 2
+  verticalChunkRadius: 1
+  chunkBuildsPerFrame: 6
+  initialChunkBuildsPerFrame: 18
+  streamingRefreshSeconds: 0.1
+  unloadPadding: 1
+  seed: 84271
+  baseHeight: 3
+  continentHeight: 17
+  mountainHeight: 13
+  detailHeight: 2.5
+  crustDepth: 34
+  caveAmount: 0.18
+  gravity: 22
+  walkSpeed: 6
+  sprintSpeed: 10
+  jumpSpeed: 6.8
+  groundAcceleration: 22
+  airAcceleration: 15
+  maxSlopeAngle: 58
+  cameraFieldOfView: 75
+  cameraNearClip: 0.03
+  creativeInventory: 1
+  startingStackSize: 64
