@@ -3,17 +3,20 @@ using UnityEngine.InputSystem;
 
 namespace DoctorWho.Planets
 {
-    [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
     public sealed class RadialFirstPersonController : MonoBehaviour
     {
         [SerializeField] private Transform planetCenter;
         [SerializeField] private Transform cameraPivot;
         [SerializeField] private PlanetGenerationSettings settings;
-        [SerializeField] private float groundProbeDistance = 1.35f;
+        [SerializeField] private float probeRadius = 0.36f;
+        [SerializeField] private float probeDistance = 1.15f;
 
-        private CharacterController controller;
-        private float verticalSpeed;
+        private Rigidbody body;
+        private CapsuleCollider capsule;
         private float pitch;
+        private bool grounded;
+        private Vector3 groundNormal;
 
         public void Configure(Transform center, Transform pivot, PlanetGenerationSettings generationSettings)
         {
@@ -24,36 +27,67 @@ namespace DoctorWho.Planets
 
         private void Awake()
         {
-            controller = GetComponent<CharacterController>();
+            body = GetComponent<Rigidbody>();
+            capsule = GetComponent<CapsuleCollider>();
+            body.useGravity = false;
+            body.interpolation = RigidbodyInterpolation.Interpolate;
+            body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            body.constraints = RigidbodyConstraints.FreezeRotation;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
 
         private void Update()
         {
-            if (planetCenter == null || cameraPivot == null || settings == null) return;
-
-            Vector3 up = (transform.position - planetCenter.position).normalized;
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, up) * transform.rotation;
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 12f * Time.deltaTime);
-
-            Vector2 move = ReadMove();
+            if (cameraPivot == null || settings == null) return;
             Vector2 look = ReadLook();
-            float speed = IsSprinting() ? settings.sprintSpeed : settings.walkSpeed;
-
             transform.Rotate(0f, look.x * settings.mouseSensitivity, 0f, Space.Self);
             pitch = Mathf.Clamp(pitch - look.y * settings.mouseSensitivity, -85f, 85f);
             cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+        }
 
-            bool grounded = Physics.Raycast(transform.position, -up, out _, groundProbeDistance, ~0, QueryTriggerInteraction.Ignore);
-            if (grounded && verticalSpeed < 0f) verticalSpeed = -2f;
-            if (grounded && JumpPressed()) verticalSpeed = settings.jumpSpeed;
-            verticalSpeed -= settings.gravity * Time.deltaTime;
+        private void FixedUpdate()
+        {
+            if (planetCenter == null || settings == null) return;
 
-            Vector3 tangentMove = (transform.right * move.x + transform.forward * move.y);
-            if (tangentMove.sqrMagnitude > 1f) tangentMove.Normalize();
-            Vector3 velocity = tangentMove * speed + up * verticalSpeed;
-            controller.Move(velocity * Time.deltaTime);
+            Vector3 up = (body.position - planetCenter.position).normalized;
+            ProbeGround(up);
+
+            Quaternion aligned = Quaternion.FromToRotation(transform.up, up) * body.rotation;
+            body.MoveRotation(Quaternion.Slerp(body.rotation, aligned, 18f * Time.fixedDeltaTime));
+
+            Vector2 input = ReadMove();
+            float maxSpeed = IsSprinting() ? settings.sprintSpeed : settings.walkSpeed;
+            Vector3 desired = Vector3.ProjectOnPlane(transform.right * input.x + transform.forward * input.y, up).normalized * (input.magnitude * maxSpeed);
+            Vector3 currentTangent = Vector3.ProjectOnPlane(body.velocity, up);
+            float acceleration = grounded ? settings.groundAcceleration : settings.airAcceleration;
+            Vector3 tangentChange = Vector3.ClampMagnitude(desired - currentTangent, acceleration * Time.fixedDeltaTime);
+            body.AddForce(tangentChange, ForceMode.VelocityChange);
+
+            float radialSpeed = Vector3.Dot(body.velocity, up);
+            if (grounded && radialSpeed < 0f)
+            {
+                body.AddForce(up * -radialSpeed, ForceMode.VelocityChange);
+                body.AddForce(up * -1.5f, ForceMode.Acceleration);
+            }
+            else
+            {
+                body.AddForce(-up * settings.gravity, ForceMode.Acceleration);
+            }
+
+            if (grounded && JumpPressed())
+            {
+                body.AddForce(up * settings.jumpSpeed, ForceMode.VelocityChange);
+                grounded = false;
+            }
+        }
+
+        private void ProbeGround(Vector3 up)
+        {
+            float halfHeight = Mathf.Max(capsule.height * .5f - capsule.radius, 0f);
+            Vector3 origin = body.position + up * (capsule.center.y - halfHeight + .12f);
+            grounded = Physics.SphereCast(origin, probeRadius, -up, out RaycastHit hit, probeDistance, ~0, QueryTriggerInteraction.Ignore);
+            groundNormal = grounded ? hit.normal : up;
         }
 
         private static Vector2 ReadMove()

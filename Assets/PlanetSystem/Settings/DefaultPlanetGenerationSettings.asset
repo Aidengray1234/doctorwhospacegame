@@ -13,15 +13,28 @@ MonoBehaviour:
   m_Name: DefaultPlanetGenerationSettings
   m_EditorClassIdentifier: 
   radius: 500
-  maxTerrainHeight: 120
+  maxTerrainHeight: 145
+  faceResolution: 72
   seed: 12345
+  seaLevel: -0.08
+  continentFrequency: 0.0035
+  mountainFrequency: 0.012
+  detailFrequency: 0.038
+  octaves: 5
+  persistence: 0.5
+  lacunarity: 2
+  continentStrength: 1.05
+  mountainStrength: 0.78
+  detailStrength: 0.16
   chunkResolution: 24
   voxelSize: 2
   activeChunkRadius: 4
   colliderChunkRadius: 2
   maxChunkBuildsPerFrame: 1
-  continentFrequency: 0.0035
-  mountainFrequency: 0.012
-  octaves: 5
-  persistence: 0.5
-  lacunarity: 2
+  gravity: 32
+  walkSpeed: 9
+  sprintSpeed: 16
+  jumpSpeed: 11
+  mouseSensitivity: 0.12
+  groundAcceleration: 22
+  airAcceleration: 5

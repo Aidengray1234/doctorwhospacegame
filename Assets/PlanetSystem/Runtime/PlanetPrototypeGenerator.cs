@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -22,14 +23,14 @@ namespace DoctorWho.Planets
 
         private void OnEnable()
         {
-            if (generateOnEnable && transform.Find("Generated Terrain") == null)
-                Regenerate();
+            if (generateOnEnable && transform.Find("Generated Terrain") == null) Regenerate();
         }
 
         [ContextMenu("Regenerate Planet")]
         public void Regenerate()
         {
             if (settings == null) return;
+
             Transform old = transform.Find("Generated Terrain");
             if (old != null)
             {
@@ -38,12 +39,30 @@ namespace DoctorWho.Planets
 
             var root = new GameObject("Generated Terrain").transform;
             root.SetParent(transform, false);
+
+            var combinedVertices = new List<Vector3>();
+            var combinedTriangles = new List<int>();
             Vector3[] normals = { Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back };
-            for (int i = 0; i < normals.Length; i++) CreateFace(root, normals[i], i);
+            for (int i = 0; i < normals.Length; i++) CreateFace(root, normals[i], i, combinedVertices, combinedTriangles);
+
+            var collisionObject = new GameObject("Seamless Terrain Collider");
+            collisionObject.transform.SetParent(root, false);
+            Mesh collisionMesh = new Mesh { name = "Planet Combined Collider", indexFormat = IndexFormat.UInt32 };
+            collisionMesh.SetVertices(combinedVertices);
+            collisionMesh.SetTriangles(combinedTriangles, 0);
+            collisionMesh.RecalculateBounds();
+            collisionObject.AddComponent<MeshCollider>().sharedMesh = collisionMesh;
+
             CreateOcean(root);
         }
 
-        private void CreateFace(Transform root, Vector3 localUp, int index)
+        public float SurfaceRadius(Vector3 worldDirection)
+        {
+            Vector3 dir = worldDirection.normalized;
+            return settings.radius + SampleHeight(dir) * settings.maxTerrainHeight;
+        }
+
+        private void CreateFace(Transform root, Vector3 localUp, int index, List<Vector3> combinedVertices, List<int> combinedTriangles)
         {
             int r = settings.faceResolution;
             Vector3 axisA = new Vector3(localUp.y, localUp.z, localUp.x);
@@ -80,22 +99,34 @@ namespace DoctorWho.Planets
             mesh.triangles = triangles;
             mesh.colors = colors;
             mesh.RecalculateNormals();
+            mesh.RecalculateTangents();
             mesh.RecalculateBounds();
 
             var go = new GameObject($"Terrain Face {index}");
             go.transform.SetParent(root, false);
             go.AddComponent<MeshFilter>().sharedMesh = mesh;
             go.AddComponent<MeshRenderer>().sharedMaterial = terrainMaterial;
-            go.AddComponent<MeshCollider>().sharedMesh = mesh;
+
+            int baseIndex = combinedVertices.Count;
+            combinedVertices.AddRange(vertices);
+            for (int i = 0; i < triangles.Length; i++) combinedTriangles.Add(baseIndex + triangles[i]);
         }
 
         private float SampleHeight(Vector3 p)
         {
             Vector3 offset = new Vector3(settings.seed * .0013f, settings.seed * .0021f, settings.seed * .0037f);
-            float continent = Fractal(p * settings.radius * settings.continentFrequency + offset, settings.octaves);
-            float mountains = Fractal(p * settings.radius * settings.mountainFrequency - offset, Mathf.Max(2, settings.octaves - 1));
-            mountains = Mathf.Pow(Mathf.Clamp01(mountains), 2.4f);
-            return Mathf.Clamp(continent * .72f + mountains * .55f - .45f, -1f, 1f);
+            Vector3 warped = p + new Vector3(
+                Fractal(p * 2.1f + offset, 3) - .5f,
+                Fractal(p * 2.3f - offset, 3) - .5f,
+                Fractal(p * 1.9f + offset * .5f, 3) - .5f) * .18f;
+
+            float continent = Fractal(warped * settings.radius * settings.continentFrequency + offset, settings.octaves);
+            continent = Mathf.SmoothStep(0f, 1f, continent);
+            float ridged = 1f - Mathf.Abs(Fractal(warped * settings.radius * settings.mountainFrequency - offset, Mathf.Max(3, settings.octaves - 1)) * 2f - 1f);
+            ridged = Mathf.Pow(Mathf.Clamp01(ridged), 3.1f);
+            float detail = Fractal(warped * settings.radius * settings.detailFrequency + offset * 2f, 3) - .5f;
+            float shelf = Mathf.SmoothStep(.34f, .72f, continent);
+            return Mathf.Clamp((shelf - .46f) * settings.continentStrength + ridged * shelf * settings.mountainStrength + detail * settings.detailStrength, -1f, 1f);
         }
 
         private float Fractal(Vector3 p, int octaves)
@@ -117,11 +148,14 @@ namespace DoctorWho.Planets
         private Color SampleBiome(Vector3 dir, float h)
         {
             float latitude = Mathf.Abs(dir.y);
-            if (h < settings.seaLevel + .03f) return new Color(.76f, .68f, .42f);
-            if (latitude > .78f || h > .52f) return new Color(.92f, .95f, 1f);
-            if (latitude < .28f && h < .25f) return new Color(.66f, .48f, .21f);
-            if (h > .35f) return new Color(.38f, .36f, .33f);
-            return new Color(.18f, .48f, .16f);
+            float moisture = Fractal(dir * 4.6f + Vector3.one * settings.seed * .0007f, 3);
+            if (h < settings.seaLevel + .018f) return new Color(.78f, .69f, .44f);
+            if (latitude > .80f || h > .60f) return new Color(.92f, .96f, 1f);
+            if (h > .42f) return new Color(.34f, .33f, .31f);
+            if (latitude < .30f && moisture < .48f) return new Color(.67f, .48f, .22f);
+            if (moisture > .63f) return new Color(.08f, .34f, .12f);
+            if (moisture < .38f) return new Color(.52f, .58f, .24f);
+            return new Color(.16f, .48f, .17f);
         }
 
         private void CreateOcean(Transform root)
@@ -131,7 +165,7 @@ namespace DoctorWho.Planets
             ocean.transform.SetParent(root, false);
             float diameter = (settings.radius + settings.seaLevel * settings.maxTerrainHeight) * 2f;
             ocean.transform.localScale = Vector3.one * diameter;
-            var collider = ocean.GetComponent<Collider>();
+            Collider collider = ocean.GetComponent<Collider>();
             if (collider != null) { if (Application.isPlaying) Destroy(collider); else DestroyImmediate(collider); }
             ocean.GetComponent<MeshRenderer>().sharedMaterial = oceanMaterial;
         }
