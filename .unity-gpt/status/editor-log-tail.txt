@@ -1414,3 +1414,4 @@ Memory consumption went from 166.0 MB to 165.8 MB.
 Total: 5.105400 ms (FindLiveObjects: 0.310200 ms CreateObjectMapping: 0.162000 ms MarkObjects: 4.551100 ms  DeleteObjects: 0.081300 ms)
 
 [Licensing::Client] Successfully resolved entitlements
+Asset Pipeline Refresh: Total: 0.004 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
