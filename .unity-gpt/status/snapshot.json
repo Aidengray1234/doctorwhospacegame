@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-06T01:08:35.2402082Z",
+    "generatedUtc": "2026-08-06T01:08:36.1766552Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -497,7 +497,20 @@
             ]
         }
     ],
-    "selection": [],
+    "selection": [
+        {
+            "name": "Directional Light",
+            "hierarchyPath": "Directional Light",
+            "assetPath": "",
+            "type": "UnityEngine.GameObject",
+            "instanceId": 29708,
+            "components": [
+                "UnityEngine.Transform",
+                "UnityEngine.Light",
+                "UnityEngine.Rendering.Universal.UniversalAdditionalLightData"
+            ]
+        }
+    ],
     "recentLogs": [
         {
             "timestampUtc": "2026-08-06T01:05:41.8154117Z",
