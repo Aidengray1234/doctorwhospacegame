@@ -1415,3 +1415,60 @@ Total: 5.105400 ms (FindLiveObjects: 0.310200 ms CreateObjectMapping: 0.162000 m
 
 [Licensing::Client] Successfully resolved entitlements
 Asset Pipeline Refresh: Total: 0.004 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.004 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Registering precompiled user dll's ...
+Registered in 0.005517 seconds.
+Start importing Assets/PlanetSystem/Shaders using Guid(f249b162530f6404c9aa8b745a840d78) Importer(-1,00000000000000000000000000000000)  -> (artifact id: 'aacc47e25af86f9d68fe1ef814f5d640') in 0.012447 seconds 
+Start importing Assets/PlanetSystem/Runtime/DoctorWho.Planets.Runtime.asmdef using Guid(fcabb6a2bd72e824f8aff123ecdf4448) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '0272c24a7f8b16d050d46c92ec6e9d65') in 0.007149 seconds 
+Start importing Assets/PlanetSystem/Runtime/PlanetGenerationSettings.cs using Guid(f0b85ecfab020144899a7d1e74cabab8) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '838363a9adf8ace5bfe1bffb2e61811f') in 0.008662 seconds 
+Start importing Assets/PlanetSystem/Editor/PlanetPrototypeInstaller.cs using Guid(1528edf54956bbe4a95fe94f77463d7b) Importer(-1,00000000000000000000000000000000)  -> (artifact id: 'db45edf7b22bb142a79d0b88e11304b3') in 0.014188 seconds 
+Start importing Assets/PlanetSystem/Editor/PlanetPrototypeGeneratorEditor.cs using Guid(28ccb0701665afd4894a3e14aac54bbe) Importer(-1,00000000000000000000000000000000)  -> (artifact id: 'c3c84681ad47edff54cbcf640a9886af') in 0.012343 seconds 
+Start importing Assets/PlanetSystem/Runtime/RadialFirstPersonController.cs using Guid(fb04474cca0482a468653847f7a8cd1e) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '9fe02c3831d2de7b8b56ad0b8dc067e6') in 0.013040 seconds 
+Start importing Assets/PlanetSystem/Runtime/PlanetPrototypeGenerator.cs using Guid(fff6660f572c97846a6a1c01abf5387a) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '2f265ce6b996e974413097034b76cca8') in 0.011956 seconds 
+[ScriptCompilation] Requested script compilation because: Assembly Definition File(s) changed
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+AssetDatabase: script compilation time: 0.127510s
+Start importing Assets/PlanetSystem/Shaders/PlanetVertexColor.shader using Guid(9a93c8fc80153e942abfae4519db82f5) Importer(-1,00000000000000000000000000000000)  -> (artifact id: 'd06ac80bec546f191cc7574ffc750456') in 0.169427 seconds 
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+[Licensing::Client] Successfully resolved entitlements
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
+Refreshing native plugins compatible for Editor in 0.65 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh: Total: 0.680 seconds - Initiated by RefreshV2(ForceUpdate)
+	Summary:
+		Imports: total=8 (actual=8, local cache=0, cache server=0)
+		Asset DB Process Time: managed=1 ms, native=334 ms
+		Asset DB Callback time: managed=140 ms, native=75 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=128 ms, other=0 ms
+		Project Asset Count: scripts=6512, non-scripts=1720
+		Asset File Changes: new=6, changed=8, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeBeforeRefreshCallbacks: 0.000ms
+	ApplyChangesToAssetFolders: 0.045ms
+	Scan: 12.011ms
+	OnSourceAssetsModified: 3.076ms
+	InitializeImportedAssetsSnapshot: 30.332ms
+	GetAllGuidsForCategorization: 0.214ms
+	CategorizeAssets: 6.353ms
+	ImportOutOfDateAssets: 422.715ms (0.835ms without children)
+		ImportManagerImport: 291.873ms (31.266ms without children)
+			ImportInProcess: 260.485ms
+			UpdateCategorizedAssets: 0.122ms
+		CompileScripts: 127.567ms
+		ReloadImportedAssets: 1.161ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.655ms
+		InitializingProgressBar: 0.004ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.347ms
+		OnDemandSchedulerStart: 0.273ms
+	ReloadSourceAssets: 0.530ms
+	UnloadImportedAssets: 0.613ms
+	PostProcessAllAssets: 208.379ms
+	Hotreload: 4.021ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.216ms
+	UnloadStreamsBegin: 0.058ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 1.353ms
+	GetLoadedSourceAssetsIDs: 2.011ms
+	GetLoadedSourceAssetsSnapshot: 0.587ms
+	PersistCurrentRevisions: 0.482ms
+	UnloadStreamsEnd: 0.045ms
+	Untracked: 194.881ms
