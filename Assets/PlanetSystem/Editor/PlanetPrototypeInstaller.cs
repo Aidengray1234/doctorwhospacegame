@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using DoctorWho.Planets;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -7,100 +7,169 @@ using UnityEngine.SceneManagement;
 
 namespace DoctorWho.Planets.Editor
 {
-    [InitializeOnLoad]
-    internal static class PlanetPrototypeInstaller
+    // Automatic install-on-compile disabled: use the menu command manually.
+    internal static class PlanetV2Installer
     {
         private const string ScenePath = "Assets/PlanetSystem/Scenes/PlanetDevelopment.unity";
         private const string SettingsPath = "Assets/PlanetSystem/Settings/DefaultPlanetGenerationSettings.asset";
         private const string MaterialFolder = "Assets/PlanetSystem/Materials";
-        private const string TerrainMaterialPath = MaterialFolder + "/PlanetTerrain.mat";
-        private const string OceanMaterialPath = MaterialFolder + "/PlanetOcean.mat";
+        private const string TerrainMaterialPath = MaterialFolder + "/PlanetV2Terrain.mat";
+        private const string OceanMaterialPath = MaterialFolder + "/PlanetV2Ocean.mat";
+        private const string AtmosphereMaterialPath = MaterialFolder + "/PlanetV2Atmosphere.mat";
 
-        static PlanetPrototypeInstaller() => EditorApplication.delayCall += Install;
+        // Intentionally no static constructor. Installation is manual to prevent editor stalls.
 
-        [MenuItem("Tools/Doctor Who/Install First Planet Prototype")]
+        [MenuItem("Tools/Doctor Who/Planet V2/Install Or Repair")]
         private static void Install()
         {
-            if (EditorApplication.isCompiling || EditorApplication.isPlayingOrWillChangePlaymode) return;
-            if (!File.Exists(ScenePath)) return;
+            if (EditorApplication.isCompiling || EditorApplication.isPlayingOrWillChangePlaymode || !File.Exists(ScenePath)) return;
             EnsureFolder(MaterialFolder);
 
             PlanetGenerationSettings settings = AssetDatabase.LoadAssetAtPath<PlanetGenerationSettings>(SettingsPath);
             if (settings == null) return;
+            settings.radius = Mathf.Max(settings.radius, 1200f);
+            settings.maxTerrainHeight = Mathf.Max(settings.maxTerrainHeight, 260f);
+            settings.patchResolution = Mathf.Max(settings.patchResolution, 24);
+            settings.maxLod = Mathf.Max(settings.maxLod, 7);
 
-            Material terrain = AssetDatabase.LoadAssetAtPath<Material>(TerrainMaterialPath);
-            if (terrain == null)
-            {
-                Shader shader = Shader.Find("DoctorWho/PlanetVertexColor");
-                if (shader == null) { EditorApplication.delayCall += Install; return; }
-                terrain = new Material(shader) { name = "PlanetTerrain" };
-                AssetDatabase.CreateAsset(terrain, TerrainMaterialPath);
-            }
-
-            Material ocean = AssetDatabase.LoadAssetAtPath<Material>(OceanMaterialPath);
-            if (ocean == null)
-            {
-                Shader shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
-                ocean = new Material(shader) { name = "PlanetOcean", color = new Color(.03f, .22f, .52f, 1f) };
-                ocean.SetFloat("_Smoothness", .85f);
-                AssetDatabase.CreateAsset(ocean, OceanMaterialPath);
-            }
+            Material terrain = GetOrCreateMaterial(TerrainMaterialPath, "DoctorWho/PlanetV2Terrain");
+            Material ocean = GetOrCreateMaterial(OceanMaterialPath, "DoctorWho/PlanetV2Ocean");
+            Material atmosphere = GetOrCreateMaterial(AtmosphereMaterialPath, "DoctorWho/PlanetV2Atmosphere");
+            if (terrain == null || ocean == null || atmosphere == null) { EditorApplication.delayCall += Install; return; }
 
             Scene current = SceneManager.GetActiveScene();
             bool alreadyOpen = current.path == ScenePath;
             Scene scene = alreadyOpen ? current : EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Additive);
-            GameObject systems = GameObject.Find("Planet Systems");
-            if (systems == null || systems.scene != scene)
+
+            GameObject systems = null;
+            foreach (GameObject root in scene.GetRootGameObjects()) if (root.name == "Planet Systems") systems = root;
+            if (systems == null)
             {
-                foreach (GameObject root in scene.GetRootGameObjects()) if (root.name == "Planet Systems") systems = root;
+                systems = new GameObject("Planet Systems");
+                SceneManager.MoveGameObjectToScene(systems, scene);
             }
-            if (systems == null) return;
 
             Transform runtime = systems.transform.Find("Planet Runtime");
             if (runtime == null)
             {
-                var go = new GameObject("Planet Runtime");
+                GameObject go = new GameObject("Planet Runtime");
                 go.transform.SetParent(systems.transform, false);
                 runtime = go.transform;
             }
 
-            PlanetPrototypeGenerator generator = runtime.GetComponent<PlanetPrototypeGenerator>();
-            if (generator == null) generator = runtime.gameObject.AddComponent<PlanetPrototypeGenerator>();
-            generator.Configure(settings, terrain, ocean);
-            generator.Regenerate();
-
             Transform player = systems.transform.Find("Planet Player");
             if (player == null)
             {
-                var playerGo = new GameObject("Planet Player");
-                playerGo.transform.SetParent(systems.transform, false);
-                playerGo.transform.position = runtime.position + Vector3.up * (settings.radius + settings.maxTerrainHeight + 8f);
-                var cc = playerGo.AddComponent<CharacterController>();
-                cc.height = 1.8f; cc.radius = .38f; cc.center = new Vector3(0f, .9f, 0f);
+                GameObject go = new GameObject("Planet Player");
+                go.transform.SetParent(systems.transform, false);
+                player = go.transform;
+            }
 
-                var pivot = new GameObject("Camera Pivot").transform;
-                pivot.SetParent(playerGo.transform, false);
-                pivot.localPosition = new Vector3(0f, 1.65f, 0f);
+            CharacterController oldCharacter = player.GetComponent<CharacterController>();
+            if (oldCharacter != null) Object.DestroyImmediate(oldCharacter);
 
-                var cameraGo = new GameObject("Player Camera");
+            CapsuleCollider capsule = player.GetComponent<CapsuleCollider>();
+            if (capsule == null) capsule = player.gameObject.AddComponent<CapsuleCollider>();
+            capsule.height = 1.8f;
+            capsule.radius = .36f;
+            capsule.center = new Vector3(0f, .9f, 0f);
+
+            Rigidbody body = player.GetComponent<Rigidbody>();
+            if (body == null) body = player.gameObject.AddComponent<Rigidbody>();
+            body.mass = 78f;
+            body.useGravity = false;
+            body.interpolation = RigidbodyInterpolation.Interpolate;
+            body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            body.constraints = RigidbodyConstraints.FreezeRotation;
+
+            Transform pivot = player.Find("Camera Pivot");
+            if (pivot == null)
+            {
+                pivot = new GameObject("Camera Pivot").transform;
+                pivot.SetParent(player, false);
+            }
+            pivot.localPosition = new Vector3(0f, 1.65f, 0f);
+
+            Camera camera = pivot.GetComponentInChildren<Camera>();
+            if (camera == null)
+            {
+                GameObject cameraGo = new GameObject("Player Camera");
                 cameraGo.tag = "MainCamera";
                 cameraGo.transform.SetParent(pivot, false);
-                cameraGo.AddComponent<Camera>();
+                camera = cameraGo.AddComponent<Camera>();
                 cameraGo.AddComponent<AudioListener>();
-
-                var controller = playerGo.AddComponent<RadialFirstPersonController>();
-                controller.Configure(runtime, pivot, settings);
-                player = playerGo.transform;
             }
+            camera.nearClipPlane = settings.cameraNearClip;
+            camera.fieldOfView = settings.cameraFov;
+            camera.farClipPlane = Mathf.Max(20000f, settings.radius * 12f);
+            camera.allowHDR = true;
+
+            PlanetPrototypeGenerator generator = runtime.GetComponent<PlanetPrototypeGenerator>();
+            if (generator == null) generator = runtime.gameObject.AddComponent<PlanetPrototypeGenerator>();
+            generator.ConfigureV2(settings, terrain, ocean, atmosphere, camera.transform);
+
+            RadialFirstPersonController controller = player.GetComponent<RadialFirstPersonController>();
+            if (controller == null) controller = player.gameObject.AddComponent<RadialFirstPersonController>();
+            controller.Configure(runtime, pivot, settings);
+
+            PlanetFloatingOrigin floatingOrigin = systems.GetComponent<PlanetFloatingOrigin>();
+            if (floatingOrigin == null) floatingOrigin = systems.AddComponent<PlanetFloatingOrigin>();
+            floatingOrigin.Configure(player, settings);
 
             PlanetRuntimeRoot runtimeRoot = runtime.GetComponent<PlanetRuntimeRoot>();
             if (runtimeRoot != null) runtimeRoot.Configure(settings, player);
 
+            player.position = runtime.position + new Vector3(.27f, .93f, .24f).normalized * (settings.radius + settings.maxTerrainHeight + 30f);
+            generator.SetObserver(camera.transform); // Generation is streamed by Update/Play Mode.
+
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene, ScenePath);
+            EditorUtility.SetDirty(settings);
             AssetDatabase.SaveAssets();
             if (!alreadyOpen) EditorSceneManager.CloseScene(scene, true);
-            Debug.Log("[Planet Prototype] Procedural planet, player input, camera, collision, and radial gravity are installed in PlanetDevelopment.");
+            Debug.Log("[Planet V2] Quadtree LOD planet, streamed colliders, climate terrain, stable radial player, ocean, atmosphere, and floating origin installed.");
+        }
+
+        [MenuItem("Tools/Doctor Who/Planet V2/Regenerate")]
+        private static void Regenerate()
+        {
+            PlanetPrototypeGenerator generator = Object.FindObjectOfType<PlanetPrototypeGenerator>();
+            if (generator != null) generator.Regenerate();
+        }
+
+        [MenuItem("Tools/Doctor Who/Planet V2/Respawn Player")]
+        private static void RespawnPlayer()
+        {
+            RadialFirstPersonController controller = Object.FindObjectOfType<RadialFirstPersonController>();
+            if (controller != null) controller.RespawnToSafeSurface();
+        }
+
+        [MenuItem("Tools/Doctor Who/Planet V2/Frame Planet")]
+        private static void FramePlanet()
+        {
+            PlanetPrototypeGenerator generator = Object.FindObjectOfType<PlanetPrototypeGenerator>();
+            if (generator == null) return;
+            Selection.activeGameObject = generator.gameObject;
+            SceneView.lastActiveSceneView?.FrameSelected();
+            if (SceneView.lastActiveSceneView != null)
+            {
+                SceneView.lastActiveSceneView.size = generator.Settings.radius * 1.65f;
+                SceneView.lastActiveSceneView.Repaint();
+            }
+        }
+
+        private static Material GetOrCreateMaterial(string path, string shaderName)
+        {
+            Material material = AssetDatabase.LoadAssetAtPath<Material>(path);
+            Shader shader = Shader.Find(shaderName);
+            if (shader == null) return null;
+            if (material == null)
+            {
+                material = new Material(shader) { name = Path.GetFileNameWithoutExtension(path) };
+                AssetDatabase.CreateAsset(material, path);
+            }
+            else material.shader = shader;
+            return material;
         }
 
         private static void EnsureFolder(string path)
@@ -113,3 +182,4 @@ namespace DoctorWho.Planets.Editor
         }
     }
 }
+

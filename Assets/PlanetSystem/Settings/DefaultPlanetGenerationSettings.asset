@@ -12,29 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b85ecfab020144899a7d1e74cabab8, type: 3}
   m_Name: DefaultPlanetGenerationSettings
   m_EditorClassIdentifier: 
-  radius: 500
-  maxTerrainHeight: 145
-  faceResolution: 72
-  seed: 12345
+  radius: 1200
+  maxTerrainHeight: 260
   seaLevel: -0.08
+  seed: 12345
+  patchResolution: 24
+  maxLod: 7
+  lodScreenError: 3.2
+  maxBuildsPerFrame: 2
+  colliderDistance: 180
+  skirtDepth: 8
   continentFrequency: 0.0035
+  continentThreshold: 0.49
+  continentPower: 1.65
+  warpFrequency: 0.0014
+  warpStrength: 145
   mountainFrequency: 0.012
-  detailFrequency: 0.038
-  octaves: 5
-  persistence: 0.5
-  lacunarity: 2
-  continentStrength: 1.05
   mountainStrength: 0.78
+  erosionFrequency: 0.0075
+  erosionStrength: 0.42
+  detailFrequency: 0.038
   detailStrength: 0.16
-  chunkResolution: 24
-  voxelSize: 2
-  activeChunkRadius: 4
-  colliderChunkRadius: 2
-  maxChunkBuildsPerFrame: 1
+  climateFrequency: 0.0018
+  polarStart: 0.72
+  snowHeight: 0.56
   gravity: 32
   walkSpeed: 9
   sprintSpeed: 16
   jumpSpeed: 11
-  mouseSensitivity: 0.12
   groundAcceleration: 22
   airAcceleration: 5
+  maxSlopeAngle: 52
+  cameraNearClip: 0.03
+  cameraFov: 75
+  floatingOriginThreshold: 4000

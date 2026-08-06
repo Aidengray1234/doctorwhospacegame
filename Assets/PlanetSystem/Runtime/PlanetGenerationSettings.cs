@@ -5,47 +5,50 @@ namespace DoctorWho.Planets
     [CreateAssetMenu(menuName = "Doctor Who/Planets/Generation Settings", fileName = "PlanetGenerationSettings")]
     public sealed class PlanetGenerationSettings : ScriptableObject
     {
-        [Header("Planet")]
-        [Min(10f)] public float radius = 500f;
-        [Min(0f)] public float maxTerrainHeight = 145f;
-        [Range(16, 160)] public int faceResolution = 72;
-        public int seed = 12345;
-        [Range(-1f, 1f)] public float seaLevel = -0.08f;
+        [Header("Scale (1 unit = 1 metre)")]
+        [Min(100f)] public float radius = 1200f;
+        [Min(1f)] public float maxTerrainHeight = 260f;
+        [Range(-1f, 1f)] public float seaLevel = -0.12f;
+        public int seed = 48271;
 
-        [Header("Terrain Shape")]
-        [Min(0.0001f)] public float continentFrequency = 0.0024f;
-        [Min(0.0001f)] public float mountainFrequency = 0.0105f;
-        [Min(0.0001f)] public float detailFrequency = 0.038f;
-        [Range(1, 8)] public int octaves = 6;
-        [Range(0f, 1f)] public float persistence = 0.52f;
-        [Min(1f)] public float lacunarity = 2.05f;
-        [Range(0f, 2f)] public float continentStrength = 1.05f;
-        [Range(0f, 2f)] public float mountainStrength = 0.78f;
-        [Range(0f, 1f)] public float detailStrength = 0.16f;
+        [Header("Quadtree LOD")]
+        [Range(8, 64)] public int patchResolution = 24;
+        [Range(1, 9)] public int maxLod = 7;
+        [Range(0.5f, 12f)] public float lodScreenError = 3.2f;
+        [Range(1, 8)] public int maxBuildsPerFrame = 2;
+        [Min(10f)] public float colliderDistance = 180f;
+        [Min(0.1f)] public float skirtDepth = 8f;
 
-        [Header("Voxel Chunks")]
-        [Range(8, 64)] public int chunkResolution = 24;
-        [Min(1f)] public float voxelSize = 2f;
-        [Range(1, 12)] public int activeChunkRadius = 4;
-        [Range(1, 8)] public int colliderChunkRadius = 2;
-        [Range(1, 8)] public int maxChunkBuildsPerFrame = 1;
+        [Header("Terrain")]
+        [Min(0.00001f)] public float continentFrequency = 0.00072f;
+        [Range(0f, 1f)] public float continentThreshold = 0.49f;
+        [Range(0.1f, 4f)] public float continentPower = 1.65f;
+        [Min(0.00001f)] public float warpFrequency = 0.0014f;
+        [Range(0f, 500f)] public float warpStrength = 145f;
+        [Min(0.00001f)] public float mountainFrequency = 0.0032f;
+        [Range(0f, 2f)] public float mountainStrength = 0.82f;
+        [Min(0.00001f)] public float erosionFrequency = 0.0075f;
+        [Range(0f, 1f)] public float erosionStrength = 0.42f;
+        [Min(0.00001f)] public float detailFrequency = 0.028f;
+        [Range(0f, 0.4f)] public float detailStrength = 0.09f;
+
+        [Header("Climate")]
+        [Min(0.00001f)] public float climateFrequency = 0.0018f;
+        [Range(0f, 1f)] public float polarStart = 0.72f;
+        [Range(0f, 1f)] public float snowHeight = 0.56f;
 
         [Header("Player")]
-        [Min(0.1f)] public float gravity = 32f;
-        [Min(0.1f)] public float walkSpeed = 9f;
-        [Min(0.1f)] public float sprintSpeed = 16f;
-        [Min(0.1f)] public float jumpSpeed = 11f;
-        [Min(0.1f)] public float mouseSensitivity = 0.12f;
-        [Range(0f, 30f)] public float groundAcceleration = 22f;
-        [Range(0f, 15f)] public float airAcceleration = 5f;
+        [Min(1f)] public float gravity = 28f;
+        [Min(0.1f)] public float walkSpeed = 6.5f;
+        [Min(0.1f)] public float sprintSpeed = 11f;
+        [Min(0.1f)] public float jumpSpeed = 8f;
+        [Min(0.1f)] public float groundAcceleration = 32f;
+        [Min(0.1f)] public float airAcceleration = 7f;
+        [Range(20f, 70f)] public float maxSlopeAngle = 52f;
+        [Range(0.01f, 0.2f)] public float cameraNearClip = 0.03f;
+        [Range(50f, 100f)] public float cameraFov = 75f;
 
-        public float ChunkWorldSize => chunkResolution * voxelSize;
-
-        private void OnValidate()
-        {
-            colliderChunkRadius = Mathf.Min(colliderChunkRadius, activeChunkRadius);
-            maxTerrainHeight = Mathf.Max(0f, maxTerrainHeight);
-            faceResolution = Mathf.Max(16, faceResolution);
-        }
+        [Header("World Precision")]
+        [Min(500f)] public float floatingOriginThreshold = 4000f;
     }
 }

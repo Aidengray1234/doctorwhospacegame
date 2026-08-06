@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace DoctorWho.Planets
 {
+    /// <summary>
+    /// Compatibility tracker retained for systems that still inspect nearby voxel-style cells.
+    /// Planet V2 terrain rendering and collision are handled by PlanetPrototypeGenerator's
+    /// quadtree patches; this component no longer owns terrain generation.
+    /// </summary>
     public sealed class PlanetStreamingController : MonoBehaviour
     {
         [SerializeField] private PlanetGenerationSettings settings;
@@ -23,7 +28,10 @@ namespace DoctorWho.Planets
             RebuildDesiredSet(true);
         }
 
-        private void Awake() => EnsureChunkRoot();
+        private void Awake()
+        {
+            EnsureChunkRoot();
+        }
 
         private void Update()
         {
@@ -61,9 +69,10 @@ namespace DoctorWho.Planets
                 return;
             }
 
+            float cellSize = GetCompatibilityCellSize();
             VoxelChunkCoord center = VoxelChunkCoord.FromWorld(
                 trackingTarget.position - transform.position,
-                settings.ChunkWorldSize);
+                cellSize);
 
             if (!force && hasCenter && center.Equals(lastCenter))
             {
@@ -74,7 +83,7 @@ namespace DoctorWho.Planets
             lastCenter = center;
             desiredChunks.Clear();
 
-            int radius = settings.activeChunkRadius;
+            int radius = GetCompatibilityRadius(cellSize);
             for (int z = -radius; z <= radius; z++)
             {
                 for (int y = -radius; y <= radius; y++)
@@ -90,6 +99,17 @@ namespace DoctorWho.Planets
                     }
                 }
             }
+        }
+
+        private float GetCompatibilityCellSize()
+        {
+            int lodDivisions = 1 << Mathf.Clamp(settings.maxLod, 1, 12);
+            return Mathf.Max(1f, settings.radius * 2f / lodDivisions);
+        }
+
+        private int GetCompatibilityRadius(float cellSize)
+        {
+            return Mathf.Clamp(Mathf.CeilToInt(settings.colliderDistance / cellSize), 1, 8);
         }
     }
 }
