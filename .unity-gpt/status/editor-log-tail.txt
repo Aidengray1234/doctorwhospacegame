@@ -714,3 +714,10 @@ Asset Pipeline Refresh: Total: 0.372 seconds - Initiated by RefreshV2(ForceUpdat
 	PersistCurrentRevisions: 0.297ms
 	UnloadStreamsEnd: 0.044ms
 	Untracked: 218.127ms
+Starting: C:\Program Files\Unity\Hub\Editor\2021.3.38f1\Editor\Data\bee_backend.exe --profile="Library/Bee/backend_profiler0.traceevents" --stdin-canary --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure ScriptAssemblies
+WorkingDir: <PROJECT_ROOT>
+ExitCode: 4 Duration: 0s196ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+*** Tundra requires additional run (0.06 seconds), 0 items updated, 0 evaluated
+Starting: C:\Program Files\Unity\Hub\Editor\2021.3.38f1\Editor\Data\Tools\netcorerun\netcorerun.exe "C:\Program Files\Unity\Hub\Editor\2021.3.38f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library/Bee/buildprogram0.traceevents"
+WorkingDir: <PROJECT_ROOT>
