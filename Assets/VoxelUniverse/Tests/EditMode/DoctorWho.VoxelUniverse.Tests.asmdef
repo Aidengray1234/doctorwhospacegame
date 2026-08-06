@@ -1,0 +1,21 @@
+{
+  "name": "DoctorWho.VoxelUniverse.Tests",
+  "rootNamespace": "DoctorWho.VoxelUniverse.Tests",
+  "references": [
+    "DoctorWho.VoxelUniverse.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}
