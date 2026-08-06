@@ -1702,3 +1702,4 @@ UnityEditor.EditorApplication:Internal_CallDelayFunctions ()
 
 Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
 Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Asset Pipeline Refresh: Total: 0.005 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
