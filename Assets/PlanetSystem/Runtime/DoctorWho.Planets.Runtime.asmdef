@@ -1,7 +1,9 @@
 {
   "name": "DoctorWho.Planets.Runtime",
   "rootNamespace": "DoctorWho.Planets",
-  "references": [],
+  "references": [
+    "Unity.InputSystem"
+  ],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

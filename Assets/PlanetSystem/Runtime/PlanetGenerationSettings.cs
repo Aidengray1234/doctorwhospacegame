@@ -8,7 +8,9 @@ namespace DoctorWho.Planets
         [Header("Planet")]
         [Min(10f)] public float radius = 500f;
         [Min(0f)] public float maxTerrainHeight = 120f;
+        [Range(8, 128)] public int faceResolution = 48;
         public int seed = 12345;
+        [Range(-1f, 1f)] public float seaLevel = -0.05f;
 
         [Header("Voxel Chunks")]
         [Range(8, 64)] public int chunkResolution = 24;
@@ -24,12 +26,20 @@ namespace DoctorWho.Planets
         [Range(0f, 1f)] public float persistence = 0.5f;
         [Min(1f)] public float lacunarity = 2f;
 
+        [Header("Player")]
+        [Min(0.1f)] public float gravity = 30f;
+        [Min(0.1f)] public float walkSpeed = 8f;
+        [Min(0.1f)] public float sprintSpeed = 14f;
+        [Min(0.1f)] public float jumpSpeed = 10f;
+        [Min(0.1f)] public float mouseSensitivity = 0.12f;
+
         public float ChunkWorldSize => chunkResolution * voxelSize;
 
         private void OnValidate()
         {
             colliderChunkRadius = Mathf.Min(colliderChunkRadius, activeChunkRadius);
             maxTerrainHeight = Mathf.Max(0f, maxTerrainHeight);
+            faceResolution = Mathf.Max(8, faceResolution);
         }
     }
 }
