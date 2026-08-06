@@ -14,20 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stableBodyKey: doctorwhospacegame.primary-world
   seed: 48271
-  faceCellResolution: 256
-  groundRadius: 96
-  minimumRadialBlock: -48
-  maximumRadialBlock: 48
+  faceCellResolution: 512
+  groundRadius: 256
+  minimumRadialBlock: -64
+  maximumRadialBlock: 64
   seaLevel: 1
-  generatorVersion: 1
+  generatorVersion: 2
   saveVersion: 1
-  nearSectionRadius: 3
-  verticalSectionRadius: 2
+  nearSectionRadius: 2
+  verticalSectionRadius: 1
   predictiveSectionLead: 2
-  unloadDelaySeconds: 8
+  unloadDelaySeconds: 12
   workerCount: 3
   meshUploadsPerFrame: 2
   mainThreadCallbacksPerFrame: 8
+  nearTerrainMaxAltitude: 112
+  maximumLoadedSections: 192
+  tangentialBlockFill: 0.995
+  radialBlockHalfSize: 0.5
+  farFaceResolution: 32
+  farSurfaceInset: 0.38
   walkSpeed: 5.5
   sprintSpeed: 9
   flightSpeed: 11
@@ -39,7 +45,7 @@ MonoBehaviour:
   stepHeight: 0.65
   mouseSensitivity: 0.12
   interactionReach: 7
-  continentHeight: 9
-  mountainHeight: 13
+  continentHeight: 13
+  mountainHeight: 20
   detailHeight: 2
   caveThreshold: 1.7

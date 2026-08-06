@@ -1,4 +1,3 @@
-using DoctorWho.VoxelUniverse.Core;
 using DoctorWho.VoxelUniverse.Input;
 using DoctorWho.VoxelUniverse.Inventory;
 using DoctorWho.VoxelUniverse.Player;
@@ -19,12 +18,8 @@ namespace DoctorWho.VoxelUniverse.Interaction
         private LineRenderer outline;
         private VoxelRayHit currentHit;
 
-        public void Configure(
-            VoxelUniverseWorld voxelWorld,
-            VoxelPlayerController playerController,
-            VoxelInventory playerInventory,
-            Camera camera,
-            Material selectionMaterial)
+        public void Configure(VoxelUniverseWorld voxelWorld, VoxelPlayerController playerController,
+            VoxelInventory playerInventory, Camera camera, Material selectionMaterial)
         {
             world = voxelWorld;
             player = playerController;
@@ -32,12 +27,10 @@ namespace DoctorWho.VoxelUniverse.Interaction
             playerCamera = camera;
             outlineMaterial = selectionMaterial;
             EnsureOutline();
+            outline.sharedMaterial = outlineMaterial;
         }
 
-        private void Awake()
-        {
-            EnsureOutline();
-        }
+        private void Awake() { EnsureOutline(); }
 
         private void Update()
         {
@@ -75,31 +68,42 @@ namespace DoctorWho.VoxelUniverse.Interaction
             if (!BlockRegistry.IsReplaceable(existing)) return;
             if (player != null && player.WouldOverlap(target)) return;
 
-            byte orientation = DetermineOrientation(currentHit.face);
-            BlockState placed = selected.WithOrientation(orientation);
+            BlockState placed = selected.WithOrientation(DetermineOrientation(currentHit.face));
             if (!inventory.ConsumeSelected(1)) return;
             world.SetBlock(target, placed);
         }
 
         private static byte DetermineOrientation(VoxelHitFace face)
         {
-            return (byte)face;
+            switch (face)
+            {
+                case VoxelHitFace.Outer: return 0;
+                case VoxelHitFace.Inner: return 1;
+                case VoxelHitFace.East: return 2;
+                case VoxelHitFace.West: return 3;
+                case VoxelHitFace.North: return 4;
+                default: return 5;
+            }
         }
 
         private void EnsureOutline()
         {
             if (outline != null) return;
             Transform found = transform.Find("Voxel Selection Outline");
-            GameObject outlineObject = found != null ? found.gameObject : new GameObject("Voxel Selection Outline");
+            GameObject outlineObject = found != null
+                ? found.gameObject
+                : new GameObject("Voxel Selection Outline");
             outlineObject.transform.SetParent(transform, false);
             outline = outlineObject.GetComponent<LineRenderer>();
             if (outline == null) outline = outlineObject.AddComponent<LineRenderer>();
             outline.useWorldSpace = true;
             outline.loop = false;
             outline.positionCount = 24;
-            outline.startWidth = 0.025f;
-            outline.endWidth = 0.025f;
-            outline.sharedMaterial = outlineMaterial;
+            outline.startWidth = 0.018f;
+            outline.endWidth = 0.018f;
+            outline.numCornerVertices = 0;
+            outline.numCapVertices = 0;
+            if (outlineMaterial != null) outline.sharedMaterial = outlineMaterial;
             outline.enabled = false;
         }
 
@@ -111,11 +115,11 @@ namespace DoctorWho.VoxelUniverse.Interaction
 
         private void UpdateOutline(VoxelAddress address)
         {
-            Vector3 center = world.GetBlockCenter(address);
-            FaceBasis basis = world.GetBlockBasis(address);
-            Vector3 east = basis.east.ToVector3().normalized * 0.54f;
-            Vector3 north = basis.north.ToVector3().normalized * 0.54f;
-            Vector3 up = basis.normal.ToVector3().normalized * 0.54f;
+            VoxelBlockFrame frame = world.GetBlockFrame(address);
+            Vector3 east = frame.east * (frame.halfEast + 0.025f);
+            Vector3 north = frame.north * (frame.halfNorth + 0.025f);
+            Vector3 up = frame.radial * (frame.halfRadial + 0.025f);
+            Vector3 center = frame.center;
             Vector3[] p = new Vector3[8];
             p[0] = center - east - north - up;
             p[1] = center + east - north - up;
@@ -131,8 +135,7 @@ namespace DoctorWho.VoxelUniverse.Interaction
                 4,5, 5,6, 6,7, 7,4,
                 0,4, 1,5, 2,6, 3,7
             };
-            for (int i = 0; i < order.Length; i++)
-                outline.SetPosition(i, p[order[i]]);
+            for (int i = 0; i < order.Length; i++) outline.SetPosition(i, p[order[i]]);
         }
     }
 }

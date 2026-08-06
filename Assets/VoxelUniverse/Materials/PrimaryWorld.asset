@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PrimaryWorld
   m_EditorClassIdentifier: 
   stableKey: doctorwhospacegame.primary-world
-  displayName: Primary World
+  displayName: Primary Voxel World
   bodyType: 1
-  radius: 96
+  radius: 256
   gravityParameter: 24
   rotationPeriodSeconds: 1200
   axialTiltDegrees: 23.4
@@ -30,10 +30,10 @@ MonoBehaviour:
     epochSeconds: 0
     periodSeconds: 0
   seed: 48271
-  sphereOfInfluence: 25000
+  sphereOfInfluence: 35840
   voxelWorldEnabled: 1
   hasAtmosphere: 1
-  atmosphereHeight: 18
+  atmosphereHeight: 72
   densityFalloff: 0.18
   atmosphereColor: {r: 0.32, g: 0.58, b: 0.92, a: 1}
   sunsetColor: {r: 1, g: 0.32, b: 0.1, a: 1}

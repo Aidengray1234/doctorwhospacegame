@@ -27,12 +27,8 @@ namespace DoctorWho.VoxelUniverse.Player
         public float CapsuleRadius { get { return world != null && world.Settings != null ? world.Settings.capsuleRadius : 0.38f; } }
         public float CapsuleHeight { get { return world != null && world.Settings != null ? world.Settings.capsuleHeight : 1.8f; } }
 
-        public void Configure(
-            VoxelUniverseWorld voxelWorld,
-            VoxelCollisionWorld logicalCollision,
-            VoxelInventory playerInventory,
-            Transform pivot,
-            Camera camera)
+        public void Configure(VoxelUniverseWorld voxelWorld, VoxelCollisionWorld logicalCollision,
+            VoxelInventory playerInventory, Transform pivot, Camera camera)
         {
             world = voxelWorld;
             collisionWorld = logicalCollision;
@@ -55,26 +51,42 @@ namespace DoctorWho.VoxelUniverse.Player
             HandleLook();
             HandleFlightToggle();
 
-            VoxelAddress address = world.GetAddress(transform.position + transform.up * (CapsuleHeight * 0.5f));
-            world.PrioritizeAddress(address);
-            waitingForSupport = !world.IsSectionReady(address.SectionKey);
-            if (waitingForSupport)
+            Vector3 radialUp = (transform.position - world.Center).normalized;
+            if (radialUp.sqrMagnitude < 0.5f) radialUp = Vector3.up;
+            float altitude = world.GetAltitude(transform.position);
+
+            if (!flying && altitude > world.Settings.nearTerrainMaxAltitude)
             {
-                velocity = Vector3.zero;
+                Respawn();
                 return;
             }
 
-            MovePlayer();
+            if (!flying)
+            {
+                VoxelAddress support = world.FindSurfaceAddress(radialUp);
+                world.PrioritizeAddress(support);
+                waitingForSupport = !world.IsSectionReady(support.SectionKey);
+                if (waitingForSupport)
+                {
+                    velocity = Vector3.zero;
+                    return;
+                }
+            }
+            else waitingForSupport = false;
 
-            float safeInnerRadius = world.Settings.groundRadius + world.Settings.minimumRadialBlock + 3f;
-            if ((transform.position - world.Center).magnitude < safeInnerRadius || VoxelInput.RespawnPressed)
+            MovePlayer(radialUp);
+
+            float safeInnerRadius = world.Settings.groundRadius
+                                    + world.Settings.minimumRadialBlock + 3f;
+            if ((transform.position - world.Center).magnitude < safeInnerRadius
+                || VoxelInput.RespawnPressed)
                 Respawn();
         }
 
         private void HandleCursor()
         {
             if (!VoxelInput.EscapePressed) return;
-
+            if (inventory != null && inventory.InventoryOpen) return;
             bool locked = Cursor.lockState == CursorLockMode.Locked;
             Cursor.lockState = locked ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = locked;
@@ -82,50 +94,45 @@ namespace DoctorWho.VoxelUniverse.Player
 
         private void HandleLook()
         {
-            if (Cursor.lockState != CursorLockMode.Locked || (inventory != null && inventory.InventoryOpen)) return;
-
-            float sensitivity = world.Settings.mouseSensitivity;
+            if (Cursor.lockState != CursorLockMode.Locked
+                || (inventory != null && inventory.InventoryOpen)) return;
             Vector2 look = VoxelInput.LookDelta;
-            float lookX = look.x * sensitivity;
-            float lookY = look.y * sensitivity;
-
-            transform.Rotate(0f, lookX, 0f, Space.Self);
-            pitch = Mathf.Clamp(pitch - lookY, -88f, 88f);
+            float sensitivity = world.Settings.mouseSensitivity;
+            transform.Rotate(0f, look.x * sensitivity, 0f, Space.Self);
+            pitch = Mathf.Clamp(pitch - look.y * sensitivity, -88f, 88f);
             if (cameraPivot != null)
                 cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
         }
 
         private void HandleFlightToggle()
         {
-            bool jumpDown = VoxelInput.JumpPressed;
-            if (jumpDown)
+            if (inventory != null && inventory.InventoryOpen) return;
+            bool requested = false;
+            if (VoxelInput.JumpPressed)
             {
                 if (Time.unscaledTime - lastJumpPressTime <= 0.32f)
                 {
-                    flying = !flying;
-                    velocity = Vector3.zero;
+                    requested = true;
                     lastJumpPressTime = -10f;
                 }
-                else
-                {
-                    lastJumpPressTime = Time.unscaledTime;
-                }
+                else lastJumpPressTime = Time.unscaledTime;
             }
+            if (VoxelInput.FlightTogglePressed) requested = true;
+            if (!requested) return;
 
-            if (VoxelInput.FlightTogglePressed)
+            if (flying && world.GetAltitude(transform.position) > world.Settings.nearTerrainMaxAltitude)
             {
-                flying = !flying;
-                velocity = Vector3.zero;
+                Respawn();
+                return;
             }
+            flying = !flying;
+            velocity = Vector3.zero;
         }
 
-        private void MovePlayer()
+        private void MovePlayer(Vector3 radialUp)
         {
-            Vector3 radialUp = (transform.position - world.Center).normalized;
             Quaternion targetRotation = Quaternion.FromToRotation(transform.up, radialUp) * transform.rotation;
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
                 1f - Mathf.Exp(-14f * Time.deltaTime));
 
             Vector2 move = VoxelInput.Move;
@@ -141,11 +148,10 @@ namespace DoctorWho.VoxelUniverse.Player
                 float verticalFlight = 0f;
                 if (VoxelInput.JumpHeld) verticalFlight += 1f;
                 if (VoxelInput.DescendHeld) verticalFlight -= 1f;
-
                 float speed = sprint ? world.Settings.flightSprintSpeed : world.Settings.flightSpeed;
-                Vector3 requestedDirection = wish + radialUp * verticalFlight;
-                velocity = requestedDirection.sqrMagnitude > 0.0001f
-                    ? requestedDirection.normalized * speed
+                Vector3 requested = wish + radialUp * verticalFlight;
+                velocity = requested.sqrMagnitude > 0.0001f
+                    ? requested.normalized * speed
                     : Vector3.zero;
                 transform.position += velocity * Time.deltaTime;
                 grounded = false;
@@ -154,30 +160,21 @@ namespace DoctorWho.VoxelUniverse.Player
 
             float targetSpeed = sprint ? world.Settings.sprintSpeed : world.Settings.walkSpeed;
             Vector3 horizontalVelocity = Vector3.ProjectOnPlane(velocity, radialUp);
-            Vector3 desired = wish * targetSpeed;
-            horizontalVelocity = Vector3.MoveTowards(horizontalVelocity, desired, 30f * Time.deltaTime);
+            horizontalVelocity = Vector3.MoveTowards(horizontalVelocity, wish * targetSpeed,
+                30f * Time.deltaTime);
             float verticalSpeed = Vector3.Dot(velocity, radialUp);
-
             if (grounded && VoxelInput.JumpPressed)
             {
                 verticalSpeed = world.Settings.jumpSpeed;
                 grounded = false;
             }
-            else
-            {
-                verticalSpeed -= world.Settings.gravity * Time.deltaTime;
-            }
+            else verticalSpeed -= world.Settings.gravity * Time.deltaTime;
 
             velocity = horizontalVelocity + radialUp * verticalSpeed;
             bool resolvedGrounded;
-            Vector3 resolved = collisionWorld.ResolveMotion(
-                transform.position,
-                velocity * Time.deltaTime,
-                world.Settings.capsuleRadius,
-                world.Settings.capsuleHeight,
-                world.Settings.stepHeight,
-                out resolvedGrounded);
-            transform.position = resolved;
+            transform.position = collisionWorld.ResolveMotion(transform.position,
+                velocity * Time.deltaTime, world.Settings.capsuleRadius,
+                world.Settings.capsuleHeight, world.Settings.stepHeight, out resolvedGrounded);
             grounded = resolvedGrounded;
             if (grounded && verticalSpeed < 0f)
                 velocity = Vector3.ProjectOnPlane(velocity, radialUp);
@@ -186,16 +183,12 @@ namespace DoctorWho.VoxelUniverse.Player
         public bool WouldOverlap(VoxelAddress address)
         {
             return collisionWorld != null && collisionWorld.CapsuleOverlapsBlock(
-                transform.position,
-                CapsuleRadius,
-                CapsuleHeight,
-                address);
+                transform.position, CapsuleRadius, CapsuleHeight, address);
         }
 
         public void Respawn()
         {
             if (world == null || world.Settings == null) return;
-
             VoxelAddress surface = world.FindSurfaceAddress(Vector3.up);
             world.PrioritizeAddress(surface);
             Vector3 center = world.GetBlockCenter(surface);
@@ -204,13 +197,15 @@ namespace DoctorWho.VoxelUniverse.Player
             transform.rotation = Quaternion.FromToRotation(Vector3.up, up);
             velocity = Vector3.zero;
             flying = false;
+            waitingForSupport = true;
         }
 
         private void OnGUI()
         {
             if (!waitingForSupport) return;
-            Rect rect = new Rect((Screen.width - 360f) * 0.5f, 40f, 360f, 44f);
-            GUI.Box(rect, "Loading supporting voxel section — movement paused");
+            float width = Mathf.Min(420f, Screen.width - 24f);
+            Rect rect = new Rect((Screen.width - width) * 0.5f, 36f, width, 42f);
+            GUI.Box(rect, "Loading logical terrain beneath the player — movement paused");
         }
     }
 }

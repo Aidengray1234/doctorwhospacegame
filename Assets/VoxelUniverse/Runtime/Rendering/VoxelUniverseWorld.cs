@@ -31,7 +31,6 @@ namespace DoctorWho.VoxelUniverse.Rendering
         private readonly Dictionary<SectionKey, SectionRecord> sections =
             new Dictionary<SectionKey, SectionRecord>();
         private readonly Queue<SectionMeshData> uploadQueue = new Queue<SectionMeshData>();
-        private readonly object editSync = new object();
 
         private VoxelJobScheduler scheduler;
         private VoxelTerrainGenerator generator;
@@ -44,6 +43,7 @@ namespace DoctorWho.VoxelUniverse.Rendering
         private int meshUploadsThisFrame;
         private float safeSpawnStartTime;
         private float safeSpawnReadyTime = -1f;
+        private bool nearTerrainStreamingActive;
 
         public VoxelUniverseSettings Settings { get { return settings; } }
         public CelestialBodyDefinition BodyDefinition { get { return bodyDefinition; } }
@@ -55,6 +55,7 @@ namespace DoctorWho.VoxelUniverse.Rendering
         public int ActiveWorkerCount { get { return scheduler != null ? scheduler.ActiveWorkerCount : 0; } }
         public int PendingUploadCount { get { return uploadQueue.Count; } }
         public int MeshUploadsThisFrame { get { return meshUploadsThisFrame; } }
+        public bool NearTerrainStreamingActive { get { return nearTerrainStreamingActive; } }
         public int EstimatedSectionBytes
         {
             get
@@ -93,15 +94,8 @@ namespace DoctorWho.VoxelUniverse.Rendering
             previousObserverPosition = observer != null ? observer.position : Vector3.zero;
         }
 
-        private void Awake()
-        {
-            InitializeRuntime();
-        }
-
-        private void OnEnable()
-        {
-            InitializeRuntime();
-        }
+        private void Awake() { InitializeRuntime(); }
+        private void OnEnable() { InitializeRuntime(); }
 
         private void InitializeRuntime()
         {
@@ -111,7 +105,8 @@ namespace DoctorWho.VoxelUniverse.Rendering
             if (saveSystem != null) saveSystem.Configure(settings.saveVersion, settings.generatorVersion);
             generator = new VoxelTerrainGenerator(settings, bodyId);
             mesher = new VoxelSectionMesher(settings);
-            if (Application.isPlaying && scheduler == null) scheduler = new VoxelJobScheduler(settings.workerCount);
+            if (Application.isPlaying && scheduler == null)
+                scheduler = new VoxelJobScheduler(settings.workerCount);
             EnsureSectionRoot();
             safeSpawnStartTime = Time.realtimeSinceStartup;
             if (observer != null) previousObserverPosition = observer.position;
@@ -130,60 +125,85 @@ namespace DoctorWho.VoxelUniverse.Rendering
                 float dt = Mathf.Max(Time.unscaledDeltaTime, 0.0001f);
                 observerVelocity = (observer.position - previousObserverPosition) / dt;
                 previousObserverPosition = observer.position;
-                RefreshStreaming();
+                nearTerrainStreamingActive = GetAltitude(observer.position) <= settings.nearTerrainMaxAltitude;
+                if (nearTerrainStreamingActive) RefreshStreaming();
             }
+            else nearTerrainStreamingActive = false;
 
             UnloadExpiredSections();
+            TrimSectionBudget();
+        }
+
+        public float GetAltitude(Vector3 worldPosition)
+        {
+            if (settings == null) return float.PositiveInfinity;
+            return (worldPosition - Center).magnitude - settings.groundRadius;
+        }
+
+        public bool ShouldStreamNearTerrain(Vector3 worldPosition)
+        {
+            return settings != null && GetAltitude(worldPosition) <= settings.nearTerrainMaxAltitude;
         }
 
         private void RefreshStreaming()
         {
             Double3 local = Double3.FromVector3(observer.position - Center);
             if (local.Magnitude <= 0.001d) return;
-            VoxelAddress centerAddress = CubeSphereMapper.PositionToAddress(
-                bodyId, local, settings.groundRadius, settings.faceCellResolution);
 
-            int centerSectionU = IntegerMath.FloorDiv(centerAddress.u, VoxelConstants.SectionSize);
-            int centerSectionV = IntegerMath.FloorDiv(centerAddress.v, VoxelConstants.SectionSize);
-            int centerSectionR = IntegerMath.FloorDiv(centerAddress.radial, VoxelConstants.SectionSize);
-            Vector3 localVelocity = observerVelocity;
+            VoxelAddress observerAddress = CubeSphereMapper.PositionToAddress(
+                bodyId, local, settings.groundRadius, settings.faceCellResolution);
+            int surfaceRadial = generator.GetSurfaceHeight(
+                observerAddress.face, observerAddress.u, observerAddress.v);
+            VoxelAddress surfaceAddress = new VoxelAddress(
+                bodyId, observerAddress.face, observerAddress.u, observerAddress.v, surfaceRadial);
+
+            int centerSectionU = IntegerMath.FloorDiv(surfaceAddress.u, VoxelConstants.SectionSize);
+            int centerSectionV = IntegerMath.FloorDiv(surfaceAddress.v, VoxelConstants.SectionSize);
+            int centerSectionR = IntegerMath.FloorDiv(surfaceAddress.radial, VoxelConstants.SectionSize);
+
             FaceBasis tangent = CubeSphereMapper.GetCellTangentBasis(
-                centerAddress.face, centerAddress.u, centerAddress.v, settings.faceCellResolution);
-            int leadU = Mathf.RoundToInt(Vector3.Dot(localVelocity, tangent.east.ToVector3())
+                surfaceAddress.face, surfaceAddress.u, surfaceAddress.v, settings.faceCellResolution);
+            int leadU = Mathf.RoundToInt(Vector3.Dot(observerVelocity, tangent.east.ToVector3())
                                          * settings.predictiveSectionLead / VoxelConstants.SectionSize);
-            int leadV = Mathf.RoundToInt(Vector3.Dot(localVelocity, tangent.north.ToVector3())
+            int leadV = Mathf.RoundToInt(Vector3.Dot(observerVelocity, tangent.north.ToVector3())
                                          * settings.predictiveSectionLead / VoxelConstants.SectionSize);
             leadU = Mathf.Clamp(leadU, -settings.predictiveSectionLead, settings.predictiveSectionLead);
             leadV = Mathf.Clamp(leadV, -settings.predictiveSectionLead, settings.predictiveSectionLead);
 
             float now = Time.unscaledTime;
+            int radius = settings.nearSectionRadius;
             for (int dr = -settings.verticalSectionRadius; dr <= settings.verticalSectionRadius; dr++)
             {
-                for (int dv = -settings.nearSectionRadius; dv <= settings.nearSectionRadius; dv++)
+                for (int dv = -radius; dv <= radius; dv++)
                 {
-                    for (int du = -settings.nearSectionRadius; du <= settings.nearSectionRadius; du++)
+                    for (int du = -radius; du <= radius; du++)
                     {
-                        int distanceSq = du * du + dv * dv + dr * dr * 2;
-                        if (du * du + dv * dv > settings.nearSectionRadius * settings.nearSectionRadius + 1)
-                            continue;
-
-                        int rawU = (centerSectionU + du + leadU) * VoxelConstants.SectionSize + VoxelConstants.SectionSize / 2;
-                        int rawV = (centerSectionV + dv + leadV) * VoxelConstants.SectionSize + VoxelConstants.SectionSize / 2;
+                        if (du * du + dv * dv > radius * radius + 1) continue;
+                        int rawU = (centerSectionU + du + leadU) * VoxelConstants.SectionSize
+                                   + VoxelConstants.SectionSize / 2;
+                        int rawV = (centerSectionV + dv + leadV) * VoxelConstants.SectionSize
+                                   + VoxelConstants.SectionSize / 2;
                         int rawR = (centerSectionR + dr) * VoxelConstants.SectionSize;
                         VoxelAddress canonical = CubeSphereMapper.Canonicalize(
-                            new VoxelAddress(bodyId, centerAddress.face, rawU, rawV, rawR),
+                            new VoxelAddress(bodyId, surfaceAddress.face, rawU, rawV, rawR),
                             settings.faceCellResolution);
-                        SectionKey key = canonical.SectionKey;
+                        int distanceSq = du * du + dv * dv + dr * dr * 2;
                         int priority = distanceSq * 100;
                         if (dr == 0 && du == 0 && dv == 0) priority = 0;
-                        RequestSection(key, priority, now);
+                        if (du == Math.Sign(leadU) && dv == Math.Sign(leadV)) priority -= 20;
+                        RequestSection(canonical.SectionKey, priority, now);
                     }
                 }
             }
 
-            SectionKey supportKey = centerAddress.SectionKey;
-            RequestSection(supportKey, -1000, now);
-            if (safeSpawnReadyTime < 0f && IsSectionReady(supportKey))
+            RequestSection(surfaceAddress.SectionKey, -2000, now);
+            RequestSection(observerAddress.SectionKey, -1900, now);
+            VoxelAddress below = new VoxelAddress(bodyId, observerAddress.face,
+                observerAddress.u, observerAddress.v, observerAddress.radial - 1);
+            RequestSection(CubeSphereMapper.Canonicalize(below, settings.faceCellResolution).SectionKey,
+                -1800, now);
+
+            if (safeSpawnReadyTime < 0f && IsSectionReady(surfaceAddress.SectionKey))
                 safeSpawnReadyTime = Time.realtimeSinceStartup;
         }
 
@@ -193,6 +213,8 @@ namespace DoctorWho.VoxelUniverse.Rendering
             SectionRecord record;
             if (!sections.TryGetValue(key, out record))
             {
+                if (sections.Count >= settings.maximumLoadedSections)
+                    RemoveOldestSection(false);
                 record = new SectionRecord();
                 sections.Add(key, record);
             }
@@ -226,23 +248,20 @@ namespace DoctorWho.VoxelUniverse.Rendering
         private void ApplySavedEdits(VoxelSection section)
         {
             for (int y = 0; y < VoxelConstants.SectionSize; y++)
+            for (int z = 0; z < VoxelConstants.SectionSize; z++)
+            for (int x = 0; x < VoxelConstants.SectionSize; x++)
             {
-                for (int z = 0; z < VoxelConstants.SectionSize; z++)
-                {
-                    for (int x = 0; x < VoxelConstants.SectionSize; x++)
-                    {
-                        VoxelAddress address = section.ToAddress(x, y, z);
-                        BlockState edit;
-                        if (saveSystem != null && saveSystem.TryGetEdit(address, out edit))
-                            section.SetLocal(x, y, z, edit);
-                    }
-                }
+                VoxelAddress address = section.ToAddress(x, y, z);
+                BlockState edit;
+                if (saveSystem != null && saveSystem.TryGetEdit(address, out edit))
+                    section.SetLocal(x, y, z, edit);
             }
         }
 
         private BlockState SampleLogicalForWorker(VoxelAddress rawAddress)
         {
-            VoxelAddress address = CubeSphereMapper.Canonicalize(rawAddress, settings.faceCellResolution);
+            VoxelAddress address = CubeSphereMapper.Canonicalize(
+                rawAddress, settings.faceCellResolution);
             BlockState edit;
             if (saveSystem != null && saveSystem.TryGetEdit(address, out edit)) return edit;
             return generator.SampleBaseBlock(address);
@@ -275,37 +294,76 @@ namespace DoctorWho.VoxelUniverse.Rendering
             if (!Application.isPlaying) return;
             float now = Time.unscaledTime;
             List<SectionKey> remove = null;
+            SectionKey protectedKey = default(SectionKey);
+            bool hasProtected = false;
+            if (observer != null && nearTerrainStreamingActive)
+            {
+                VoxelAddress a = GetAddress(observer.position);
+                int surface = generator.GetSurfaceHeight(a.face, a.u, a.v);
+                protectedKey = new VoxelAddress(bodyId, a.face, a.u, a.v, surface).SectionKey;
+                hasProtected = true;
+            }
+
             foreach (KeyValuePair<SectionKey, SectionRecord> pair in sections)
             {
                 SectionRecord record = pair.Value;
                 if (record.pending) continue;
-                if (now - record.lastRequiredTime < settings.unloadDelaySeconds) continue;
-                if (observer != null)
-                {
-                    VoxelAddress observerAddress = CubeSphereMapper.PositionToAddress(
-                        bodyId,
-                        Double3.FromVector3(observer.position - Center),
-                        settings.groundRadius,
-                        settings.faceCellResolution);
-                    if (pair.Key == observerAddress.SectionKey) continue;
-                }
+                if (hasProtected && pair.Key == protectedKey) continue;
+                float delay = nearTerrainStreamingActive
+                    ? settings.unloadDelaySeconds
+                    : Mathf.Min(2.5f, settings.unloadDelaySeconds);
+                if (now - record.lastRequiredTime < delay) continue;
                 if (remove == null) remove = new List<SectionKey>();
                 remove.Add(pair.Key);
             }
 
             if (remove == null) return;
-            for (int i = 0; i < remove.Count; i++)
+            for (int i = 0; i < remove.Count; i++) RemoveSection(remove[i]);
+        }
+
+        private void TrimSectionBudget()
+        {
+            while (sections.Count > settings.maximumLoadedSections)
+                if (!RemoveOldestSection(true)) break;
+        }
+
+        private bool RemoveOldestSection(bool allowRecent)
+        {
+            bool found = false;
+            SectionKey oldestKey = default(SectionKey);
+            float oldest = float.MaxValue;
+            foreach (KeyValuePair<SectionKey, SectionRecord> pair in sections)
             {
-                SectionRecord record = sections[remove[i]];
-                if (record.renderer != null) Destroy(record.renderer.gameObject);
-                sections.Remove(remove[i]);
+                SectionRecord record = pair.Value;
+                if (record.pending) continue;
+                if (!allowRecent && Time.unscaledTime - record.lastRequiredTime < 0.25f) continue;
+                if (record.lastRequiredTime >= oldest) continue;
+                oldest = record.lastRequiredTime;
+                oldestKey = pair.Key;
+                found = true;
             }
+            if (!found) return false;
+            RemoveSection(oldestKey);
+            return true;
+        }
+
+        private void RemoveSection(SectionKey key)
+        {
+            SectionRecord record;
+            if (!sections.TryGetValue(key, out record)) return;
+            if (record.renderer != null)
+            {
+                if (Application.isPlaying) Destroy(record.renderer.gameObject);
+                else DestroyImmediate(record.renderer.gameObject);
+            }
+            sections.Remove(key);
         }
 
         public BlockState GetBlock(VoxelAddress rawAddress)
         {
             if (settings == null || generator == null) return BlockState.Air;
-            VoxelAddress address = CubeSphereMapper.Canonicalize(rawAddress, settings.faceCellResolution);
+            VoxelAddress address = CubeSphereMapper.Canonicalize(
+                rawAddress, settings.faceCellResolution);
             BlockState edit;
             if (saveSystem != null && saveSystem.TryGetEdit(address, out edit)) return edit;
 
@@ -320,7 +378,8 @@ namespace DoctorWho.VoxelUniverse.Rendering
 
         public void SetBlock(VoxelAddress rawAddress, BlockState state)
         {
-            VoxelAddress address = CubeSphereMapper.Canonicalize(rawAddress, settings.faceCellResolution);
+            VoxelAddress address = CubeSphereMapper.Canonicalize(
+                rawAddress, settings.faceCellResolution);
             if (saveSystem != null) saveSystem.SetEdit(address, state);
 
             SectionRecord record;
@@ -331,23 +390,26 @@ namespace DoctorWho.VoxelUniverse.Rendering
             }
 
             RequestRemesh(address.SectionKey);
-            RequestRemesh(new VoxelAddress(bodyId, address.face, address.u - 1, address.v, address.radial).SectionKey);
-            RequestRemesh(new VoxelAddress(bodyId, address.face, address.u + 1, address.v, address.radial).SectionKey);
-            RequestRemesh(new VoxelAddress(bodyId, address.face, address.u, address.v - 1, address.radial).SectionKey);
-            RequestRemesh(new VoxelAddress(bodyId, address.face, address.u, address.v + 1, address.radial).SectionKey);
-            RequestRemesh(new VoxelAddress(bodyId, address.face, address.u, address.v, address.radial - 1).SectionKey);
-            RequestRemesh(new VoxelAddress(bodyId, address.face, address.u, address.v, address.radial + 1).SectionKey);
+            RequestNeighborRemesh(address, -1, 0, 0);
+            RequestNeighborRemesh(address, 1, 0, 0);
+            RequestNeighborRemesh(address, 0, -1, 0);
+            RequestNeighborRemesh(address, 0, 1, 0);
+            RequestNeighborRemesh(address, 0, 0, -1);
+            RequestNeighborRemesh(address, 0, 0, 1);
         }
 
-        private void RequestRemesh(SectionKey rawKey)
+        private void RequestNeighborRemesh(VoxelAddress address, int du, int dv, int dr)
         {
-            VoxelAddress representative = CubeSphereMapper.Canonicalize(
-                new VoxelAddress(bodyId, rawKey.face,
-                    rawKey.sectionU * VoxelConstants.SectionSize + 8,
-                    rawKey.sectionV * VoxelConstants.SectionSize + 8,
-                    rawKey.sectionRadial * VoxelConstants.SectionSize),
+            VoxelAddress neighbor = CubeSphereMapper.Canonicalize(
+                new VoxelAddress(bodyId, address.face, address.u + du,
+                    address.v + dv, address.radial + dr),
                 settings.faceCellResolution);
-            SectionKey key = representative.SectionKey;
+            RequestRemesh(neighbor.SectionKey);
+        }
+
+        private void RequestRemesh(SectionKey key)
+        {
+            if (scheduler == null) return;
             SectionRecord record;
             if (!sections.TryGetValue(key, out record) || record.section == null) return;
             record.requestVersion = ++nextRequestVersion;
@@ -373,36 +435,66 @@ namespace DoctorWho.VoxelUniverse.Rendering
 
         public void PrioritizeAddress(VoxelAddress address)
         {
-            if (scheduler != null) RequestSection(address.SectionKey, -2000, Time.unscaledTime);
+            if (scheduler != null)
+                RequestSection(address.SectionKey, -2500, Time.unscaledTime);
         }
 
         public VoxelAddress GetAddress(Vector3 worldPosition)
         {
-            return CubeSphereMapper.PositionToAddress(
-                bodyId,
+            return CubeSphereMapper.PositionToAddress(bodyId,
                 Double3.FromVector3(worldPosition - Center),
-                settings.groundRadius,
-                settings.faceCellResolution);
+                settings.groundRadius, settings.faceCellResolution);
+        }
+
+        public VoxelBlockFrame GetBlockFrame(VoxelAddress address)
+        {
+            VoxelBlockFrame frame = VoxelBlockGeometry.Calculate(address, settings);
+            frame.center += Center;
+            return frame;
         }
 
         public Vector3 GetBlockCenter(VoxelAddress address)
         {
-            return Center + CubeSphereMapper.AddressCenterToPosition(
-                CubeSphereMapper.Canonicalize(address, settings.faceCellResolution),
-                settings.groundRadius,
-                settings.faceCellResolution).ToVector3();
+            return GetBlockFrame(address).center;
         }
 
         public FaceBasis GetBlockBasis(VoxelAddress address)
         {
-            VoxelAddress canonical = CubeSphereMapper.Canonicalize(address, settings.faceCellResolution);
-            return CubeSphereMapper.GetCellTangentBasis(
-                canonical.face, canonical.u, canonical.v, settings.faceCellResolution);
+            VoxelAddress canonical = CubeSphereMapper.Canonicalize(
+                address, settings.faceCellResolution);
+            return CubeSphereMapper.GetCellTangentBasis(canonical.face,
+                canonical.u, canonical.v, settings.faceCellResolution);
         }
 
         public VoxelAddress FindSurfaceAddress(Vector3 direction)
         {
+            if (generator == null) InitializeRuntime();
             return generator.FindSurfaceAddress(Double3.FromVector3(direction).Normalized);
+        }
+
+        public int GetSurfaceHeight(CubeSphereFace face, int u, int v)
+        {
+            if (generator == null) InitializeRuntime();
+            return generator != null ? generator.GetSurfaceHeight(face, u, v) : 0;
+        }
+
+        public BlockState SampleGeneratedBlock(VoxelAddress address)
+        {
+            if (generator == null) InitializeRuntime();
+            return generator != null ? generator.SampleBaseBlock(address) : BlockState.Air;
+        }
+
+        public void ClearGeneratedRenderers()
+        {
+            uploadQueue.Clear();
+            sections.Clear();
+            EnsureSectionRoot();
+            for (int i = sectionRoot.childCount - 1; i >= 0; i--)
+            {
+                GameObject child = sectionRoot.GetChild(i).gameObject;
+                if (Application.isPlaying) Destroy(child);
+                else DestroyImmediate(child);
+            }
         }
 
         private void EnsureSectionRoot()
@@ -418,7 +510,7 @@ namespace DoctorWho.VoxelUniverse.Rendering
             }
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             if (scheduler != null)
             {
