@@ -1149,3 +1149,10 @@ Asset Pipeline Refresh: Total: 0.004 seconds - Initiated by RefreshV2(AllowForce
 Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
 Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
 Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.004 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Asset Pipeline Refresh: Total: 0.003 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+Starting new worker id: 0 with log in <PROJECT_ROOT>/Logs/AssetImportWorker0.log
+Starting new worker id: 1 with log in <PROJECT_ROOT>/Logs/AssetImportWorker1.log

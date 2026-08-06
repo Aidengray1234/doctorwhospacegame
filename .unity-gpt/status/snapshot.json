@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-06T00:47:48.3264238Z",
+    "generatedUtc": "2026-08-06T00:50:43.3621305Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -2555,7 +2555,16 @@
             ]
         }
     ],
-    "selection": [],
+    "selection": [
+        {
+            "name": "PlanetSystem",
+            "hierarchyPath": "",
+            "assetPath": "Assets/PlanetSystem",
+            "type": "UnityEditor.DefaultAsset",
+            "instanceId": 29602,
+            "components": []
+        }
+    ],
     "recentLogs": [
         {
             "timestampUtc": "2026-08-06T00:46:00.8704263Z",
@@ -2572,5 +2581,5 @@
     ],
     "editorLogTailFile": ".unity-gpt/status/editor-log-tail.txt",
     "packageManifestFile": ".unity-gpt/status/packages-manifest.json",
-    "notes": "Accepted project changes committed"
+    "notes": "Automatic state change"
 }
