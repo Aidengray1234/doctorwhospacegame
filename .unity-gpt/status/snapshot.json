@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-06T00:45:56.1305061Z",
+    "generatedUtc": "2026-08-06T00:46:02.7047999Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -16,10 +16,10 @@
     "editor": {
         "isPlaying": false,
         "isPaused": false,
-        "isCompiling": true,
+        "isCompiling": false,
         "isUpdating": false,
         "hasUnsavedScenes": false,
-        "compileStartedUtc": "2026-08-06T00:45:55.3780888Z",
+        "compileStartedUtc": "",
         "compileFinishedUtc": "",
         "compileErrorCount": 0,
         "compileWarningCount": 0,
@@ -2558,10 +2558,16 @@
     "selection": [],
     "recentLogs": [
         {
-            "timestampUtc": "2026-08-06T00:39:59.3415828Z",
+            "timestampUtc": "2026-08-06T00:46:00.8704263Z",
             "type": "Log",
             "message": "[MCP Unity] WebSocket server started successfully on localhost:8090.",
             "stackTrace": "UnityEngine.Debug:Log (object)\nMcpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)\nMcpUnity.Unity.McpUnityServer:StartServer () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:175)\nMcpUnity.Unity.McpUnityServer:.ctor () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:130)\nMcpUnity.Unity.McpUnityServer:get_Instance () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:79)\nMcpUnity.Unity.McpUnityServer:AfterReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:61)\n"
+        },
+        {
+            "timestampUtc": "2026-08-06T00:46:01.4136606Z",
+            "type": "Log",
+            "message": "[Planet Foundation] Runtime architecture and PlanetDevelopment scene are ready. Playground was not modified.",
+            "stackTrace": "UnityEngine.Debug:Log (object)\nDoctorWho.Planets.Editor.PlanetDevelopmentBootstrap:CreateFoundationIfMissing () (at Assets/PlanetSystem/Editor/PlanetDevelopmentBootstrap.cs:79)\nUnityEditor.EditorApplication:Internal_CallDelayFunctions ()\n"
         }
     ],
     "editorLogTailFile": ".unity-gpt/status/editor-log-tail.txt",

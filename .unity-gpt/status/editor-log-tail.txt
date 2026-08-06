@@ -930,3 +930,217 @@ Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inp
 *** Tundra requires additional run (0.02 seconds), 0 items updated, 0 evaluated
 Starting: C:\Program Files\Unity\Hub\Editor\2021.3.38f1\Editor\Data\Tools\netcorerun\netcorerun.exe "C:\Program Files\Unity\Hub\Editor\2021.3.38f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library/Bee/buildprogram0.traceevents"
 WorkingDir: <PROJECT_ROOT>
+ExitCode: 0 Duration: 0s638ms
+Starting: C:\Program Files\Unity\Hub\Editor\2021.3.38f1\Editor\Data\bee_backend.exe --profile="Library/Bee/backend_profiler1.traceevents" --stdin-canary --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library/Bee/1900b0aE.dag.json" ScriptAssemblies
+WorkingDir: <PROJECT_ROOT>
+ExitCode: 0 Duration: 1s720ms
+Finished compiling graph: 616 nodes, 7268 flattened edges (7268 ToBuild, 0 ToUse), maximum node priority 384
+[219/615    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/DoctorWho.Planets.Runtime.rsp
+[220/615    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.rsp
+[236/615    0s] WriteResponseFile Library/Bee/artifacts/rsp/10678863128556690338.rsp
+[246/615    0s] WriteResponseFile Library/Bee/artifacts/rsp/7101890530792041857.rsp
+[301/615    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/DoctorWho.Planets.Editor.AdditionalFile.txt
+[303/615    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/DoctorWho.Planets.Editor.dll.mvfrm.rsp
+[304/615    0s] WriteResponseFile Library/Bee/artifacts/rsp/2781082588993088484.rsp
+[305/615    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/DoctorWho.Planets.Runtime.AdditionalFile.txt
+[306/615    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/DoctorWho.Planets.Editor.rsp
+[307/615    0s] WriteResponseFile Library/Bee/artifacts/rsp/586978396391262250.rsp
+[308/615    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.rsp
+[309/615    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/DoctorWho.Planets.Runtime.dll.mvfrm.rsp
+[597/615    0s] Csc Library/Bee/artifacts/1900b0aE.dag/DoctorWho.Planets.Runtime.dll (+2 others)
+[598/615    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/DoctorWho.Planets.Runtime.dll (+pdb)
+- Starting ILPostProcessorRunner
+
+- Starting ILPostProcessor 'zzzUnity.Burst.CodeGen.BurstILPostProcessor' on DoctorWho.Planets.Runtime.dll
+
+- Finished ILPostProcessor 'zzzUnity.Burst.CodeGen.BurstILPostProcessor' on DoctorWho.Planets.Runtime.dll in 0.000298 seconds
+
+- Finished ILPostProcessorRunner in 0.023147 seconds
+[599/615    0s] CopyFiles Library/ScriptAssemblies/DoctorWho.Planets.Runtime.pdb
+[600/615    0s] CopyFiles Library/ScriptAssemblies/DoctorWho.Planets.Runtime.dll
+[601/615    0s] MovedFromExtractorCombine Library/Bee/artifacts/1900b0aE.dag/DoctorWho.Planets.Editor.dll.mvfrm
+[602/615    0s] MovedFromExtractorCombine Library/Bee/artifacts/1900b0aE.dag/DoctorWho.Planets.Runtime.dll.mvfrm
+[603/615    0s] Csc Library/Bee/artifacts/1900b0aE.dag/DoctorWho.Planets.Editor.dll (+2 others)
+[604/615    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/DoctorWho.Planets.Editor.dll (+pdb)
+- Starting ILPostProcessorRunner
+
+- Starting ILPostProcessor 'zzzUnity.Burst.CodeGen.BurstILPostProcessor' on DoctorWho.Planets.Editor.dll
+
+- Finished ILPostProcessor 'zzzUnity.Burst.CodeGen.BurstILPostProcessor' on DoctorWho.Planets.Editor.dll in 0.000293 seconds
+
+- Finished ILPostProcessorRunner in 0.022501 seconds
+[605/615    0s] CopyFiles Library/ScriptAssemblies/DoctorWho.Planets.Editor.dll
+[606/615    0s] CopyFiles Library/ScriptAssemblies/DoctorWho.Planets.Editor.pdb
+[607/615    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+[608/615    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+[609/615    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+- Starting ILPostProcessorRunner
+
+- Starting ILPostProcessor 'zzzUnity.Burst.CodeGen.BurstILPostProcessor' on Assembly-CSharp.dll
+
+- Finished ILPostProcessor 'zzzUnity.Burst.CodeGen.BurstILPostProcessor' on Assembly-CSharp.dll in 0.082826 seconds
+
+- Finished ILPostProcessorRunner in 0.104735 seconds
+[610/615    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[611/615    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[612/615    0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+- Starting ILPostProcessorRunner
+
+- Starting ILPostProcessor 'zzzUnity.Burst.CodeGen.BurstILPostProcessor' on Assembly-CSharp-Editor.dll
+
+- Finished ILPostProcessor 'zzzUnity.Burst.CodeGen.BurstILPostProcessor' on Assembly-CSharp-Editor.dll in 0.080579 seconds
+
+- Finished ILPostProcessorRunner in 0.103179 seconds
+[613/615    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[614/615    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (1.57 seconds), 30 items updated, 615 evaluated
+Reloading assemblies after finishing script compilation.
+Registering precompiled user dll's ...
+Registered in 0.005895 seconds.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+[MCP Unity] WebSocket server stopped
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:StopServer (System.Nullable`1<uint16>,string) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:209)
+McpUnity.Unity.McpUnityServer:OnBeforeAssemblyReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:488)
+UnityEditor.AssemblyReloadEvents:OnBeforeAssemblyReload ()
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 209)
+
+[MCP Unity] WebSocket server stopped and resources cleaned up.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:StopServer (System.Nullable`1<uint16>,string) (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:219)
+McpUnity.Unity.McpUnityServer:OnBeforeAssemblyReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:488)
+UnityEditor.AssemblyReloadEvents:OnBeforeAssemblyReload ()
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 219)
+
+Symbol file LoadedFromMemory is not a mono symbol file
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.59 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-doctorwhospacegame
+[Licensing::Client] Successfully resolved entitlement details
+Mono: successfully reloaded assembly
+[MCP Unity] WebSocket server started successfully on localhost:8090.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+McpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)
+McpUnity.Unity.McpUnityServer:StartServer () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:175)
+McpUnity.Unity.McpUnityServer:.ctor () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:130)
+McpUnity.Unity.McpUnityServer:get_Instance () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:79)
+McpUnity.Unity.McpUnityServer:AfterReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:61)
+
+(Filename: <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs Line: 175)
+
+- Completed reload, in  2.340 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2341ms)
+		BeginReloadAssembly (635ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (192ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (286ms)
+		EndReloadAssembly (1644ms)
+			LoadAssemblies (72ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (192ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (39ms)
+			SetupLoadedEditorAssemblies (917ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (5ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (134ms)
+				ProcessInitializeOnLoadAttributes (727ms)
+				ProcessInitializeOnLoadMethodAttributes (45ms)
+				AfterProcessingInitializeOnLoad (5ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (231ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.005237 seconds.
+Asset Pipeline Refresh: Total: 2.476 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=98 ms
+		Asset DB Callback time: managed=24 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=2350 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=6505, non-scripts=1717
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeBeforeRefreshCallbacks: 0.747ms
+	ApplyChangesToAssetFolders: 0.051ms
+	Scan: 0.000ms
+	OnSourceAssetsModified: 0.000ms
+	InitializeImportedAssetsSnapshot: 9.879ms
+	GetAllGuidsForCategorization: 0.413ms
+	CategorizeAssets: 63.502ms
+	ImportOutOfDateAssets: 2356.884ms (2353.784ms without children)
+		CompileScripts: 1.315ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.022ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.546ms
+		OnDemandSchedulerStart: 0.217ms
+	ReloadSourceAssets: 1.523ms
+	UnloadImportedAssets: 0.812ms
+	PostProcessAllAssets: 24.898ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.227ms
+	UnloadStreamsBegin: 0.113ms
+	LoadedImportedAssetsSnapshotReleaseGCHandles: 1.477ms
+	GetLoadedSourceAssetsSnapshot: 1.208ms
+	PersistCurrentRevisions: 0.258ms
+	UnloadStreamsEnd: 0.107ms
+	GenerateScriptTypeHashes: 1.169ms
+	Untracked: 38.921ms
+Registering precompiled user dll's ...
+Registered in 0.005576 seconds.
+Start importing Assets/PlanetSystem/Settings using Guid(249f55af8e4b565489f8cfa29dd97702) Importer(-1,00000000000000000000000000000000)  -> (artifact id: 'fbd1a6dc11362c00301e17e046d96182') in 0.013708 seconds 
+Refreshing native plugins compatible for Editor in 0.58 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh: Total: 0.079 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Registering precompiled user dll's ...
+Registered in 0.005331 seconds.
+Start importing Assets/PlanetSystem/Scenes using Guid(9c4359ca20da77141845055bb2c54e02) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '9a1502f0c45b8dc0ad117123317c2e23') in 0.007463 seconds 
+Refreshing native plugins compatible for Editor in 0.53 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh: Total: 0.056 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Registering precompiled user dll's ...
+Registered in 0.005150 seconds.
+Start importing Assets/PlanetSystem/Settings/DefaultPlanetGenerationSettings.asset using Guid(cb6c20abc65fd9249a017fbdc1efaeca) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '7ea989418c062840c0055dfda84c6e27') in 0.007919 seconds 
+Refreshing native plugins compatible for Editor in 0.58 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh: Total: 0.066 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[Licensing::Client] Successfully resolved entitlements
+Registering precompiled user dll's ...
+Registered in 0.005194 seconds.
+Start importing Assets/PlanetSystem/Scenes/PlanetDevelopment.unity using Guid(ca1542f5df087fd4f91a6609d90731d0) Importer(-1,00000000000000000000000000000000)  -> (artifact id: '200cdd286e0d8a23173af02e613c1038') in 0.008647 seconds 
+Refreshing native plugins compatible for Editor in 0.53 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh: Total: 0.063 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh: Total: 0.004 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[Planet Foundation] Runtime architecture and PlanetDevelopment scene are ready. Playground was not modified.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+DoctorWho.Planets.Editor.PlanetDevelopmentBootstrap:CreateFoundationIfMissing () (at Assets/PlanetSystem/Editor/PlanetDevelopmentBootstrap.cs:79)
+UnityEditor.EditorApplication:Internal_CallDelayFunctions ()
+
+(Filename: Assets/PlanetSystem/Editor/PlanetDevelopmentBootstrap.cs Line: 79)
+
