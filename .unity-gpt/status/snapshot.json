@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-06T01:05:29.0988257Z",
+    "generatedUtc": "2026-08-06T01:05:43.3528812Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -14,7 +14,7 @@
         "colorSpace": "Linear"
     },
     "editor": {
-        "isPlaying": false,
+        "isPlaying": true,
         "isPaused": false,
         "isCompiling": false,
         "isUpdating": false,
@@ -390,13 +390,13 @@
             "tag": "Untagged",
             "layer": 0,
             "localPosition": {
-                "x": 0.0,
-                "y": 628.0,
-                "z": 0.0
+                "x": -0.008943946100771428,
+                "y": 610.1932373046875,
+                "z": -0.07079858332872391
             },
             "localEulerAngles": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": 7.2000041007995609,
                 "z": 0.0
             },
             "localScale": {
@@ -424,7 +424,7 @@
                 "z": 0.0
             },
             "localEulerAngles": {
-                "x": 0.0,
+                "x": 44.040016174316409,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -500,22 +500,16 @@
     "selection": [],
     "recentLogs": [
         {
-            "timestampUtc": "2026-08-06T01:05:12.2680144Z",
+            "timestampUtc": "2026-08-06T01:05:41.8154117Z",
             "type": "Log",
             "message": "[MCP Unity] WebSocket server started successfully on localhost:8090.",
             "stackTrace": "UnityEngine.Debug:Log (object)\nMcpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)\nMcpUnity.Unity.McpUnityServer:StartServer () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:175)\nMcpUnity.Unity.McpUnityServer:.ctor () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:130)\nMcpUnity.Unity.McpUnityServer:get_Instance () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:79)\nMcpUnity.Unity.McpUnityServer:AfterReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:61)\n"
         },
         {
-            "timestampUtc": "2026-08-06T01:05:12.4555376Z",
+            "timestampUtc": "2026-08-06T01:05:42.0295444Z",
             "type": "Log",
-            "message": "[Planet Foundation] Runtime architecture and PlanetDevelopment scene are ready. Playground was not modified.",
-            "stackTrace": "UnityEngine.Debug:Log (object)\nDoctorWho.Planets.Editor.PlanetDevelopmentBootstrap:CreateFoundationIfMissing () (at Assets/PlanetSystem/Editor/PlanetDevelopmentBootstrap.cs:79)\nUnityEditor.EditorApplication:Internal_CallDelayFunctions ()\n"
-        },
-        {
-            "timestampUtc": "2026-08-06T01:05:12.9637751Z",
-            "type": "Log",
-            "message": "[Planet Prototype] Procedural planet, player input, camera, collision, and radial gravity are installed in PlanetDevelopment.",
-            "stackTrace": "UnityEngine.Debug:Log (object)\nDoctorWho.Planets.Editor.PlanetPrototypeInstaller:Install () (at Assets/PlanetSystem/Editor/PlanetPrototypeInstaller.cs:103)\nUnityEditor.EditorApplication:Internal_CallDelayFunctions ()\n"
+            "message": "[Unity GPT Dropbox Bridge] Test script compiled successfully.",
+            "stackTrace": "UnityEngine.Debug:Log (object)\nDoctorWhoSpaceGame.Planets.DropboxBridgeTest:ConfirmCompilation () (at Assets/PlanetSystem/DropboxBridgeTest.cs:10)\n"
         }
     ],
     "editorLogTailFile": ".unity-gpt/status/editor-log-tail.txt",
