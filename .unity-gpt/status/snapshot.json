@@ -1,6 +1,6 @@
 {
     "schemaVersion": "1.0",
-    "generatedUtc": "2026-08-06T01:05:02.1560169Z",
+    "generatedUtc": "2026-08-06T01:05:13.5877365Z",
     "project": {
         "name": "doctorwhospacegame",
         "rootPath": ".",
@@ -16,7 +16,7 @@
     "editor": {
         "isPlaying": false,
         "isPaused": false,
-        "isCompiling": true,
+        "isCompiling": false,
         "isUpdating": false,
         "hasUnsavedScenes": false,
         "compileStartedUtc": "",
@@ -57,7 +57,7 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "childCount": 2,
+            "childCount": 3,
             "components": [
                 "UnityEngine.Transform"
             ]
@@ -84,11 +84,12 @@
                 "y": 1.0,
                 "z": 1.0
             },
-            "childCount": 1,
+            "childCount": 2,
             "components": [
                 "UnityEngine.Transform",
                 "DoctorWho.Planets.PlanetStreamingController",
-                "DoctorWho.Planets.PlanetRuntimeRoot"
+                "DoctorWho.Planets.PlanetRuntimeRoot",
+                "DoctorWho.Planets.PlanetPrototypeGenerator"
             ]
         },
         {
@@ -119,6 +120,242 @@
             ]
         },
         {
+            "path": "PlanetDevelopment:/Planet Systems/Planet Runtime/Generated Terrain",
+            "name": "Generated Terrain",
+            "activeSelf": true,
+            "activeInHierarchy": true,
+            "tag": "Untagged",
+            "layer": 0,
+            "localPosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localEulerAngles": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "childCount": 7,
+            "components": [
+                "UnityEngine.Transform"
+            ]
+        },
+        {
+            "path": "PlanetDevelopment:/Planet Systems/Planet Runtime/Generated Terrain/Terrain Face 0",
+            "name": "Terrain Face 0",
+            "activeSelf": true,
+            "activeInHierarchy": true,
+            "tag": "Untagged",
+            "layer": 0,
+            "localPosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localEulerAngles": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "childCount": 0,
+            "components": [
+                "UnityEngine.Transform",
+                "UnityEngine.MeshFilter",
+                "UnityEngine.MeshRenderer",
+                "UnityEngine.MeshCollider"
+            ]
+        },
+        {
+            "path": "PlanetDevelopment:/Planet Systems/Planet Runtime/Generated Terrain/Terrain Face 1",
+            "name": "Terrain Face 1",
+            "activeSelf": true,
+            "activeInHierarchy": true,
+            "tag": "Untagged",
+            "layer": 0,
+            "localPosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localEulerAngles": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "childCount": 0,
+            "components": [
+                "UnityEngine.Transform",
+                "UnityEngine.MeshFilter",
+                "UnityEngine.MeshRenderer",
+                "UnityEngine.MeshCollider"
+            ]
+        },
+        {
+            "path": "PlanetDevelopment:/Planet Systems/Planet Runtime/Generated Terrain/Terrain Face 2",
+            "name": "Terrain Face 2",
+            "activeSelf": true,
+            "activeInHierarchy": true,
+            "tag": "Untagged",
+            "layer": 0,
+            "localPosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localEulerAngles": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "childCount": 0,
+            "components": [
+                "UnityEngine.Transform",
+                "UnityEngine.MeshFilter",
+                "UnityEngine.MeshRenderer",
+                "UnityEngine.MeshCollider"
+            ]
+        },
+        {
+            "path": "PlanetDevelopment:/Planet Systems/Planet Runtime/Generated Terrain/Terrain Face 3",
+            "name": "Terrain Face 3",
+            "activeSelf": true,
+            "activeInHierarchy": true,
+            "tag": "Untagged",
+            "layer": 0,
+            "localPosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localEulerAngles": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "childCount": 0,
+            "components": [
+                "UnityEngine.Transform",
+                "UnityEngine.MeshFilter",
+                "UnityEngine.MeshRenderer",
+                "UnityEngine.MeshCollider"
+            ]
+        },
+        {
+            "path": "PlanetDevelopment:/Planet Systems/Planet Runtime/Generated Terrain/Terrain Face 4",
+            "name": "Terrain Face 4",
+            "activeSelf": true,
+            "activeInHierarchy": true,
+            "tag": "Untagged",
+            "layer": 0,
+            "localPosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localEulerAngles": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "childCount": 0,
+            "components": [
+                "UnityEngine.Transform",
+                "UnityEngine.MeshFilter",
+                "UnityEngine.MeshRenderer",
+                "UnityEngine.MeshCollider"
+            ]
+        },
+        {
+            "path": "PlanetDevelopment:/Planet Systems/Planet Runtime/Generated Terrain/Terrain Face 5",
+            "name": "Terrain Face 5",
+            "activeSelf": true,
+            "activeInHierarchy": true,
+            "tag": "Untagged",
+            "layer": 0,
+            "localPosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localEulerAngles": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "childCount": 0,
+            "components": [
+                "UnityEngine.Transform",
+                "UnityEngine.MeshFilter",
+                "UnityEngine.MeshRenderer",
+                "UnityEngine.MeshCollider"
+            ]
+        },
+        {
+            "path": "PlanetDevelopment:/Planet Systems/Planet Runtime/Generated Terrain/Ocean",
+            "name": "Ocean",
+            "activeSelf": true,
+            "activeInHierarchy": true,
+            "tag": "Untagged",
+            "layer": 0,
+            "localPosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localEulerAngles": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 988.0,
+                "y": 988.0,
+                "z": 988.0
+            },
+            "childCount": 0,
+            "components": [
+                "UnityEngine.Transform",
+                "UnityEngine.MeshFilter",
+                "UnityEngine.MeshRenderer"
+            ]
+        },
+        {
             "path": "PlanetDevelopment:/Planet Systems/Tracking Target",
             "name": "Tracking Target",
             "activeSelf": true,
@@ -143,6 +380,91 @@
             "childCount": 0,
             "components": [
                 "UnityEngine.Transform"
+            ]
+        },
+        {
+            "path": "PlanetDevelopment:/Planet Systems/Planet Player",
+            "name": "Planet Player",
+            "activeSelf": true,
+            "activeInHierarchy": true,
+            "tag": "Untagged",
+            "layer": 0,
+            "localPosition": {
+                "x": 0.0,
+                "y": 628.0,
+                "z": 0.0
+            },
+            "localEulerAngles": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "childCount": 1,
+            "components": [
+                "UnityEngine.Transform",
+                "UnityEngine.CharacterController",
+                "DoctorWho.Planets.RadialFirstPersonController"
+            ]
+        },
+        {
+            "path": "PlanetDevelopment:/Planet Systems/Planet Player/Camera Pivot",
+            "name": "Camera Pivot",
+            "activeSelf": true,
+            "activeInHierarchy": true,
+            "tag": "Untagged",
+            "layer": 0,
+            "localPosition": {
+                "x": 0.0,
+                "y": 1.649999976158142,
+                "z": 0.0
+            },
+            "localEulerAngles": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "childCount": 1,
+            "components": [
+                "UnityEngine.Transform"
+            ]
+        },
+        {
+            "path": "PlanetDevelopment:/Planet Systems/Planet Player/Camera Pivot/Player Camera",
+            "name": "Player Camera",
+            "activeSelf": true,
+            "activeInHierarchy": true,
+            "tag": "MainCamera",
+            "layer": 0,
+            "localPosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localEulerAngles": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "localScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "childCount": 0,
+            "components": [
+                "UnityEngine.Transform",
+                "UnityEngine.Camera",
+                "UnityEngine.AudioListener"
             ]
         },
         {
@@ -178,19 +500,25 @@
     "selection": [],
     "recentLogs": [
         {
-            "timestampUtc": "2026-08-06T00:51:59.4846443Z",
+            "timestampUtc": "2026-08-06T01:05:12.2680144Z",
             "type": "Log",
             "message": "[MCP Unity] WebSocket server started successfully on localhost:8090.",
             "stackTrace": "UnityEngine.Debug:Log (object)\nMcpUnity.Utils.McpLogger:LogInfo (string) (at <USER_HOME>/.codex/mcp-unity/Editor/Utils/Logger.cs:21)\nMcpUnity.Unity.McpUnityServer:StartServer () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:175)\nMcpUnity.Unity.McpUnityServer:.ctor () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:130)\nMcpUnity.Unity.McpUnityServer:get_Instance () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:79)\nMcpUnity.Unity.McpUnityServer:AfterReload () (at <USER_HOME>/.codex/mcp-unity/Editor/UnityBridge/McpUnityServer.cs:61)\n"
         },
         {
-            "timestampUtc": "2026-08-06T00:51:59.7182785Z",
+            "timestampUtc": "2026-08-06T01:05:12.4555376Z",
             "type": "Log",
-            "message": "[Unity GPT Dropbox Bridge] Test script compiled successfully.",
-            "stackTrace": "UnityEngine.Debug:Log (object)\nDoctorWhoSpaceGame.Planets.DropboxBridgeTest:ConfirmCompilation () (at Assets/PlanetSystem/DropboxBridgeTest.cs:10)\n"
+            "message": "[Planet Foundation] Runtime architecture and PlanetDevelopment scene are ready. Playground was not modified.",
+            "stackTrace": "UnityEngine.Debug:Log (object)\nDoctorWho.Planets.Editor.PlanetDevelopmentBootstrap:CreateFoundationIfMissing () (at Assets/PlanetSystem/Editor/PlanetDevelopmentBootstrap.cs:79)\nUnityEditor.EditorApplication:Internal_CallDelayFunctions ()\n"
+        },
+        {
+            "timestampUtc": "2026-08-06T01:05:12.9637751Z",
+            "type": "Log",
+            "message": "[Planet Prototype] Procedural planet, player input, camera, collision, and radial gravity are installed in PlanetDevelopment.",
+            "stackTrace": "UnityEngine.Debug:Log (object)\nDoctorWho.Planets.Editor.PlanetPrototypeInstaller:Install () (at Assets/PlanetSystem/Editor/PlanetPrototypeInstaller.cs:103)\nUnityEditor.EditorApplication:Internal_CallDelayFunctions ()\n"
         }
     ],
     "editorLogTailFile": ".unity-gpt/status/editor-log-tail.txt",
     "packageManifestFile": ".unity-gpt/status/packages-manifest.json",
-    "notes": "GPT work branch applied"
+    "notes": "Automatic state change"
 }
