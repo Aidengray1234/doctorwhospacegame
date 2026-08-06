@@ -1,0 +1,18 @@
+{
+  "name": "DoctorWho.VoxelUniverse.Editor",
+  "rootNamespace": "DoctorWho.VoxelUniverse.Editor",
+  "references": [
+    "DoctorWho.VoxelUniverse.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
