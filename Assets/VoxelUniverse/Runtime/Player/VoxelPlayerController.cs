@@ -14,7 +14,7 @@ namespace DoctorWho.VoxelUniverse.Player
         [SerializeField] private VoxelInventory inventory;
         [SerializeField] private Transform cameraPivot;
         [SerializeField] private Camera playerCamera;
-        [SerializeField] private TangentVoxelClipmap tangentPatch;
+        [SerializeField] private StableCartesianVoxelGrid stableGrid;
 
         private Vector3 velocity;
         private float pitch;
@@ -44,17 +44,23 @@ namespace DoctorWho.VoxelUniverse.Player
             inventory = playerInventory;
             cameraPivot = pivot;
             playerCamera = camera;
-            FindPatch();
+            FindStableGrid();
+        }
+
+        public void ConfigureStableGrid(StableCartesianVoxelGrid grid)
+        {
+            stableGrid = grid;
         }
 
         private void Awake()
         {
-            FindPatch();
+            FindStableGrid();
         }
 
-        private void FindPatch()
+        private void FindStableGrid()
         {
-            if (tangentPatch == null) tangentPatch = FindObjectOfType<TangentVoxelClipmap>();
+            if (stableGrid == null)
+                stableGrid = FindObjectOfType<StableCartesianVoxelGrid>();
         }
 
         private void Start()
@@ -67,7 +73,7 @@ namespace DoctorWho.VoxelUniverse.Player
         private void Update()
         {
             if (world == null || world.Settings == null || collisionWorld == null) return;
-            FindPatch();
+            FindStableGrid();
             HandleCursor();
             HandleLook();
             HandleFlightToggle();
@@ -76,7 +82,7 @@ namespace DoctorWho.VoxelUniverse.Player
             if (radialUp.sqrMagnitude < 0.5f) radialUp = Vector3.up;
             float altitude = world.GetAltitude(transform.position);
 
-            if (!flying && altitude > world.Settings.tangentPatchMaxAltitude)
+            if (!flying && altitude > Mathf.Max(world.Settings.tangentPatchMaxAltitude, 160f))
             {
                 Respawn();
                 return;
@@ -84,9 +90,9 @@ namespace DoctorWho.VoxelUniverse.Player
 
             if (!flying)
             {
-                if (tangentPatch != null)
+                if (stableGrid != null)
                 {
-                    waitingForSupport = !tangentPatch.Ready;
+                    waitingForSupport = !stableGrid.HasSupportTerrainAt(transform.position);
                 }
                 else
                 {
@@ -94,6 +100,7 @@ namespace DoctorWho.VoxelUniverse.Player
                     world.PrioritizeAddress(support);
                     waitingForSupport = !world.IsSectionReady(support.SectionKey);
                 }
+
                 if (waitingForSupport)
                 {
                     velocity = Vector3.zero;
@@ -148,14 +155,9 @@ namespace DoctorWho.VoxelUniverse.Player
             if (VoxelInput.FlightTogglePressed) requested = true;
             if (!requested) return;
 
-            if (flying && world.GetAltitude(transform.position)
-                > world.Settings.tangentPatchMaxAltitude)
-            {
-                Respawn();
-                return;
-            }
             flying = !flying;
             velocity = Vector3.zero;
+            waitingForSupport = false;
         }
 
         private void MovePlayer(Vector3 radialUp)
@@ -231,7 +233,6 @@ namespace DoctorWho.VoxelUniverse.Player
             velocity = Vector3.zero;
             flying = false;
             waitingForSupport = true;
-            if (tangentPatch != null) tangentPatch.NotifyLogicalEdit();
         }
 
         private void OnGUI()
@@ -239,7 +240,10 @@ namespace DoctorWho.VoxelUniverse.Player
             if (!waitingForSupport) return;
             float width = Mathf.Min(460f, Screen.width - 24f);
             Rect rect = new Rect((Screen.width - width) * 0.5f, 36f, width, 42f);
-            GUI.Box(rect, "Building no-warp cube terrain beneath the player — movement paused");
+            string message = stableGrid != null
+                ? "Loading the support chunk first — movement unlocks as soon as local collision terrain is ready"
+                : "Loading terrain beneath the player";
+            GUI.Box(rect, message);
         }
     }
 }

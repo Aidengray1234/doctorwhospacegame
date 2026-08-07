@@ -120,18 +120,21 @@ namespace DoctorWho.VoxelUniverse.Generation
                     Interlocked.Decrement(ref activeWorkers);
                 }
 
-                if (job.complete != null)
+                if (job.complete != null || failure != null)
                 {
                     object capturedResult = result;
                     Exception capturedFailure = failure;
+                    Action<object> capturedComplete = job.complete;
                     lock (mainThreadCallbacks)
                     {
                         mainThreadCallbacks.Enqueue(delegate
                         {
                             if (capturedFailure != null)
                                 UnityEngine.Debug.LogException(capturedFailure);
-                            else
-                                job.complete(capturedResult);
+                            // Always release the caller's pending state. A null result means
+                            // the worker failed and the caller may safely retry later.
+                            if (capturedComplete != null)
+                                capturedComplete(capturedFailure == null ? capturedResult : null);
                         });
                     }
                 }

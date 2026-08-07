@@ -14,8 +14,20 @@ namespace DoctorWho.VoxelUniverse.Editor
     {
         private const string RootName = "Stable Grid Rendering V2";
 
+        [MenuItem("Tools/Voxel Universe/Install Worker Terrain + Horizon LOD")]
+        public static void InstallWorkerTerrain()
+        {
+            InstallInternal();
+        }
+
+        // Keep the old menu entry valid for existing instructions.
         [MenuItem("Tools/Voxel Universe/Install Stable Grid Rendering V2")]
         public static void Install()
+        {
+            InstallInternal();
+        }
+
+        private static void InstallInternal()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isCompiling)
             {
@@ -23,12 +35,14 @@ namespace DoctorWho.VoxelUniverse.Editor
                     "Exit Play Mode and wait for compilation before installing.", "OK");
                 return;
             }
+
             Scene scene = SceneManager.GetActiveScene();
             if (!scene.IsValid() || scene.name.IndexOf("Playground",
                 StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 EditorUtility.DisplayDialog("Voxel Universe",
-                    "Installation was rejected because the active scene is invalid or contains Playground.", "OK");
+                    "Installation was rejected because the active scene is invalid or contains Playground.",
+                    "OK");
                 return;
             }
 
@@ -37,7 +51,8 @@ namespace DoctorWho.VoxelUniverse.Editor
             if (world == null || player == null)
             {
                 EditorUtility.DisplayDialog("Voxel Universe",
-                    "A VoxelUniverseWorld and VoxelPlayerController are required in PlanetDevelopment.", "OK");
+                    "A VoxelUniverseWorld and VoxelPlayerController are required in PlanetDevelopment.",
+                    "OK");
                 return;
             }
 
@@ -56,13 +71,15 @@ namespace DoctorWho.VoxelUniverse.Editor
                 opaque.name = "Stable Voxel Fallback";
             }
             if (water == null) water = opaque;
+
             ConfigureAtlasTexture(opaque);
             Material coverMaterial = GetOrCreateCoverMaterial();
 
             editStore.Configure(world);
             grid.Configure(world, player.transform, opaque, water, editStore);
-            cover.Configure(world, player.transform, coverMaterial);
+            cover.Configure(world, player.transform, coverMaterial, grid);
             validator.Configure(grid, cover, player.transform);
+            player.ConfigureStableGrid(grid);
 
             VoxelCollisionWorld collision = UnityEngine.Object.FindObjectOfType<VoxelCollisionWorld>();
             if (collision != null) collision.Configure(world, grid);
@@ -70,30 +87,40 @@ namespace DoctorWho.VoxelUniverse.Editor
             if (interactor != null) interactor.ConfigureStable(grid, collision);
 
             DisableLegacyNearRenderers(world, root.transform);
+
             Camera camera = player.PlayerCamera != null ? player.PlayerCamera : Camera.main;
             if (camera != null)
             {
                 camera.farClipPlane = Mathf.Max(camera.farClipPlane,
-                    world.Settings != null ? world.Settings.groundRadius * 80f : 25000f);
+                    world.Settings != null ? world.Settings.groundRadius * 120f : 32000f);
                 EditorUtility.SetDirty(camera);
             }
 
             EditorUtility.SetDirty(root);
             EditorUtility.SetDirty(world);
             EditorUtility.SetDirty(player);
+            EditorUtility.SetDirty(grid);
+            EditorUtility.SetDirty(cover);
+            EditorUtility.SetDirty(editStore);
             if (collision != null) EditorUtility.SetDirty(collision);
             if (interactor != null) EditorUtility.SetDirty(interactor);
+
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
 
-            Debug.Log("[Stable Voxel Grid] Installed V2. Fixed body-centered cube coordinates, "
-                + "padded atlas UVs, complete middle/far cover, stable DDA, and logical collision. "
-                + "Playground was not touched.");
+            Debug.Log("[Voxel Universe] Installed worker-built permanent cube terrain and horizon LOD. "
+                + "Support chunks are prioritized, meshes upload with a frame budget, the high-detail "
+                + "planet cover remains behind unloaded terrain, and the coarse orbital planet stays "
+                + "hidden until genuine orbital altitude. Playground was not touched.");
+
             EditorUtility.DisplayDialog("Voxel Universe",
-                "Stable Grid Rendering V2 is installed.\n\nClear the Console and enter Play Mode. "
-                + "Wait for the F3 planet cover to show COMPLETE and for the validation PASS message.",
+                "Worker terrain + horizon LOD installed.\n\n"
+                + "The support chunk loads first. Generation/meshing now runs on workers. "
+                + "A high-detail horizon cover fills render distance while real cubes expand outward. "
+                + "The coarse whole-planet mesh is hidden near the surface and only appears far into orbit.\n\n"
+                + "Clear the Console and enter Play Mode.",
                 "OK");
         }
 
@@ -114,6 +141,7 @@ namespace DoctorWho.VoxelUniverse.Editor
                     AssetDatabase.CreateFolder("Assets", "VoxelUniverse");
                 AssetDatabase.CreateFolder("Assets/VoxelUniverse", "Materials");
             }
+
             Material material = AssetDatabase.LoadAssetAtPath<Material>(path);
             Shader shader = Shader.Find("DoctorWho/VoxelUniverse/Stable Planet Cover");
             if (material == null)
@@ -124,6 +152,11 @@ namespace DoctorWho.VoxelUniverse.Editor
                 AssetDatabase.CreateAsset(material, path);
             }
             else if (shader != null) material.shader = shader;
+
+            if (material.HasProperty("_Brightness"))
+                material.SetFloat("_Brightness", 1f);
+            if (material.HasProperty("_HoleCos"))
+                material.SetFloat("_HoleCos", 1.1f);
             EditorUtility.SetDirty(material);
             return material;
         }
@@ -136,8 +169,12 @@ namespace DoctorWho.VoxelUniverse.Editor
             string path = AssetDatabase.GetAssetPath(atlas);
             TextureImporter importer = AssetImporter.GetAtPath(path) as TextureImporter;
             if (importer == null) return;
+
             bool changed = importer.filterMode != FilterMode.Point
-                || importer.wrapMode != TextureWrapMode.Clamp || importer.mipmapEnabled;
+                || importer.wrapMode != TextureWrapMode.Clamp
+                || importer.mipmapEnabled
+                || importer.textureCompression != TextureImporterCompression.Uncompressed;
+
             importer.filterMode = FilterMode.Point;
             importer.wrapMode = TextureWrapMode.Clamp;
             importer.mipmapEnabled = false;
@@ -149,17 +186,22 @@ namespace DoctorWho.VoxelUniverse.Editor
         {
             Transform oldSections = world.transform.Find("Near Voxel Sections");
             if (oldSections != null) oldSections.gameObject.SetActive(false);
+
             MonoBehaviour[] behaviours = world.GetComponentsInChildren<MonoBehaviour>(true);
             for (int i = 0; i < behaviours.Length; i++)
             {
                 MonoBehaviour behaviour = behaviours[i];
                 if (behaviour == null || behaviour.transform.IsChildOf(stableRoot)) continue;
                 string typeName = behaviour.GetType().Name;
+
                 if (typeName.IndexOf("TangentVoxel", StringComparison.OrdinalIgnoreCase) >= 0
                     || typeName.IndexOf("LocalVoxelPatch", StringComparison.OrdinalIgnoreCase) >= 0
-                    || typeName.IndexOf("NoWarpPatch", StringComparison.OrdinalIgnoreCase) >= 0)
+                    || typeName.IndexOf("NoWarpPatch", StringComparison.OrdinalIgnoreCase) >= 0
+                    || typeName.IndexOf("PlanetInfiniteLod", StringComparison.OrdinalIgnoreCase) >= 0
+                    || typeName.IndexOf("FarPlanetRenderer", StringComparison.OrdinalIgnoreCase) >= 0)
                     behaviour.enabled = false;
             }
+
             Transform[] transforms = world.GetComponentsInChildren<Transform>(true);
             for (int i = 0; i < transforms.Length; i++)
             {
@@ -168,7 +210,9 @@ namespace DoctorWho.VoxelUniverse.Editor
                 string name = current.name;
                 if (name.IndexOf("Tangent Voxel", StringComparison.OrdinalIgnoreCase) >= 0
                     || name.IndexOf("Local Voxel Patch", StringComparison.OrdinalIgnoreCase) >= 0
-                    || name.IndexOf("No-Warp Near", StringComparison.OrdinalIgnoreCase) >= 0)
+                    || name.IndexOf("No-Warp Near", StringComparison.OrdinalIgnoreCase) >= 0
+                    || name.IndexOf("Complete Far Planet", StringComparison.OrdinalIgnoreCase) >= 0
+                    || name.IndexOf("Blocky Far Planet", StringComparison.OrdinalIgnoreCase) >= 0)
                     current.gameObject.SetActive(false);
             }
         }
@@ -178,7 +222,7 @@ namespace DoctorWho.VoxelUniverse.Editor
             Transform found = parent.Find(name);
             if (found != null) return found.gameObject;
             GameObject go = new GameObject(name);
-            Undo.RegisterCreatedObjectUndo(go, "Install Stable Grid Rendering V2");
+            Undo.RegisterCreatedObjectUndo(go, "Install Worker Terrain + Horizon LOD");
             go.transform.SetParent(parent, false);
             return go;
         }

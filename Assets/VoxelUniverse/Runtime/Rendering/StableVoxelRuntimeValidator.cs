@@ -22,6 +22,7 @@ namespace DoctorWho.VoxelUniverse.Rendering
         {
             if (reported || grid == null || cover == null || observer == null) return;
             if (!grid.HasReadyTerrain || !cover.Ready) return;
+
             Int3 center = grid.WorldToCell(observer.position);
             for (int z = -3; z <= 3; z++)
             for (int y = -2; y <= 2; y++)
@@ -31,14 +32,16 @@ namespace DoctorWho.VoxelUniverse.Rendering
                 Int3 roundTrip = grid.WorldToCell(grid.CellCenterWorld(cell));
                 if (roundTrip != cell)
                 {
-                    Debug.LogError("[Stable Voxel Grid Validation] FAIL grid round-trip at " + cell
-                        + " -> " + roundTrip);
+                    Debug.LogError("[Stable Voxel Grid Validation] FAIL grid round-trip at "
+                        + cell + " -> " + roundTrip);
                     reported = true;
                     return;
                 }
             }
-            Debug.Log("[Stable Voxel Grid Validation] PASS — fixed global cube grid, stable cell "
-                + "round-trips, complete middle/far planet cover, and no tangent-wedge renderer.");
+
+            Debug.Log("[Stable Voxel Grid Validation] PASS — support chunk ready, permanent "
+                + "1x1x1 cube coordinates are stable, worker terrain is active, horizon terrain "
+                + "is complete, and the orbital planet remains a separate far-distance LOD.");
             reported = true;
         }
     }

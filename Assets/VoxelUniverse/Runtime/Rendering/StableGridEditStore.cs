@@ -58,6 +58,21 @@ namespace DoctorWho.VoxelUniverse.Rendering
             dirty = true;
         }
 
+        // Called only on the Unity main thread before a worker job is scheduled.
+        // The worker receives its own immutable dictionary and never touches this store.
+        public Dictionary<Int3, uint> CaptureRegion(Int3 minInclusive, Int3 maxInclusive)
+        {
+            Dictionary<Int3, uint> result = new Dictionary<Int3, uint>();
+            foreach (KeyValuePair<Int3, uint> pair in edits)
+            {
+                Int3 p = pair.Key;
+                if (p.x < minInclusive.x || p.y < minInclusive.y || p.z < minInclusive.z) continue;
+                if (p.x > maxInclusive.x || p.y > maxInclusive.y || p.z > maxInclusive.z) continue;
+                result.Add(p, pair.Value);
+            }
+            return result;
+        }
+
         public void SaveNow()
         {
             if (!configured || string.IsNullOrEmpty(savePath)) return;

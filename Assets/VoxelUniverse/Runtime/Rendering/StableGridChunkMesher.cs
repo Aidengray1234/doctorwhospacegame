@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using DoctorWho.VoxelUniverse.Core;
+using DoctorWho.VoxelUniverse.Celestial;
+using DoctorWho.VoxelUniverse.Generation;
 using DoctorWho.VoxelUniverse.Voxels;
 using UnityEngine;
 
@@ -15,7 +18,68 @@ namespace DoctorWho.VoxelUniverse.Rendering
         public readonly List<int> waterTriangles = new List<int>(2048);
     }
 
-    internal sealed class StableGridChunkBuilder
+    internal sealed class StableGridChunkSnapshot
+    {
+        public const int Border = 1;
+        public const int InnerSize = 16;
+        public const int Size = InnerSize + Border * 2;
+        public const int CellCount = Size * Size * Size;
+
+        public readonly Int3 chunkKey;
+        public readonly Int3 origin;
+        public readonly int requestVersion;
+        public readonly int faceCellResolution;
+        public readonly BlockState[] blocks = new BlockState[CellCount];
+        public VoxelAddress[] addresses = new VoxelAddress[CellCount];
+
+        public StableGridChunkSnapshot(Int3 key, int version, int resolution)
+        {
+            chunkKey = key;
+            requestVersion = version;
+            faceCellResolution = resolution;
+            origin = new Int3(key.x * InnerSize, key.y * InnerSize, key.z * InnerSize);
+        }
+
+        public static int Index(int x, int y, int z)
+        {
+            return x + Size * (z + Size * y);
+        }
+
+        public BlockState GetLocal(int x, int y, int z)
+        {
+            return blocks[Index(x, y, z)];
+        }
+
+        public VoxelAddress GetAddressLocal(int x, int y, int z)
+        {
+            return addresses[Index(x, y, z)];
+        }
+
+        public bool TryGetGlobal(Int3 cell, out BlockState state)
+        {
+            int x = cell.x - origin.x + Border;
+            int y = cell.y - origin.y + Border;
+            int z = cell.z - origin.z + Border;
+            if (x < 0 || y < 0 || z < 0 || x >= Size || y >= Size || z >= Size)
+            {
+                state = BlockState.Air;
+                return false;
+            }
+            state = GetLocal(x, y, z);
+            return true;
+        }
+    }
+
+    internal sealed class StableGridBuiltChunk
+    {
+        public StableGridChunkSnapshot snapshot;
+        public StableGridChunkMeshData mesh;
+        public Int3 chunkKey;
+        public int requestVersion;
+        public int sampledSurfaceColumns;
+    }
+
+    internal static class StableGridWorkerBuilder
     {
         private static readonly Int3[] NeighborOffsets =
         {
@@ -39,65 +103,107 @@ namespace DoctorWho.VoxelUniverse.Rendering
             { new Vector3(0,0,0), new Vector3(0,1,0), new Vector3(1,1,0), new Vector3(1,0,0) }
         };
 
-        private static readonly Vector2[] BaseUv =
+        public static StableGridBuiltChunk Build(
+            Int3 chunkKey,
+            int requestVersion,
+            VoxelUniverseSettings settings,
+            CelestialBodyId bodyId,
+            Dictionary<Int3, uint> editSnapshot)
         {
-            new Vector2(0f,0f), new Vector2(0f,1f),
-            new Vector2(1f,1f), new Vector2(1f,0f)
-        };
+            StableGridChunkSnapshot snapshot = new StableGridChunkSnapshot(chunkKey, requestVersion, settings.faceCellResolution);
+            VoxelTerrainGenerator generator = new VoxelTerrainGenerator(settings, bodyId);
+            Dictionary<long, int> surfaceCache = new Dictionary<long, int>(1024);
 
-        private readonly StableCartesianVoxelGrid grid;
-        private readonly Int3 chunkKey;
-        private readonly Int3 origin;
-        private int nextCell;
-        public readonly StableGridChunkMeshData data = new StableGridChunkMeshData();
+            int sampledSurfaceColumns = 0;
+            for (int y = 0; y < StableGridChunkSnapshot.Size; y++)
+            for (int z = 0; z < StableGridChunkSnapshot.Size; z++)
+            for (int x = 0; x < StableGridChunkSnapshot.Size; x++)
+            {
+                Int3 cell = new Int3(
+                    snapshot.origin.x + x - StableGridChunkSnapshot.Border,
+                    snapshot.origin.y + y - StableGridChunkSnapshot.Border,
+                    snapshot.origin.z + z - StableGridChunkSnapshot.Border);
 
-        public StableGridChunkBuilder(StableCartesianVoxelGrid owner, Int3 key)
-        {
-            grid = owner;
-            chunkKey = key;
-            origin = new Int3(key.x * 16, key.y * 16, key.z * 16);
+                Double3 localPosition = new Double3(
+                    cell.x + 0.5d,
+                    cell.y + 0.5d,
+                    cell.z + 0.5d);
+
+                VoxelAddress address = CubeSphereMapper.PositionToAddress(
+                    bodyId, localPosition, settings.groundRadius, settings.faceCellResolution);
+
+                int index = StableGridChunkSnapshot.Index(x, y, z);
+                snapshot.addresses[index] = address;
+
+                uint packed;
+                if (editSnapshot != null && editSnapshot.TryGetValue(cell, out packed))
+                {
+                    snapshot.blocks[index] = BlockState.FromPacked(packed);
+                    continue;
+                }
+
+                long surfaceKey = SurfaceKey(address);
+                int surface;
+                if (!surfaceCache.TryGetValue(surfaceKey, out surface))
+                {
+                    surface = generator.GetSurfaceHeight(address.face, address.u, address.v);
+                    surfaceCache.Add(surfaceKey, surface);
+                    sampledSurfaceColumns++;
+                }
+                snapshot.blocks[index] = generator.SampleBaseBlock(address, surface);
+            }
+
+            StableGridChunkMeshData mesh = BuildMesh(snapshot);
+            // Addresses are needed only while building directional face UVs. The live
+            // collision/cache snapshot keeps compact BlockState data only.
+            snapshot.addresses = null;
+            return new StableGridBuiltChunk
+            {
+                chunkKey = chunkKey,
+                requestVersion = requestVersion,
+                snapshot = snapshot,
+                mesh = mesh,
+                sampledSurfaceColumns = sampledSurfaceColumns
+            };
         }
 
-        public Int3 ChunkKey { get { return chunkKey; } }
-        public bool Complete { get { return nextCell >= 4096; } }
-
-        public int Process(int cellBudget)
+        private static StableGridChunkMeshData BuildMesh(StableGridChunkSnapshot snapshot)
         {
-            int processed = 0;
-            while (processed < cellBudget && nextCell < 4096)
+            StableGridChunkMeshData data = new StableGridChunkMeshData();
+            int snapshotResolution = snapshot.faceCellResolution;
+            for (int y = 0; y < 16; y++)
+            for (int z = 0; z < 16; z++)
+            for (int x = 0; x < 16; x++)
             {
-                int index = nextCell++;
-                int x = index & 15;
-                int y = (index >> 4) & 15;
-                int z = (index >> 8) & 15;
-                BuildCell(new Int3(origin.x + x, origin.y + y, origin.z + z),
-                    new Vector3(x, y, z));
-                processed++;
+                int sx = x + StableGridChunkSnapshot.Border;
+                int sy = y + StableGridChunkSnapshot.Border;
+                int sz = z + StableGridChunkSnapshot.Border;
+                BlockState state = snapshot.GetLocal(sx, sy, sz);
+                if (state.IsAir) continue;
+
+                BlockDefinition definition = BlockRegistry.Get(state.BlockId);
+                bool water = definition.renderLayer == BlockRenderLayer.Water;
+                bool fullCube = definition.collisionShape == BlockCollisionShape.FullCube;
+                if (!water && !fullCube) continue;
+
+                Int3 globalCell = new Int3(snapshot.origin.x + x, snapshot.origin.y + y,
+                    snapshot.origin.z + z);
+                Vector3 radial = new Vector3(globalCell.x + 0.5f, globalCell.y + 0.5f,
+                    globalCell.z + 0.5f).normalized;
+                int outerFace = ClosestFace(radial);
+                int innerFace = OppositeFace(outerFace);
+                VoxelAddress address = snapshot.GetAddressLocal(sx, sy, sz);
+
+                for (int face = 0; face < 6; face++)
+                {
+                    Int3 n = NeighborOffsets[face];
+                    BlockState neighbor = snapshot.GetLocal(sx + n.x, sy + n.y, sz + n.z);
+                    if (!ShouldRenderFace(definition, state, neighbor)) continue;
+                    int tile = GetTile(definition, state, address, face, outerFace, innerFace, snapshotResolution);
+                    AddFace(data, new Vector3(x, y, z), face, tile, water);
+                }
             }
-            return processed;
-        }
-
-        private void BuildCell(Int3 cell, Vector3 local)
-        {
-            BlockState state = grid.GetBlock(cell);
-            if (state.IsAir) return;
-            BlockDefinition definition = BlockRegistry.Get(state.BlockId);
-            bool water = definition.renderLayer == BlockRenderLayer.Water;
-            bool fullCube = definition.collisionShape == BlockCollisionShape.FullCube;
-            if (!water && !fullCube) return;
-
-            Vector3 radial = grid.CellCenterLocal(cell).normalized;
-            int outerFace = ClosestFace(radial);
-            int innerFace = OppositeFace(outerFace);
-            VoxelAddress address = grid.AddressForCell(cell);
-
-            for (int face = 0; face < 6; face++)
-            {
-                BlockState neighbor = grid.GetBlock(cell + NeighborOffsets[face]);
-                if (!ShouldRenderFace(definition, state, neighbor)) continue;
-                int tile = GetTile(definition, state, address, face, outerFace, innerFace);
-                AddFace(local, face, tile, water);
-            }
+            return data;
         }
 
         private static bool ShouldRenderFace(BlockDefinition definition, BlockState state,
@@ -112,23 +218,26 @@ namespace DoctorWho.VoxelUniverse.Rendering
             return !BlockRegistry.IsOpaque(neighbor);
         }
 
-        private int GetTile(BlockDefinition definition, BlockState state, VoxelAddress address,
-            int face, int outerFace, int innerFace)
+        private static int GetTile(BlockDefinition definition, BlockState state,
+            VoxelAddress address, int face, int outerFace, int innerFace, int faceCellResolution)
         {
             if (definition.orientationMode == BlockOrientationMode.RadialEastNorthAxis)
             {
                 int axisFace = outerFace;
                 if (state.Orientation == 2 || state.Orientation == 3)
                 {
-                    Vector3 east = grid.World.GetBlockBasis(address).east.ToVector3();
+                    Vector3 east = CubeSphereMapper.GetCellTangentBasis(address.face,
+                        address.u, address.v, faceCellResolution).east.ToVector3();
                     axisFace = ClosestFace(east);
                 }
                 else if (state.Orientation == 4 || state.Orientation == 5)
                 {
-                    Vector3 north = grid.World.GetBlockBasis(address).north.ToVector3();
+                    Vector3 north = CubeSphereMapper.GetCellTangentBasis(address.face,
+                        address.u, address.v, faceCellResolution).north.ToVector3();
                     axisFace = ClosestFace(north);
                 }
-                if (face == axisFace || face == OppositeFace(axisFace)) return definition.topTile;
+                if (face == axisFace || face == OppositeFace(axisFace))
+                    return definition.topTile;
                 return definition.sideTile;
             }
 
@@ -137,15 +246,23 @@ namespace DoctorWho.VoxelUniverse.Rendering
             return definition.sideTile;
         }
 
-        private void AddFace(Vector3 cellLocal, int face, int tile, bool water)
+        private static void AddFace(StableGridChunkMeshData data, Vector3 cellLocal,
+            int face, int tile, bool water)
         {
             int first = data.vertices.Count;
-            Rect rect = BlockRegistry.TileUv(tile);
-            float padding = Mathf.Min(rect.width, rect.height) * 0.025f;
-            float xMin = rect.xMin + padding;
-            float xMax = rect.xMax - padding;
-            float yMin = rect.yMin + padding;
-            float yMax = rect.yMax - padding;
+            int maxTile = BlockRegistry.AtlasColumns * BlockRegistry.AtlasRows - 1;
+            int clampedTile = Math.Max(0, Math.Min(maxTile, tile));
+            int column = clampedTile % BlockRegistry.AtlasColumns;
+            int row = clampedTile / BlockRegistry.AtlasColumns;
+            float width = 1f / BlockRegistry.AtlasColumns;
+            float height = 1f / BlockRegistry.AtlasRows;
+            float x0 = column * width;
+            float y0 = 1f - (row + 1) * height;
+            float padding = Math.Min(width, height) * 0.035f;
+            float xMin = x0 + padding;
+            float xMax = x0 + width - padding;
+            float yMin = y0 + padding;
+            float yMax = y0 + height - padding;
             Vector2[] faceUv =
             {
                 new Vector2(xMin,yMin), new Vector2(xMin,yMax),
@@ -165,11 +282,20 @@ namespace DoctorWho.VoxelUniverse.Rendering
             triangles.Add(first); triangles.Add(first + 2); triangles.Add(first + 3);
         }
 
+        private static long SurfaceKey(VoxelAddress address)
+        {
+            // faceCellResolution is far below 2^28 in this project, so this is a
+            // collision-free packed key for one canonical surface column.
+            return ((long)((int)address.face & 7) << 56)
+                   | ((long)(uint)address.u << 28)
+                   | (uint)address.v;
+        }
+
         private static int ClosestFace(Vector3 direction)
         {
-            float ax = Mathf.Abs(direction.x);
-            float ay = Mathf.Abs(direction.y);
-            float az = Mathf.Abs(direction.z);
+            float ax = Math.Abs(direction.x);
+            float ay = Math.Abs(direction.y);
+            float az = Math.Abs(direction.z);
             if (ax >= ay && ax >= az) return direction.x >= 0f ? 0 : 1;
             if (ay >= az) return direction.y >= 0f ? 2 : 3;
             return direction.z >= 0f ? 4 : 5;

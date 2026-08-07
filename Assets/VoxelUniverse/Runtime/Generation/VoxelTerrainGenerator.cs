@@ -22,15 +22,11 @@ namespace DoctorWho.VoxelUniverse.Generation
         {
             VoxelSection section = new VoxelSection(key, settings.generatorVersion);
             for (int y = 0; y < VoxelConstants.SectionSize; y++)
+            for (int z = 0; z < VoxelConstants.SectionSize; z++)
+            for (int x = 0; x < VoxelConstants.SectionSize; x++)
             {
-                for (int z = 0; z < VoxelConstants.SectionSize; z++)
-                {
-                    for (int x = 0; x < VoxelConstants.SectionSize; x++)
-                    {
-                        VoxelAddress address = section.ToAddress(x, y, z);
-                        section.SetLocal(x, y, z, SampleBaseBlock(address));
-                    }
-                }
+                VoxelAddress address = section.ToAddress(x, y, z);
+                section.SetLocal(x, y, z, SampleBaseBlock(address));
             }
             return section;
         }
@@ -41,8 +37,23 @@ namespace DoctorWho.VoxelUniverse.Generation
             if (address.bodyId != bodyId) return BlockState.Air;
             if (address.radial < settings.minimumRadialBlock || address.radial >= settings.maximumRadialBlock)
                 return BlockState.Air;
-
             int surface = GetSurfaceHeight(address.face, address.u, address.v);
+            return SampleCanonicalBlock(address, surface);
+        }
+
+        // Worker-friendly overload: callers that sample many radial cells for the same
+        // surface coordinate can cache GetSurfaceHeight once and reuse it.
+        public BlockState SampleBaseBlock(VoxelAddress rawAddress, int knownSurfaceHeight)
+        {
+            VoxelAddress address = CubeSphereMapper.Canonicalize(rawAddress, settings.faceCellResolution);
+            if (address.bodyId != bodyId) return BlockState.Air;
+            if (address.radial < settings.minimumRadialBlock || address.radial >= settings.maximumRadialBlock)
+                return BlockState.Air;
+            return SampleCanonicalBlock(address, knownSurfaceHeight);
+        }
+
+        private BlockState SampleCanonicalBlock(VoxelAddress address, int surface)
+        {
             if (address.radial > surface)
             {
                 return address.radial <= settings.seaLevel
